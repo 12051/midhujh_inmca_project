@@ -1,0 +1,177 @@
+{% load static %}
+<html>
+  <head>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Bootstrap Datepicker CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="{% static 'validation.js' %}"></script>
+  </head>
+  <body style="background-color: #ec7046;font-family:Poppins,sans-serif;">
+    <style>
+      @media (min-width: 1025px) {
+      .h-custom {
+      height: 100vh !important;
+      }
+      }
+    </style>
+<section class="h-custom" style="margin-bottom: 300px;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-8 col-xl-6">
+        <div class="card rounded-3">
+          <img src="https://img.freepik.com/free-vector/pack-different-police-people_23-2148519036.jpg?size=626&ext=jpg&uid=R111011665&ga=GA1.2.1783897456.1692200782&semt=ais"
+            class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem; height:300px;"
+            alt="Sample photo">
+          <div class="card-body p-4 p-md-5 ali">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Witness Registration Form</h3>
+
+            <form method='POST' action="{% url 'witnessregister' %}" class="px-md-2">
+              {% csrf_token %}
+              <div class="form-outline mb-4">
+                <input type="text" name='name' id="vname" class="form-control" placeholder="Name"/>
+                <span id="nameError"></span>
+              </div>
+              <div class="form-outline mb-4">
+                <input type="text" name='email' id="mail" class="form-control" placeholder="e-mail"/>
+                <span id="emailError"></span>
+              </div>
+              <div class="form-outline mb-4">
+                <input type="text" name='aadhaarno' id="adnumber" class="form-control" placeholder="Aadhar Number"/>
+                <span id="aadhaarError"></span>
+              </div>
+              <div class="form-outline mb-4">
+                <input type="Password" name='password' id="pd" class="form-control" placeholder="Password"/>
+                <span id="passwordError"></span>
+              </div>
+              <div class="form-outline mb-4">
+                <input type="Password" name='cpd' id="cmpwd" class="form-control" placeholder="Confirm Password"/>
+                <span id="confirmPasswordError"></span>
+              </div>
+        
+              <div class="text-center">
+
+      <button type="submit" class="btn btn-outline-primary btn-lg" style="background-color: #19A7CE;color:aliceblue;">Register</button></div>
+    </div>
+    {% for message in messages %} {{ message }} {% endfor %}
+            </form>
+            
+
+            <p class="m_text-center m_mt-3" style="text-align:center"><a href="{% url 'login' %}">Already have an account? <b>Login</b></a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>  
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+  $(document).ready(function () {
+      $("#vname").keyup(function () {
+          validateName("#vname");
+      });
+
+      $("#mail").keyup(function () {
+          validateEmail("#mail");
+      });
+
+      $("#pd").keyup(function () {
+          validatePassword("#pd");
+      });
+
+      $("#cmpwd").keyup(function () {
+          validateConfirmPassword("#cmpwd");
+      });
+
+      $("#adnumber").keyup(function () {
+        aadharNumber("#adnumber");
+    });
+    $("regform").submit(function (event) {
+      // Perform all validations before submitting the form
+      validateName("#vname");
+      validateEmail("#mail");
+      validatePassword("#pd");
+      validateConfirmPassword("#cmpwd");
+      aadharNumber("#adnumber");
+
+      // Check if any validation errors exist
+      if ($(".validation-error").length > 0) {
+        event.preventDefault(); // Prevent form submission
+      }
+    });
+  });
+
+  function validateName(fieldId) {
+      var name = $(fieldId).val();
+      var lettersWithSpaces = /^[A-Za-z\s]+$/;
+      if (name.trim() === "") {
+          $("#nameError").html("Enter the Name").css("color", "red");
+      } else if (!lettersWithSpaces.test(name)) {
+          $("#nameError").html("Name field required only alphabet characters with spaces").css("color", "red");
+      } else {
+          $("#nameError").html("");
+      }
+  }
+  function validateEmail(fieldId) {
+      var email = $(fieldId).val();
+      var filter = /^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/;
+      if (email === "") {
+          $("#emailError").html("Enter the Email Id").css("color", "red");
+      } else if (!filter.test(email)) {
+          $("#emailError").html("Use correct Email Id").css("color", "red");
+      } else {
+          $("#emailError").html("");
+      }
+  }
+
+  function validatePassword(fieldId) {
+      var password = $(fieldId).val();
+      var pwd_expression = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/;
+      if (password === "") {
+          $("#passwordError").html("Enter the Password").css("color", "red");
+      }else if(!pwd_expression.test(password))
+              {
+                  $("#passwordError").html("Please enter at least 8 characters, at least 1 number, at least 1 symbol (!@#$%^&*), at least 1 capital letter").css("color", "red");
+
+             }
+      else 
+      {
+          $("#passwordError").html("");
+      }
+  }
+
+  function validateConfirmPassword(fieldId) {
+      var password = $("#pd").val();
+      var confirmPassword = $(fieldId).val();
+      if (confirmPassword === "") {
+          $("#confirmPasswordError").html("Enter the Confirm Password").css("color", "red");
+      } else if (confirmPassword !== password) {
+          $("#confirmPasswordError").html("Password do not match").css("color", "red");
+      } else {
+          $("#confirmPasswordError").html("");
+      }
+  }
+
+   function aadharNumber(fieldId) {
+    var numberRegex = /^[-+]?\d*\.?\d+$/;
+    var phoneNumber = $(fieldId).val();
+
+    if (phoneNumber === "") {
+        $("#aadhaarError").html("Enter the Aadhaar number").css("color", "red");
+    } else if (!numberRegex.test(phoneNumber)) {
+        $("#aadhaarError").html("Invalid Aadhaar Number").css("color", "red");
+    } else if (phoneNumber.length > 12) {
+        $("#aadhaarError").html("Enter Correct Aadhar Number").css("color", "red");
+    } else if (phoneNumber.length < 12) {
+        $("#aadhaarError").html("Enter Correct Aadhar Number").css("color", "red");
+    } else {
+        $("#aadhaarError").html("");
+    }
+}
+
+</script>
+
+</body>
+</html>
