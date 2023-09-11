@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crime Report</title>
+</head>
+<body>
+    <h1>Crime Report</h1>
+
+    <p><strong>Reporter Name:</strong> {{ report.reporter_name }}</p>
+    <p><strong>Reporter Location:</strong> {{ report.reporter_location }}</p>
+    <p><strong>Date:</strong> {{ report.date }}</p>
+    <p><strong>Time:</strong> {{ report.time }}</p>
+    <p><strong>Location:</strong> {{ report.location }}</p>
+    <p><strong>Description:</strong> {{ report.description }}</p>
+    <p><strong>Offender Name:</strong> {{ report.offender_name }}</p>
+    <p><strong>Offender Vehicle Number:</strong> {{ report.offender_vehiclenumber }}</p>
+    <p><strong>Witness Name:</strong> {{ report.witness_name }}</p>
+</body>
+</html>

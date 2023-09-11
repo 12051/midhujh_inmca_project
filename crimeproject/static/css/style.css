@@ -715,7 +715,6 @@ button {
     position: absolute;
     width: 200px;
     height: 200px;
-    background-image: url(../images/img-1.png);
     background-size: 100%;
     background-repeat: no-repeat;
     left: initial;
@@ -728,7 +727,6 @@ button {
     position: absolute;
     width: 200px;
     height: 200px;
-    background-image: url(../images/img-1.png);
     background-size: 100%;
     background-repeat: no-repeat;
     left: 0px;
@@ -816,7 +814,6 @@ button {
     position: absolute;
     width: 200px;
     height: 200px;
-    background-image: url(../images/img-1.png);
     background-size: 100%;
     background-repeat: no-repeat;
     left: initial;
@@ -914,7 +911,8 @@ textarea#comment::placeholder {
     float: left;
     background-color: #2d2d2d;
     height: auto;
-    padding-bottom: 60px;
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 .location_icon {
@@ -989,7 +987,7 @@ textarea#comment::placeholder {
 
 .social_icon {
     width: 100%;
-    float: right;
+    align-items: center;
     padding-top: 20px;
 }
 
@@ -1062,5 +1060,14 @@ textarea#comment::placeholder {
     padding-top: 0px;
 }
 
-
 /* copyright section end */
+
+.report-crime-service{
+    width: 200px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+}
+.contain{
+    display:flex;
+}

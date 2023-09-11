@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reported Crimes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Reported Crimes</h1>
+    </header>
+    <main>
+        <section id="crime-list">
+            {% block content %}
+            <h4>Reported Crimes</h4>
+            {% for i in list_crime %}
+            <strong>{{ i.title }}</strong><br>
+            Date: {{ i.date|date:"F j, Y" }}<br>
+            Time: {{ i.time }}<br>
+             <button id="sendButton"><a style="text-decoration:none;color:white;" href="{% url 'view_webinar' i.id %}">View</a></button>
+             <button id="sendButton"><a style="text-decoration:none;color:white;" href="{% url 'update_webinar' i.id %}">Update</a></button>
+             <button id="sendButton"><a style="text-decoration:none;color:white;" href="{% url 'delete_webinar' i.id %}">Delete</a></button><br>
+              {% endfor %}
+              {% endblock %}
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Your Organization</p>
+    </footer>
+</body>
+</html>

@@ -45,7 +45,7 @@
                   <ul class="navbar-nav mr-auto">
                      {% if user.is_authenticated %}
                      <li class="nav-item active">
-                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link" href="#">Home</a>
                      </li>
                      <li class="nav-item">
                         <a class="nav-link" href="about.html">About Us</a>
@@ -62,11 +62,17 @@
                      <li class="nav-item">
                         <a class="nav-link" href="contact.html">Contacts</a>
                      </li>
+                     <div class="navbar-nav ml-auto">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
+                            <div class="dropdown-menu"> 
+                                <a href="http://127.0.0.1:8000/report_crime" class="dropdown-item">Report a Crime</a>
+                                <a href="#" class="dropdown-item">View Crimes</a>       
+                            </div>
+                        </div>
+                    </div>
                      <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-                     </li>
-                     <li class="nav-item">
-                     <a class="nav-link" href="{% url 'logout' %}">LogOut</a><br>
+                     <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
                      {% else %}
                      </li>
                      <div class="navbar-nav ml-auto">
@@ -102,6 +108,7 @@
             </nav>
          </div>
       </div>
+      
       <!-- header section end -->
       <!-- banner section start -->
       <div class="banner_section banner_bg">
@@ -112,7 +119,6 @@
                      <div class="taital_main">
                         <div class="taital_left">
                            <h1 class="banner_taital">REPORTSAFER with Us..</h1>
-                           <div class="read_bt"><a href="#">Report a Crime</a></div>
                         </div>
                         <div class="taital_right">
                            <div class="product_img"><img src="{% static 'images/bg1-transformed.png' %}"></div>
@@ -129,14 +135,12 @@
          <div class="container">
             <div class="row">
                <div class="col-md-6">
-                  <div><img src="{% static 'images/about-img.png' %}" class="about_img"></div>
+                  <div><img style="height:450px;width:600px;" src="{% static 'images/abt-pic.jpg' %}" class="about_img"></div>
                </div>
                <div class="col-md-6">
                   <h1 class="about_taital">About Us</h1>
-                  <div class="border"></div>
-                  <p class="about_text">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitationconsectetur adipiscing </p>
+                  <p class="about_text">ReportSafer has a reputation for being one of the best-managed law-enforcement forces in the country and is one of the top-ranking states in terms of maintenance of law and order.</p>
                   <div class="read_bt_1"><a href="#">Read More</a></div>
-                  <div class="image_1"><img src="{% static 'images/img-1.png' %}"></div>
                </div>
             </div>
          </div>
@@ -147,12 +151,48 @@
          <div class="container">
             <div class="row">
                <div class="col-md-12">
-                  <h1 class="product_taital">Products</h1>
-                  <p class="product_text">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim</p>
+                  <h1 class="product_taital">OUR E-SERVICES</h1>
                </div>
             </div>
-            <div class="row">
-               <div class="col-md-12">
+
+            
+            <div class="card-deck">
+               <div class="card">
+                 <img class="card-img-top" style="width:80px;height:80px;margin-left:43%;" src="{% static 'images/help1.jpg' %}" alt="Card image cap">
+                 <div class="card-body">
+                   <h5 class="card-title" style="text-align:center;">REPORT A CRIME</h5>
+                   <p class="card-text" style="text-align:center;">Instant Action: Reporting Crime with a Single Click.</p>
+                 </div>
+               </div>
+               
+               <div class="card">
+                 <img class="card-img-top" style="width:80px;height:75px;margin-left:43%;margin-top:5px;" src="{% static 'images/report.jpg' %}" alt="Card image cap">
+                 <div class="card-body">
+                   <h5 class="card-title" style="text-align:center;">VIEW FIR</h5>
+                   <p class="card-text" style="text-align:center;">Peek into FIRs: Unveiling the Truth, Protecting the Community.</p>
+                 </div>
+               </div>
+               {% comment %} <div class="card">
+                 <img class="card-img-top" src="..." alt="Card image cap">
+                 <div class="card-body">
+                   <h5 class="card-title">Card title</h5>
+                   <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                 </div>
+                 <div class="card-footer">
+                   <small class="text-muted">Last updated 3 mins ago</small>
+                 </div>
+               </div> {% endcomment %}
+             </div>
+
+            {% comment %} <div class="contain">
+                  <div class="report-crime-service">
+                     <h2>REPORT A CRIME</h2>
+                     <img style="width:50%;height:20%;" src='{% static 'images/help.jpg' %}'>
+                   </div>
+                   <div class="report-crime-service">
+                     <h2>REPORT A CRIME</h2>
+                     <img style="width:16%;height:50%" src='{% static 'images/help.jpg' %}'>
+                   </div>
                   <div class="owl-carousel owl-theme">
                      <div class="item">
                         <div class="image_main"><img src="{% static 'images/img-2.png' %}" alt="image" /></div>
@@ -186,14 +226,14 @@
                </div>
             </div>
          </div>
-      </div>
+      </div> {% endcomment %}
       <!-- product section start -->
       <!-- client section start -->
       <div class="client_section layout_padding banner_bg">
          <div class="container">
             <div class="row">
                <div class="col-md-3">
-                  <h1 class="client_taital">Customers Says</h1>
+                  <h1 class="client_taital">We Care for you!</h1>
                </div>
                <div class="col-md-9">
                   <div class="client_box">
@@ -201,36 +241,36 @@
                         <ol class="carousel-indicators">
                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                           <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                           {% comment %} <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> {% endcomment %}
                         </ol>
                         <div class="carousel-inner">
                            <div class="carousel-item active">
-                              <p class="client_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</p>
+                              <p class="client_text">I encourage each and every one of you to use this platform responsibly and actively participate in ensuring the safety and well-being of our society. Let's work together to make our state a safer place for all.</p>
                               <div class="client_main">
                                  <div class="client_left">
-                                    <div class="client_img"><img src="{% static 'images/client-img.png' %}"></div>
+                                    <div class="client_img"><img style="width:180px;height:169px;" src="{% static 'images/chief-min.png' %}"></div>
                                  </div>
                                  <div class="client_right">
                                     <div class="quick_icon"><img src="{% static 'images/quick-icon.png' %}"></div>
-                                    <h6 class="client_name">Uliya Hindd</h6>
-                                    <p class="aliqua_text">Aliqua. Ut enim</p>
+                                    <h6 class="client_name">Pinarayi Vijayan</h6>
+                                    <p class="aliqua_text">Chief Minister, Kerala</p>
                                  </div>
                               </div>
                            </div>
                            <div class="carousel-item">
-                              <p class="client_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</p>
+                              <p class="client_text">With this online platform, you now have the power to report crimes from the comfort of your home or on the go, ensuring that no incident goes unnoticed or unaddressed. It's a tool designed with your convenience and safety in mind.</p>
                               <div class="client_main">
                                  <div class="client_left">
-                                    <div class="client_img"><img src="{% static 'images/client-img.png' %}"></div>
+                                    <div class="client_img"><img style="width:150px;height:169px;" src="{% static 'images/police-chief.jpg' %}"></div>
                                  </div>
                                  <div class="client_right">
                                     <div class="quick_icon"><img src="{% static 'images/quick-icon.png' %}"></div>
-                                    <h6 class="client_name">Uliya Hindd</h6>
-                                    <p class="aliqua_text">Aliqua. Ut enim</p>
+                                    <h6 class="client_name">Dr. Shaik Darvesh Saheb IPS</h6>
+                                    <p class="aliqua_text">State Police Chief</p>
                                  </div>
                               </div>
                            </div>
-                           <div class="carousel-item">
+                           {% comment %} <div class="carousel-item">
                               <p class="client_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</p>
                               <div class="client_main">
                                  <div class="client_left">
@@ -242,7 +282,7 @@
                                     <p class="aliqua_text">Aliqua. Ut enim</p>
                                  </div>
                               </div>
-                           </div>
+                           </div> {% endcomment %}
                         </div>
                      </div>
                   </div>
@@ -251,52 +291,23 @@
          </div>
       </div>
       <!-- client section end -->
-      <!-- Blog section start -->
-      <div class="blog_section layout_padding">
-         <div class="container">
-            <h1 class="blog_taital">Latest Blog</h1>
-            <div class="blog_section_2">
-               <div class="row">
-                  <div class="col-md-5">
-                     <div class="face_img"><img src="{% static 'images/face-img.png' %}" class="face_img"></div>
-                  </div>
-                  <div class="col-md-7">
-                     <h1 class="face_text">Face Cream Very mosurations</h1>
-                     <p class="lorem_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</p>
-                     <div class="read_bt_1"><a href="#">Read More</a></div>
-                  </div>
-               </div>
-            </div>
-            <div class="blog_section_3">
-               <div class="row">
-                  <div class="col-md-7">
-                     <h1 class="face_text">Face Cream Very mosurations Skin</h1>
-                     <p class="lorem_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</p>
-                     <div class="readmore_bt"><a href="#">Read More</a></div>
-                  </div>
-                  <div class="col-md-5">
-                     <div class="face_img"><img src="{% static 'images/face-img1.png' %}" class="face_img"></div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- Blog section end -->
+      
       <!-- contact section start -->
+      <section>
       <div class="contact_section layout_padding">
          <div class="container-fluid">
             <h1 class="contact_taital">Contact Us</h1>
             <div class="contact_section_2">
                <div class="row">
                   <div class="col-md-6">
-                     <div class="image_7"><img src="{% static 'images/img-7.png' %}"></div>
+                     <div class="image_7"><img style="height:500px;" src="{% static 'images/index-contact.jpg' %}"></div>
                   </div>
                   <div class="col-md-6">
                      <div class="mail_section_1">
                         <input type="text" class="mail_text" placeholder="Your Name" name="Your Name">
                         <input type="text" class="mail_text" placeholder="Phone Number" name="Phone Number">
                         <input type="text" class="mail_text" placeholder="Email" name="Email">
-                        <textarea class="massage-bt" placeholder="Massage" rows="5" id="comment" name="Massage"></textarea>
+                        <textarea class="massage-bt" placeholder="Message" rows="5" id="comment" name="Massage"></textarea>
                         <div class="send_bt"><a href="#">SEND</a></div>
                      </div>
                   </div>
@@ -305,25 +316,14 @@
          </div>
       </div>
       <!-- contact section end -->
+
       <!-- footer section start -->
       <div class="footer_section layout_padding">
          <div class="container">
             <div class="row">
                <div class="col-lg-3 col-md-6">
-                  <div class="location_icon">
-                     <ul>
-                        <li><a href="#"><img src="{% static 'images/map-icon.png' %}"></a></li>
-                        <li><a href="#"><img src="{% static 'images/mail-icon.png' %}"></a></li>
-                        <li><a href="#"><img src="{% static 'images/call-icon.png' %}"></a></li>
-                     </ul>
-                  </div>
                </div>
-               <div class="col-lg-6 col-md-6">
-                  <div class="mail_box">
-                     <textarea class="enter_email_text" placeholder="Enter Your Email" rows="5" id="comment" name="Message"></textarea>
-                     <div class="subscribe_bt_1"><a href="#">Subscribe</a></div>
-                  </div>
-               </div>
+               
                <div class="col-lg-3 col-md-6">
                   <div class="social_icon">
                      <ul>
@@ -333,26 +333,6 @@
                         <li><a href="#"><img src="{% static 'images/instagram-icon.png' %}"></a></li>
                         <li><a href="#"><img src="{% static 'images/youtub-icon.png' %}"></a></li>
                      </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="footer_section_2">
-               <div class="row">
-                  <div class="col-lg-3 col-md-6">
-                     <h3 class="company_text">Product</h3>
-                     <p class="dolor_text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.Lorem ipsum dolor sit amet, </p>
-                  </div>
-                  <div class="col-lg-3 col-md-6">
-                     <h3 class="company_text">Shop</h3>
-                     <p class="dolor_text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.Lorem ipsum dolor sit amet, </p>
-                  </div>
-                  <div class="col-lg-3 col-md-6">
-                     <h3 class="company_text">Company</h3>
-                     <p class="dolor_text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.Lorem ipsum dolor sit amet, </p>
-                  </div>
-                  <div class="col-lg-3 col-md-6">
-                     <h3 class="company_text">MY ACCOUNT</h3>
-                     <p class="dolor_text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.Lorem ipsum dolor sit amet, </p>
                   </div>
                </div>
             </div>
