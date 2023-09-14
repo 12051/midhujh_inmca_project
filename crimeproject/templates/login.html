@@ -40,12 +40,12 @@
               <div class="text-center">
                 <div class="pass">
                   <a href="{% url 'password_reset' %}">Forgot Password?</a>
-                </div>
+                </div><br>
       <button type="submit" class="btn btn-outline-primary btn-lg" style="background-color: #19A7CE;color:aliceblue;">LOGIN</button></div>
     </div>
     {% for message in messages %} {{ message }} {% endfor %}
             </form>
-            <p class="m_text-center m_mt-3" style="text-align:center"><a href="{% url 'victimregister' %}">Create a new account <b>Register</b></a></p>
+            <p class="m_text-center m_mt-3" style="text-align:center"><a href="{% url 'userregister' %}">Create a new account <b>Register</b></a></p>
           </div>
         </div>
       </div>

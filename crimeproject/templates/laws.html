@@ -68,35 +68,6 @@
              color: #333;
          }
          
-         /* Footer styles */
-         .footer_section {
-             background-color: #333;
-             color: #fff;
-             padding: 30px 0;
-         }
-         
-         .social_icon ul {
-             list-style: none;
-             padding: 0;
-         }
-         
-         .social_icon ul li {
-             display: inline-block;
-             margin-right: 10px;
-         }
-         
-         .social_icon ul li a img {
-             width: 30px;
-         }
-         
-         /* Copyright section styles */
-         .copyright_section {
-             background-color: #222;
-             color: #fff;
-             text-align: center;
-             padding: 10px 0;
-             font-size: 14px;
-         }
          
          /* Specific styles for the "Indian Laws" section */
          #civil-laws,
@@ -127,7 +98,7 @@
       <div class="header_section">
          <div class="container-fluid">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-               <a class="logo" href="#"><img src="{% static 'images/logo1.png' %}"></a>
+               <a class="logo" href="#"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                <span class="navbar-toggler-icon"></span>
                </button>
@@ -165,7 +136,10 @@
                      <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
                      {% else %}
                      </li>
-                     <div class="navbar-nav ml-auto">
+                     <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
+                     </li>
+                     {% comment %} <div class="navbar-nav ml-auto">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
                             <div class="dropdown-menu"> 
@@ -173,7 +147,7 @@
                                 <a href="http://127.0.0.1:8000/victimregister" class="dropdown-item">Register as Victim</a>       
                             </div>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                     <li class="nav-item">
                      <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
                   </li>
@@ -249,64 +223,63 @@
          </section>
      </main>
 
-  <!-- footer section start -->
-  <div class="footer_section layout_padding">
-   <div class="container">
-      <div class="row">
-         <div class="col-lg-3 col-md-6">
-         </div>
-         
-         <div class="col-lg-3 col-md-6">
-            <div class="social_icon">
-               <ul>
-                  <li><a href="#"><img src="{% static 'images/fb-icon.png' %}"></a></li>
-                  <li><a href="#"><img src="{% static 'images/twitter-icon.png' %}"></a></li>
-                  <li><a href="#"><img src="{% static 'images/linkedin-icon.png' %}"></a></li>
-                  <li><a href="#"><img src="{% static 'images/instagram-icon.png' %}"></a></li>
-                  <li><a href="#"><img src="{% static 'images/youtub-icon.png' %}"></a></li>
-               </ul>
+     <div class="footer_section layout_padding">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-3 col-md-6">
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+               <div class="social_icon">
+                  <ul>
+                     <li><a href="#"><img src="{% static 'images/fb-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/twitter-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/linkedin-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/instagram-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/youtub-icon.png' %}"></a></li>
+                  </ul>
+               </div>
             </div>
          </div>
       </div>
    </div>
-</div>
-<!-- footer section end -->
-<!-- copyright section start -->
-<div class="copyright_section">
-   <div class="container">
-      <p class="copyright_text">© 2020 All Rights Reserved.</p>
+   <!-- footer section end -->
+   <!-- copyright section start -->
+   <div class="copyright_section">
+      <div class="container">
+         <p class="copyright_text">© 2020 All Rights Reserved.</p>
+      </div>
    </div>
-</div>
-<!-- copyright section end  -->
-<!-- Javascript files-->
-<script src="{% static 'js/jquery.min.js' %}"></script>
-<script src="{% static 'js/popper.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
-<script src="{% static 'js/plugin.js' %}"></script>
-<!-- sidebar -->
-<script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
-<script src="{% static 'js/custom.js' %}"></script>
-<!-- javascript --> 
-<script src="{% static 'js/owl.carousel.js' %}"></script>
-<!-- owl carousel -->
-<script>
-   $('.owl-carousel').owlCarousel({
-   loop:true,
-   margin:30,
-   nav:true,
-   responsive:{
-    0:{
-        items:1
-    },
-    600:{
-        items:3
-    },
-    1000:{
-        items:4
-    }
-   }
-   })
-</script>
-</body>
-</html>
+   <!-- copyright section end  -->
+   <!-- Javascript files-->
+   <script src="{% static 'js/jquery.min.js' %}"></script>
+   <script src="{% static 'js/popper.min.js' %}"></script>
+   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+   <script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
+   <script src="{% static 'js/plugin.js' %}"></script>
+   <!-- sidebar -->
+   <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+   <script src="{% static 'js/custom.js' %}"></script>
+   <!-- javascript --> 
+   <script src="{% static 'js/owl.carousel.js' %}"></script>
+   <!-- owl carousel -->
+   <script>
+      $('.owl-carousel').owlCarousel({
+      loop:true,
+      margin:30,
+      nav:true,
+      responsive:{
+       0:{
+           items:1
+       },
+       600:{
+           items:3
+       },
+       1000:{
+           items:4
+       }
+      }
+      })
+   </script>
+   </body>
+   </html>

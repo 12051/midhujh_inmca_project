@@ -21,7 +21,7 @@ def logout(request):
     auth_logout(request)
     return redirect('/')
 
-def victimregister(request):
+def userregister(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
@@ -36,10 +36,9 @@ def victimregister(request):
         elif name and email and aadhaar and password:
             user = CustomUser(name=name,aadhaarno=aadhaar, email=email)
             user.set_password(password)
-            user.is_victim=True
             user.save()
             return redirect('/')
-    return render(request, 'victimregister.html')
+    return render(request, 'userregister.html')
 
 def witnessregister(request):
     if request.method == 'POST':

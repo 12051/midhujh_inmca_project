@@ -1,0 +1,351 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+      <!-- site metas -->
+      <title>ReportSafer | Registration</title>
+      <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
+      {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <!-- bootstrap css -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+      <!-- style css -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <!-- Responsive-->
+      <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+      <!-- fevicon -->
+      <link rel="icon" href="{% static 'images/fevicon.png' %}" type="image/gif" />
+      <!-- Scrollbar Custom CSS -->
+      <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
+      <!-- Tweaks for older IEs-->
+      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+      <!-- fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+      <!-- owl stylesheets -->
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
+   </head>
+   <body style="font-family:Poppins,sans-serif;">
+      <!-- header section start -->
+      <div class="header_section">
+         <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+               <a class="logo" href="#"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                     {% if user.is_authenticated %}
+                     <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'general' %}">General Information</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'laws' %}">Laws</a>
+                     </li>
+                     <li class="nav-item">
+                      <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
+                      </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
+                     </li>
+                     <div class="navbar-nav ml-auto">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
+                            <div class="dropdown-menu"> 
+                                <a href="http://127.0.0.1:8000/report_crime" class="dropdown-item">Report a Crime</a>
+                                <a href="{% url 'listcrime' %}" class="dropdown-item">View Crimes</a>       
+                            </div>
+                        </div>
+                    </div>
+                     <li class="nav-item">
+                     <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
+                     {% else %}
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
+                     </li>
+                     {% comment %} <div class="navbar-nav ml-auto">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
+                            <div class="dropdown-menu"> 
+                                <a href="http://127.0.0.1:8000/witnessregister" class="dropdown-item">Register as Witness</a>
+                                <a href="http://127.0.0.1:8000/victimregister" class="dropdown-item">Register as Victim</a>       
+                            </div>
+                        </div>
+                    </div> {% endcomment %}
+                   
+                     {% comment %} <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/register">Register</a>
+                     </li> {% endcomment %}
+                     <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/anony_report">Report Anonymously</a>
+                     </li>
+                     {% endif %}
+                     <br>
+                     {% comment %} <h2>User: {{user.name}}</h2> {% endcomment %}
+                  </ul>
+                  <!-- <form class="form-inline my-2 my-lg-0">
+                     <div class="login_menu">
+                        <ul>
+                           <li><a href="#">Login</a></li>
+                           <li><a href="#">Register</a></li>
+                           <li><a href="#"><img src="images/user-icon.png"></a></li>
+                           <li><a href="#"><img src="images/search-icon.png"></a></li>
+                        </ul>
+                     </div>
+                  </form> -->
+               </div>
+            </nav>
+         </div>
+      </div>
+
+      <div class="custom-form-container">
+        <div class="custom-form-background">
+            <div class="card rounded-3 custom-form">
+              <section class="h-custom" style="margin-bottom: 300px;">
+                <div class="container py-5 h-100">
+                  <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-lg-8 col-xl-6">
+                      <div class="card rounded-3">
+                        <img src="https://img.freepik.com/free-vector/pack-different-police-people_23-2148519036.jpg?size=626&ext=jpg&uid=R111011665&ga=GA1.2.1783897456.1692200782&semt=ais"
+                          class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem; height:300px;"
+                          alt="Sample photo">
+                        <div class="card-body p-4 p-md-5 ali">
+                          <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" style="margin-left:30%;">Registration Form</h3>
+              
+                          <form id="regform" method='POST' action="{% url 'userregister' %}" class="px-md-2">
+                            {% csrf_token %}
+                            <div class="form-outline mb-4">
+                              <label for="vname">Name *</label>
+                              <input type="text" name='name' id="vname" class="form-control" placeholder="Name"/>
+                              <span id="nameError"></span>
+                            </div>
+                            <div class="form-outline mb-4"> 
+                              <label for="email">Email *</label>
+                              <input type="text" name='email' id="mail" class="form-control" placeholder="e-mail"/>
+                              <span id="emailError"></span>
+                            </div>
+                            <div class="form-outline mb-4">
+                              <label for="aadhaarno">Aadhar Number *</label>
+                              <input type="text" name='aadhaarno' id="adnumber" class="form-control" placeholder="Aadhar Number"/>
+                              <span id="aadhaarError"></span>
+                            </div>
+                            <div class="form-outline mb-4">
+                              <label for="password">Password *</label>
+                              <input type="Password" name='password' id="pd" class="form-control" placeholder="Password"/>
+                              <span id="passwordError"></span>
+                            </div>
+                            <div class="form-outline mb-4">
+                              <label for="cpd">Confirm Password *</label>
+                              <input type="Password" name='cpd' id="cmpwd" class="form-control" placeholder="Confirm Password"/>
+                              <span id="confirmPasswordError"></span>
+                            </div>
+                      
+                            <div class="text-center">
+                              <br>
+                    <button type="submit" class="btn btn-outline-primary btn-lg" style="background-color: #F75261;color:aliceblue;">Register</button></div>
+                  </div>
+                  {% for message in messages %} {{ message }} {% endfor %}
+                          </form>
+                          
+                          <p class="m_text-center m_mt-3" style="text-align:center"><a href="{% url 'login' %}">Already have an account? <b>Login</b></a></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              
+              
+              
+              <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+              <script>
+              
+                $(document).ready(function () {
+                    $("#vname").keyup(function () {
+                        validateName("#vname");
+                    });
+              
+                    $("#mail").keyup(function () {
+                        validateEmail("#mail");
+                    });
+              
+                    $("#pd").keyup(function () {
+                        validatePassword("#pd");
+                    });
+              
+                    $("#cmpwd").keyup(function () {
+                        validateConfirmPassword("#cmpwd");
+                    });
+              
+                    $("#adnumber").keyup(function () {
+                      aadharNumber("#adnumber");
+                  });
+                  $("regform").submit(function (event) {
+                    // Perform all validations before submitting the form
+                    validateName("#vname");
+                    validateEmail("#mail");
+                    validatePassword("#pd");
+                    validateConfirmPassword("#cmpwd");
+                    aadharNumber("#adnumber");
+              
+                    // Check if any validation errors exist
+                    if ($(".validation-error").length > 0) {
+                      event.preventDefault(); // Prevent form submission
+                    }
+                  });
+                });
+              
+                function validateName(fieldId) {
+                    var name = $(fieldId).val();
+                    var lettersWithSpaces = /^[A-Za-z\s]+$/;
+                    if (name.trim() === "") {
+                        $("#nameError").html("Enter the Name").css("color", "red");
+                    } else if (!lettersWithSpaces.test(name)) {
+                        $("#nameError").html("Name field required only alphabet characters with spaces").css("color", "red");
+                    } else {
+                        $("#nameError").html("");
+                    }
+                }
+                function validateEmail(fieldId) {
+                    var email = $(fieldId).val();
+                    var filter = /^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/;
+                    if (email === "") {
+                        $("#emailError").html("Enter the Email Id").css("color", "red");
+                    } else if (!filter.test(email)) {
+                        $("#emailError").html("Use correct Email Id").css("color", "red");
+                    } else {
+                        $("#emailError").html("");
+                    }
+                }
+              
+                function validatePassword(fieldId) {
+                    var password = $(fieldId).val();
+                    var pwd_expression = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/;
+                    if (password === "") {
+                        $("#passwordError").html("Enter the Password").css("color", "red");
+                    }else if(!pwd_expression.test(password))
+                            {
+                                $("#passwordError").html("Please enter at least 8 characters, at least 1 number, at least 1 symbol (!@#$%^&*), at least 1 capital letter").css("color", "red");
+                           }
+                    else 
+                    {
+                        $("#passwordError").html("");
+                    }
+                }
+              
+                function validateConfirmPassword(fieldId) {
+                    var password = $("#pd").val();
+                    var confirmPassword = $(fieldId).val();
+                    if (confirmPassword === "") {
+                        $("#confirmPasswordError").html("Enter the Confirm Password").css("color", "red");
+                    } else if (confirmPassword !== password) {
+                        $("#confirmPasswordError").html("Password do not match").css("color", "red");
+                    } else {
+                        $("#confirmPasswordError").html("");
+                    }
+                }
+              
+                 function aadharNumber(fieldId) {
+                  var numberRegex = /^[-+]?\d*\.?\d+$/;
+                  var phoneNumber = $(fieldId).val();
+              
+                  if (phoneNumber === "") {
+                      $("#aadhaarError").html("Enter the Aadhaar number").css("color", "red");
+                  } else if (!numberRegex.test(phoneNumber)) {
+                      $("#aadhaarError").html("Invalid Aadhaar Number").css("color", "red");
+                  } else if (phoneNumber.length > 12) {
+                      $("#aadhaarError").html("Enter Correct Aadhar Number").css("color", "red");
+                  } else if (phoneNumber.length < 12) {
+                      $("#aadhaarError").html("Enter Correct Aadhar Number").css("color", "red");
+                  } else {
+                      $("#aadhaarError").html("");
+                  }
+              }
+              
+              </script>
+              
+
+            </div>
+        </div>
+    </div>
+    
+<!-- footer section start -->
+<div class="footer_section layout_padding">
+  <div class="container">
+     <div class="row">
+        <div class="col-lg-3 col-md-6">
+        </div>
+        
+        <div class="col-lg-3 col-md-6">
+           <div class="social_icon">
+              <ul>
+                 <li><a href="#"><img src="{% static 'images/fb-icon.png' %}"></a></li>
+                 <li><a href="#"><img src="{% static 'images/twitter-icon.png' %}"></a></li>
+                 <li><a href="#"><img src="{% static 'images/linkedin-icon.png' %}"></a></li>
+                 <li><a href="#"><img src="{% static 'images/instagram-icon.png' %}"></a></li>
+                 <li><a href="#"><img src="{% static 'images/youtub-icon.png' %}"></a></li>
+              </ul>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+<!-- footer section end -->
+<!-- copyright section start -->
+<div class="copyright_section">
+  <div class="container">
+     <p class="copyright_text">© 2020 All Rights Reserved.</p>
+  </div>
+</div>
+<!-- copyright section end  -->
+<!-- Javascript files-->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
+<script src="{% static 'js/plugin.js' %}"></script>
+<!-- sidebar -->
+<script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+<!-- javascript --> 
+<script src="{% static 'js/owl.carousel.js' %}"></script>
+<!-- owl carousel -->
+<script>
+  $('.owl-carousel').owlCarousel({
+  loop:true,
+  margin:30,
+  nav:true,
+  responsive:{
+   0:{
+       items:1
+   },
+   600:{
+       items:3
+   },
+   1000:{
+       items:4
+   }
+  }
+  })
+</script>
+</body>
+</html>
