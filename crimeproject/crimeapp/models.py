@@ -38,6 +38,7 @@ class CustomUser(AbstractUser):
         return self.name
     
 class CrimeReport(models.Model):
+    #fir_number = models.CharField(max_length=10, null=True, unique=True)
     reporter_name = models.CharField(max_length=100)
     reporter_location = models.CharField(max_length=100)
     date = models.DateField()
@@ -47,5 +48,18 @@ class CrimeReport(models.Model):
     offender_name = models.CharField(max_length=100, blank=True, null=True)
     offender_vehiclenumber = models.CharField(max_length=20, blank=True, null=True)
     witness_name = models.CharField(max_length=100, blank=True, null=True)
+    list_user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
     def __str__(self):
         return self.reporter_name
+    
+class AnonyReport(models.Model):
+    reporter_location = models.CharField(max_length=100)
+    date = models.DateField()
+    time = models.TimeField()
+    location = models.CharField(max_length=200)
+    description = models.TextField()
+    offender_name = models.CharField(max_length=100, blank=True, null=True)
+    offender_vehiclenumber = models.CharField(max_length=20, blank=True, null=True)
+    witness_name = models.CharField(max_length=100, blank=True, null=True)
+    def __str__(self):
+        return self.reporter_location

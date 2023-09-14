@@ -1,15 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reported Crimes</title>
+    <title>ReportSafer | Reported Crimes</title>
+      <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             margin: 0;
-            padding: 0;
+            padding: 0; 
         }
 
         header {
@@ -51,19 +53,17 @@
         <section id="crime-list">
             {% block content %}
             <h4>Reported Crimes</h4>
-            {% for i in list_crime %}
-            <strong>{{ i.title }}</strong><br>
+            {% for i in list_dict %}
+            <strong>{{ i.reporter_location }}</strong><br>
             Date: {{ i.date|date:"F j, Y" }}<br>
             Time: {{ i.time }}<br>
-             <button id="sendButton"><a style="text-decoration:none;color:white;" href="{% url 'view_webinar' i.id %}">View</a></button>
-             <button id="sendButton"><a style="text-decoration:none;color:white;" href="{% url 'update_webinar' i.id %}">Update</a></button>
-             <button id="sendButton"><a style="text-decoration:none;color:white;" href="{% url 'delete_webinar' i.id %}">Delete</a></button><br>
+             <br>
               {% endfor %}
               {% endblock %}
         </section>
     </main>
     <footer>
-        <p>&copy; 2023 Your Organization</p>
+        <p>&copy; 2023 ReportSafer</p>
     </footer>
 </body>
 </html>

@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report a Crime</title>
-    <link rel="icon" href="{% static 'images/help.jpg' %}" type="image/x-icon">
+    <title>ReportSafer | Report a Crime</title>
+      <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
     <!-- Add your CSS styles and link to external CSS files if needed -->
     <style>
 
@@ -95,8 +95,9 @@
 </head>
 
 <body>
+    <br>
     <h1 style="font-size: 27px;">Report a Crime</h1>
-
+    <br>
     <form id="reportform" method="post" action="{% url 'generate_pdf' %}">
         {% csrf_token %}
 
@@ -263,6 +264,18 @@
                 $("#locationError").html("");
             }
         }
+
+        function validateVehiclenum(fieldId) {
+            var vehicleNumber = $(fieldId).val();
+            var pattern = /^[A-Z]{2}\s\d{2}\s[A-Z]\s\d{4}$/; // Kerala vehicle number pattern
+        
+            if (pattern.test(vehicleNumber)) {
+                $("#vehnumError").html(""); // Valid vehicle number
+            } else {
+                $("#vehnumError").html("Enter a valid vehicle number").css("color", "red");
+            }
+        }
+        
 
       </script>      
 

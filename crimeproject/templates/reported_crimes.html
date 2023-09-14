@@ -1,11 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-   <title>FIR</title>
-      <body>
-         <h1>FIR</h1>
-         {% for field in form %}
-         <p>{{ field.label }}: {{ field.value }}</p>
-         {% endfor %}
-     </body>     
+<head>
+    <title>FIR</title>
+</head>
+<body>
+    <h1>FIR</h1>
+    <p>FIR Id: {{ fir_id }}</p>
+    {% for field in form %}
+    <p>{{ field.label }}: {{ field.value }}</p>
+    {% endfor %}
+</body>
 </html>

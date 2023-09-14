@@ -10,8 +10,9 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>ReportSafer</title>
-      <link rel="icon" href="https://www.w3docs.com/favicon.ico" />
+      <title>ReportSafer | Home</title>
+      <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
+      {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -32,12 +33,12 @@
       <!-- owl stylesheets -->
       <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
    </head>
-   <body>
+   <body style='font-family:Poppins,sans-serif;'>
       <!-- header section start -->
       <div class="header_section">
          <div class="container-fluid">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-               <a class="logo" href="#"><img src="{% static 'images/logo1.png' %}"></a>
+               <a class="logo" href="#"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                <span class="navbar-toggler-icon"></span>
                </button>
@@ -45,29 +46,29 @@
                   <ul class="navbar-nav mr-auto">
                      {% if user.is_authenticated %}
                      <li class="nav-item active">
-                        <a class="nav-link" href="#">Home</a>
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
                      </li>
                      <li class="nav-item">
-                        <a class="nav-link" href="about.html">About Us</a>
+                        <a class="nav-link" href="{% url 'about' %}">About Us</a>
                      </li>
                      <li class="nav-item">
-                        <a class="nav-link" href="product.html">General Information</a>
+                        <a class="nav-link" href="{% url 'general' %}">General Information</a>
                      </li>
                      <li class="nav-item">
-                        <a class="nav-link" href="blog.html">Laws</a>
+                        <a class="nav-link" href="{% url 'laws' %}">Laws</a>
                      </li>
                      <li class="nav-item">
-                      <a class="nav-link" href="contact.html">Gallery</a>
+                      <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
                       </li>
                      <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contacts</a>
+                        <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
                      </li>
                      <div class="navbar-nav ml-auto">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
                             <div class="dropdown-menu"> 
                                 <a href="http://127.0.0.1:8000/report_crime" class="dropdown-item">Report a Crime</a>
-                                <a href="#" class="dropdown-item">View Crimes</a>       
+                                <a href="{% url 'listcrime' %}" class="dropdown-item">View Crimes</a>       
                             </div>
                         </div>
                     </div>
@@ -90,6 +91,9 @@
                      </li> {% endcomment %}
                      <li class="nav-item">
                         <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/anony_report">Report Anonymously</a>
                      </li>
                      {% endif %}
                      {% comment %} <h2>User: {{user.name}}</h2> {% endcomment %}
@@ -140,7 +144,7 @@
                <div class="col-md-6">
                   <h1 class="about_taital">About Us</h1>
                   <p class="about_text">ReportSafer has a reputation for being one of the best-managed law-enforcement forces in the country and is one of the top-ranking states in terms of maintenance of law and order.</p>
-                  <div class="read_bt_1"><a href="#">Read More</a></div>
+                  <div class="read_bt_1"><a href="{% url 'about' %}">Read More</a></div>
                </div>
             </div>
          </div>
@@ -155,23 +159,26 @@
                </div>
             </div>
 
-            
+            <a href="{% url 'report_crime' %}">
             <div class="card-deck">
                <div class="card">
-                 <img class="card-img-top" style="width:80px;height:80px;margin-left:43%;" src="{% static 'images/help1.jpg' %}" alt="Card image cap">
+                 <img class="card-img-top" style="width:80px;height:80px;margin-left:42%;" src="{% static 'images/help1.jpg' %}" alt="Card image cap">
                  <div class="card-body">
                    <h5 class="card-title" style="text-align:center;">REPORT A CRIME</h5>
                    <p class="card-text" style="text-align:center;">Instant Action: Reporting Crime with a Single Click.</p>
                  </div>
                </div>
+            </a>
                
+            <a href="{% url 'login' %}">
                <div class="card">
-                 <img class="card-img-top" style="width:80px;height:75px;margin-left:43%;margin-top:5px;" src="{% static 'images/report.jpg' %}" alt="Card image cap">
+                 <img class="card-img-top" style="width:80px;height:75px;margin-left:44%;margin-top:5px;" src="{% static 'images/report.jpg' %}" alt="Card image cap">
                  <div class="card-body">
                    <h5 class="card-title" style="text-align:center;">VIEW FIR</h5>
                    <p class="card-text" style="text-align:center;">Peek into FIRs: Unveiling the Truth, Protecting the Community.</p>
                  </div>
                </div>
+            </a>
                {% comment %} <div class="card">
                  <img class="card-img-top" src="..." alt="Card image cap">
                  <div class="card-body">
@@ -245,7 +252,7 @@
                         </ol>
                         <div class="carousel-inner">
                            <div class="carousel-item active">
-                              <p class="client_text">I encourage each and every one of you to use this platform responsibly and actively participate in ensuring the safety and well-being of our society. Let's work together to make our state a safer place for all.</p>
+                              <p class="client_text" style="text-align:justify;">I encourage each and every one of you to use this platform responsibly and actively participate in ensuring the safety and well-being of our society. Let's work together to make our state a safer place for all.</p>
                               <div class="client_main">
                                  <div class="client_left">
                                     <div class="client_img"><img style="width:180px;height:169px;" src="{% static 'images/chief-min.png' %}"></div>
@@ -258,7 +265,7 @@
                               </div>
                            </div>
                            <div class="carousel-item">
-                              <p class="client_text">With this online platform, you now have the power to report crimes from the comfort of your home or on the go, ensuring that no incident goes unnoticed or unaddressed. It's a tool designed with your convenience and safety in mind.</p>
+                              <p class="client_text" style="text-align:justify;">With this online platform, you now have the power to report crimes from the comfort of your home or on the go, ensuring that no incident goes unnoticed or unaddressed. It's a tool designed with your convenience and safety in mind.</p>
                               <div class="client_main">
                                  <div class="client_left">
                                     <div class="client_img"><img style="width:150px;height:169px;" src="{% static 'images/police-chief.jpg' %}"></div>

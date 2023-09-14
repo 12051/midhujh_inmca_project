@@ -1,0 +1,279 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReportSafer | Report Anonymously</title>
+      <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
+    <!-- Add your CSS styles and link to external CSS files if needed -->
+    <style>
+
+    /* Reset some default styles */
+    body, h1 {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: {% static 'images/bg.jpg' %};
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    form {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(244, 244, 244, 0.8); /* Adjust opacity here */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Apply some basic styling to the form */
+    form {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f4f4f4;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Style form headings */
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    
+    /* Style form labels */
+    label {
+        display: block;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    
+    /* Style form input fields and text area */
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    
+    /* Style the submit button */
+    button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    /* Style error messages */
+    .error {
+        color: #ff0000;
+        font-size: 12px;
+        display: block;
+        margin-top: 5px;
+    }
+    
+    /* Add some spacing between form groups */
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    </style>
+</head>
+
+<body>
+    <br>
+    <h1 style="font-size: 27px;">Report a Crime Anonymously</h1>
+    <br>
+
+    <form id="reportform" method="post" action="{% url 'anony_pdf' %}">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="reporter_location">Reporter Location *</label>
+            <input type="text" id="reporter_location" name="reporter_location">
+            <span id="locError"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Date *</label>
+            <input type="date" id="date" name="date">
+            <span id="dateError"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="time">Time *</label>
+            <input type="time" id="time" name="time">
+            <span id="timeError"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="location">Location *</label>
+            <input type="text" id="location" name="location">
+            <span id="locationError"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description *</label>
+            <textarea id="description" name="description"></textarea>
+            <span id="descriptionError"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="offender_name">Offender Name *</label>
+            <input type="text" id="offender_name" name="offender_name">
+            <span id="offnameError"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="offender_vehiclenumber">Offender Vehicle Number:</label>
+            <input type="text" id="offender_vehiclenumber" name="offender_vehiclenumber" placeholder="If any"/>
+            <span id="vehnumError"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="witness_name">Witness Name:</label>
+            <input type="text" id="witness_name" name="witness_name" placeholder="If any"/>
+            <span id="witnameError"></span>
+        </div>
+
+        <button type="submit">Generate FIR</button>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $("#reporter_location").keyup(function () {
+                validateRloc("#reporter_location");
+            });
+      
+            $("#date").on("input", function () {
+                validateDate("#date");
+            });
+      
+            $("#location").keyup(function () {
+              validateLoc("#location");
+            });
+
+            $("#offender_name").keyup(function () {
+                validateOname("#offender_name");
+            });
+
+            $("#offender_vehiclenumber").keyup(function () {
+                validateVehiclenum("#offender_vehiclenumber");
+            });
+
+            $("#witness_name").keyup(function () {
+                validateWname("#witness_name");
+            });
+
+          $("reportform").submit(function (event) {
+            // Perform all validations before submitting the form
+            validateOname("#offender_name");
+            validateWname("#witness_name");
+            validateRloc("#reporter_location");
+            validateDate("#date");
+            validateLoc("#location");
+            validateVehiclenum("#offender_vehiclenumber");
+      
+            // Check if any validation errors exist
+            if ($(".validation-error").length > 0) {
+              event.preventDefault(); // Prevent form submission
+            }
+          });
+        });
+
+        function validateOname(fieldId) {
+            var oname = $(fieldId).val();
+            var lettersWithSpaces = /^[A-Za-z\s]+$/;
+            if (oname.trim() === "") {
+                $("#offnameError").html("Enter the Name of the Offender").css("color", "red");
+            } else if (!lettersWithSpaces.test(oname)) {
+                $("#offnameError").html("Name field required only alphabet characters with spaces").css("color", "red");
+            } else {
+                $("#offnameError").html("");
+            }
+        }
+
+        function validateWname(fieldId) {
+            var wname = $(fieldId).val();
+            var lettersWithSpaces = /^[A-Za-z\s]+$/;
+            if (wname.trim() === "") {
+                $("#witnameError").html("Enter the Name").css("color", "red");
+            } else if (!lettersWithSpaces.test(wname)) {
+                $("#witnameError").html("Name field required only alphabet characters with spaces").css("color", "red");
+            } else {
+                $("#witnameError").html("");
+            }
+        }
+
+        function validateDate(fieldId) {
+            var currentDate = new Date();
+            var inputDate = new Date($(fieldId).val());
+        
+            if (isNaN(inputDate.getTime())) {
+                // Check if the input is not a valid date
+                $("#dateError").html("Please enter a valid date").css("color", "red");
+            } else if (inputDate >= currentDate) {
+                $("#dateError").html("Please enter a date earlier than the current date").css("color", "red");
+            } else {
+                $("#dateError").html(""); // Reset the error message
+            }
+        }       
+        
+      
+        function validateRloc(fieldId) {
+            var rloc = $(fieldId).val();
+            var lettersWithSpaces = /^[A-Za-z\s]+$/;
+            if (rloc.trim() === "") {
+                $("#locError").html("Enter the Location of the Reporter").css("color", "red");
+            } else if (!lettersWithSpaces.test(rloc)) {
+                $("#locError").html("Location field required only alphabet characters with spaces").css("color", "red");
+            } else {
+                $("#locError").html("");
+            }
+        }
+
+        function validateLoc(fieldId) {
+            var loc = $(fieldId).val();
+            var lettersWithSpaces = /^[A-Za-z\s]+$/;
+            if (loc.trim() === "") {
+                $("#locationError").html("Enter the Location of the Offender").css("color", "red");
+            } else if (!lettersWithSpaces.test(loc)) {
+                $("#locationError").html("Location field required only alphabet characters with spaces").css("color", "red");
+            } else {
+                $("#locationError").html("");
+            }
+        }
+
+        function validateVehiclenum(fieldId) {
+            var vehicleNumber = $(fieldId).val();
+            var pattern = /^[A-Z]{2}\s\d{2}\s[A-Z]\s\d{4}$/; // Kerala vehicle number pattern
+        
+            if (pattern.test(vehicleNumber)) {
+                $("#vehnumError").html(""); // Valid vehicle number
+            } else {
+                $("#vehnumError").html("Enter a valid vehicle number").css("color", "red");
+            }
+        }
+        
+
+      </script>      
+
+</body>
+<br>
+</html>

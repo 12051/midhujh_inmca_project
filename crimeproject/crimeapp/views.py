@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 #from .models import User
-from .forms import CrimeReportForm
+from .forms import CrimeReportForm, AnonyReportForm
 from .models import CustomUser,CrimeReport
 import re
 from django.contrib.auth import authenticate, login as auth_login
@@ -85,7 +85,7 @@ def report_crime(request):
         form = CrimeReportForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('reported_crimes')
+            return redirect('/')
     else:
         form = CrimeReportForm()
     
@@ -98,11 +98,56 @@ def generate_pdf(request):
     if request.method == 'POST':
         form = CrimeReportForm(request.POST)
         if form.is_valid():
-            form.save()
+            cr=form.save(commit=False)
+            cr.list_user=request.user
+            cr.save()
+            crime_report = form.save()
+            fir_id = crime_report.id
             template_path = 'reported_crimes.html'  # Replace with your template path
-            context = {'form': form}
+            context = {'form': form, 'fir_id': fir_id}
             response = HttpResponse(content_type='application/pdf')
-            response['Content-Disposition'] = 'attachment; filename="fir.pdf"'
+            response['Content-Disposition'] = f'attachment; filename="FIR_{fir_id}.pdf"'  # Use f-string to include fir_id
+
+            template = get_template(template_path)
+            html = template.render(context)
+
+            pisa_status = pisa.CreatePDF(html, dest=response)
+            if not pisa_status.err:
+                return response
+            return redirect('/')
+    else:
+        form = CrimeReportForm()
+
+    return render(request, 'index.html', {'form': form})
+
+def about(request):
+    return render(request,'about.html')
+
+def general(request):
+    return render(request,'general.html')
+
+def laws(request):
+    return render(request,'laws.html')
+
+def contact(request):
+    return render(request,'contact.html')
+
+def gallery(request):
+    return render(request,'gallery.html')
+
+def anony_report(request):
+    return render(request,'anony_report.html')
+
+def anony_pdf(request):
+    if request.method == 'POST':
+        form = AnonyReportForm(request.POST)
+        if form.is_valid():
+            anony_report = form.save()
+            fir_id = anony_report.id
+            template_path = 'reported_crimes.html'
+            context = {'form': form, 'fir_id': fir_id}
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="FIR_{fir_id}.pdf"'  # Use f-string to include fir_id
 
             template = get_template(template_path)
             html = template.render(context)
@@ -112,14 +157,12 @@ def generate_pdf(request):
                 return response
 
     else:
-        form = CrimeReportForm()
+        form = AnonyReportForm()
 
-    return render(request, 'report_crime.html', {'form': form})
+    return render(request, 'anony_report.html', {'form': form})
 
 @login_required
-def webinar(request):
-# update_webinar = Webinar.objects.all()    
-    orgs=request.user
-    list_crime=CrimeReport.objects.filter(org_user=orgs)
-    context = {'list_crime': list_crime}
-    return render(request, 'webinar.html', context)
+def listcrime(request):
+    user_crime=request.user
+    list_dict=CrimeReport.objects.filter(list_user=user_crime)
+    return render(request, 'listcrime.html', {'list_dict': list_dict})
