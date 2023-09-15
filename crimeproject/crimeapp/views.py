@@ -37,6 +37,7 @@ def userregister(request):
         elif name and email and aadhaar and password:
             user = CustomUser(name=name,aadhaarno=aadhaar, email=email)
             user.set_password(password)
+            user.is_normal="True"
             user.save()
             return redirect('/')
     return render(request, 'userregister.html')
@@ -69,6 +70,10 @@ def login(request):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 auth_login(request, user)
+                if user.is_normal:
+                    return redirect('/')
+                if user.is_law:
+                    return redirect('law_index')
                 return redirect('/')
             else:
                 try:

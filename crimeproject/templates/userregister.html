@@ -144,11 +144,6 @@
                               <span id="emailError"></span>
                             </div>
                             <div class="form-outline mb-4">
-                              <label for="aadhaarno">Aadhar Number *</label>
-                              <input type="text" name='aadhaarno' id="adnumber" class="form-control" placeholder="Aadhar Number"/>
-                              <span id="aadhaarError"></span>
-                            </div>
-                            <div class="form-outline mb-4">
                               <label for="password">Password *</label>
                               <input type="Password" name='password' id="pd" class="form-control" placeholder="Password"/>
                               <span id="passwordError"></span>
@@ -196,16 +191,12 @@
                         validateConfirmPassword("#cmpwd");
                     });
               
-                    $("#adnumber").keyup(function () {
-                      aadharNumber("#adnumber");
-                  });
                   $("regform").submit(function (event) {
                     // Perform all validations before submitting the form
                     validateName("#vname");
                     validateEmail("#mail");
                     validatePassword("#pd");
                     validateConfirmPassword("#cmpwd");
-                    aadharNumber("#adnumber");
               
                     // Check if any validation errors exist
                     if ($(".validation-error").length > 0) {
@@ -263,23 +254,6 @@
                         $("#confirmPasswordError").html("");
                     }
                 }
-              
-                 function aadharNumber(fieldId) {
-                  var numberRegex = /^[-+]?\d*\.?\d+$/;
-                  var phoneNumber = $(fieldId).val();
-              
-                  if (phoneNumber === "") {
-                      $("#aadhaarError").html("Enter the Aadhaar number").css("color", "red");
-                  } else if (!numberRegex.test(phoneNumber)) {
-                      $("#aadhaarError").html("Invalid Aadhaar Number").css("color", "red");
-                  } else if (phoneNumber.length > 12) {
-                      $("#aadhaarError").html("Enter Correct Aadhar Number").css("color", "red");
-                  } else if (phoneNumber.length < 12) {
-                      $("#aadhaarError").html("Enter Correct Aadhar Number").css("color", "red");
-                  } else {
-                      $("#aadhaarError").html("");
-                  }
-              }
               
               </script>
               

@@ -28,9 +28,10 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD  = 'email' 
     # username=models.CharField(unique=True,max_length=20,default='')
     name = models.CharField(max_length=100, default='') 
-    aadhaarno=models.CharField(max_length=12, default='') 
     email = models.EmailField(unique=True) 
     password = models.CharField(max_length=128)
+    is_normal = models.BooleanField(default=False)
+    is_law = models.BooleanField(default=False)
     REQUIRED_FIELDS = []
     def __str__(self): 
         return self.name
@@ -41,6 +42,7 @@ class CrimeReport(models.Model):
     reporter_location = models.CharField(max_length=100)
     date = models.DateField()
     time = models.TimeField()
+    aadhaarno=models.CharField(max_length=12, default='')
     location = models.CharField(max_length=200)
     description = models.TextField()
     offender_name = models.CharField(max_length=100, blank=True, null=True)
