@@ -11,6 +11,7 @@ from django.contrib.auth import logout as auth_logout
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -165,3 +166,33 @@ def listcrime(request):
     user_crime=request.user
     list_dict=CrimeReport.objects.filter(list_user=user_crime)
     return render(request, 'listcrime.html', {'list_dict': list_dict})
+
+def law_index(request):
+    return render(request,'law_index.html')
+
+def law_login(request):
+    return render(request,'law_login.html')
+
+def law_update_status(request, crime_id):
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        crime_report = CrimeReport.objects.get(pk=crime_id)
+        crime_report.status = new_status
+        crime_report.save()
+        return redirect('list_crimes')
+
+def update_crime_status(request):
+    if request.method == 'POST':
+        crime_id = request.POST.get('crime_id')
+        status = request.POST.get('status')
+
+        # Update the status in your database for the specified crime_id
+        try:
+            crime = CrimeReport.objects.get(pk=crime_id)
+            crime.status = status
+            crime.save()
+            return JsonResponse({'success': True})
+        except CrimeReport.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Crime report not found'})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})

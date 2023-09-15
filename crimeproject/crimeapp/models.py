@@ -30,9 +30,7 @@ class CustomUser(AbstractUser):
     name = models.CharField(max_length=100, default='') 
     aadhaarno=models.CharField(max_length=12, default='') 
     email = models.EmailField(unique=True) 
-    password = models.CharField(max_length=128) 
-    is_witness = models.BooleanField(default=False) 
-    is_victim = models.BooleanField(default=False) 
+    password = models.CharField(max_length=128)
     REQUIRED_FIELDS = []
     def __str__(self): 
         return self.name
@@ -49,6 +47,13 @@ class CrimeReport(models.Model):
     offender_vehiclenumber = models.CharField(max_length=20, blank=True, null=True)
     witness_name = models.CharField(max_length=100, blank=True, null=True)
     list_user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
+    STATUS_CHOICES = (
+        ('Reported', 'Reported'),
+        ('FIR Verified', 'FIR Verified'),
+        ('Investigation in progress', 'Investigation in progress'),
+        ('Completed', 'Completed'),
+    )
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Reported')
     def __str__(self):
         return self.reporter_name
     

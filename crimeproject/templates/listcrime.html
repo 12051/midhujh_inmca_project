@@ -57,6 +57,12 @@
             <strong>{{ i.reporter_location }}</strong><br>
             Date: {{ i.date|date:"F j, Y" }}<br>
             Time: {{ i.time }}<br>
+            Status:
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{ CrimeReport.status_percentage }}%;" aria-valuenow="{{ CrimeReport.status_percentage }}" aria-valuemin="0" aria-valuemax="100">
+                    {{ crime.status }}
+                </div>
+            </div>
              <br>
               {% endfor %}
               {% endblock %}

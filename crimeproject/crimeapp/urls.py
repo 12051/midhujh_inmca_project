@@ -27,4 +27,7 @@ urlpatterns = [
     path('gallery/', views.gallery, name='gallery'),
     path('anony_report/', views.anony_report, name='anony_report'),
     path('anony_pdf/', views.anony_pdf, name='anony_pdf'),
+    path('law_index/', views.law_index, name='law_index'),
+    path('law_login/', views.law_login, name='law_login'),
+    path('law_update_status/', views.law_update_status, name='law_update_status'),
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

@@ -247,6 +247,14 @@ button {
     color: #f74c67;
 }
 
+.fixed-top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
 .login_menu {
     width: 100%;
 }
