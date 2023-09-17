@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 #from .models import User
 from .forms import CrimeReportForm, AnonyReportForm
 from .models import CustomUser,CrimeReport
@@ -178,26 +178,46 @@ def law_index(request):
 def law_login(request):
     return render(request,'law_login.html')
 
-def law_update_status(request, crime_id):
+# def law_update_status(request, crime_id):
+#     if request.method == 'POST':
+#         new_status = request.POST.get('status')
+#         crime_report = CrimeReport.objects.get(pk=crime_id)
+#         crime_report.status = new_status
+#         crime_report.save()
+#         return redirect('list_crimes')
+
+def law_update_status(request):
+    crime_reports = CrimeReport.objects.all()
+    return render(request, 'law_update_status.html', {'crime_reports': crime_reports})
+    
+
+def update_status(request):
     if request.method == 'POST':
+        report_id = request.POST.get('report_id')
         new_status = request.POST.get('status')
-        crime_report = CrimeReport.objects.get(pk=crime_id)
-        crime_report.status = new_status
-        crime_report.save()
-        return redirect('list_crimes')
-
-def update_crime_status(request):
-    if request.method == 'POST':
-        crime_id = request.POST.get('crime_id')
-        status = request.POST.get('status')
-
-        # Update the status in your database for the specified crime_id
         try:
-            crime = CrimeReport.objects.get(pk=crime_id)
-            crime.status = status
-            crime.save()
-            return JsonResponse({'success': True})
+            # Update the status in the database
+            report = CrimeReport.objects.get(pk=report_id)
+            report.status = new_status
+            report.save()
+            return redirect('law_update_status') 
         except CrimeReport.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Crime report not found'})
+            return JsonResponse({'status': 'error', 'message': 'Report not found'})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
-    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+# def update_crime_status(request):
+#     if request.method == 'POST':
+#         crime_id = request.POST.get('crime_id')
+#         status = request.POST.get('status')
+
+#         # Update the status in your database for the specified crime_id
+#         try:
+#             crime = CrimeReport.objects.get(pk=crime_id)
+#             crime.status = status
+#             crime.save()
+#             return JsonResponse({'success': True})
+#         except CrimeReport.DoesNotExist:
+#             return JsonResponse({'success': False, 'error': 'Crime report not found'})
+
+#     return JsonResponse({'success': False, 'error': 'Invalid request method'})

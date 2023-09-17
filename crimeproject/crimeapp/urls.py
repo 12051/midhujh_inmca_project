@@ -30,4 +30,5 @@ urlpatterns = [
     path('law_index/', views.law_index, name='law_index'),
     path('law_login/', views.law_login, name='law_login'),
     path('law_update_status/', views.law_update_status, name='law_update_status'),
+    path('update_status/', views.update_status, name='update_status'),
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
