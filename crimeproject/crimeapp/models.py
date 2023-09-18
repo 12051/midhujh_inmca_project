@@ -68,6 +68,7 @@ class CrimeReport(models.Model):
     
 class AnonyReport(models.Model):
     reporter_location = models.CharField(max_length=100)
+    spec_location = models.ForeignKey(SpecLoc, on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateField()
     time = models.TimeField()
     location = models.CharField(max_length=200)

@@ -26,7 +26,6 @@ def userregister(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
-        aadhaar = request.POST.get('aadhaarno')
         password = request.POST.get('password')
         cpwd = request.POST.get('cpd')
     
@@ -34,10 +33,10 @@ def userregister(request):
             messages.error(request, "Email already exists.")
         elif password != cpwd:
             messages.error(request, "Password does not match!")
-        elif name and email and aadhaar and password:
-            user = CustomUser(name=name,aadhaarno=aadhaar, email=email)
+        elif name and email and password:
+            user = CustomUser(name=name, email=email)
             user.set_password(password)
-            user.is_normal="True"
+            user.is_normal= True
             user.save()
             return redirect('/')
     return render(request, 'userregister.html')
