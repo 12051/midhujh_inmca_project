@@ -96,56 +96,57 @@
 
 <body>
     <br>
-    <h1 style="font-size: 27px;">Report a Crime Anonymously</h1>
+    <h1 style="font-size: 27px;">Report Crime Anonymously</h1>
     <br>
 
     <form id="reportform" method="post" action="{% url 'anony_pdf' %}">
         {% csrf_token %}
 
         <div class="form-group">
-            <label for="reporter_location">Reporter Location *</label>
+            <label for="reporter_location">Specify your Location *</label>
             <input type="text" id="reporter_location" name="reporter_location">
             <span id="locError"></span>
         </div>
 
+        
         <div class="form-group">
-            <label for="date">Date *</label>
+            <label for="date">Date of Incidence *</label>
             <input type="date" id="date" name="date">
             <span id="dateError"></span>
         </div>
 
         <div class="form-group">
-            <label for="time">Time *</label>
+            <label for="time">Time of Incidence *</label>
             <input type="time" id="time" name="time">
             <span id="timeError"></span>
         </div>
 
         <div class="form-group">
-            <label for="location">Location *</label>
+            <label for="location">Location of Incidence *</label>
             <input type="text" id="location" name="location">
             <span id="locationError"></span>
         </div>
 
         <div class="form-group">
-            <label for="description">Description *</label>
+            <label for="description">Please provide a description of the Incident *</label>
             <textarea id="description" name="description"></textarea>
             <span id="descriptionError"></span>
         </div>
 
         <div class="form-group">
-            <label for="offender_name">Offender Name *</label>
-            <input type="text" id="offender_name" name="offender_name">
+            <label for="offender_name">Offender Name</label>
+            <input type="text" id="offender_name" name="offender_name" placeholder="If any"/>
             <span id="offnameError"></span>
         </div>
 
         <div class="form-group">
-            <label for="offender_vehiclenumber">Offender Vehicle Number:</label>
+            <label for="offender_vehiclenumber">Offender Vehicle Number</label>
             <input type="text" id="offender_vehiclenumber" name="offender_vehiclenumber" placeholder="If any"/>
             <span id="vehnumError"></span>
         </div>
 
         <div class="form-group">
-            <label for="witness_name">Witness Name:</label>
+            <label for="witness_name">Witness Name</label>
             <input type="text" id="witness_name" name="witness_name" placeholder="If any"/>
             <span id="witnameError"></span>
         </div>

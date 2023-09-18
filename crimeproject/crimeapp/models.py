@@ -36,10 +36,17 @@ class CustomUser(AbstractUser):
     def __str__(self): 
         return self.name
     
+class SpecLoc(models.Model):
+    reporter_loc = models.CharField(max_length=100)
+    enforcement_loc = models.CharField(max_length=100)
+    def __str__(self):
+        return self.reporter_loc
+    
 class CrimeReport(models.Model):
     #fir_number = models.CharField(max_length=10, null=True, unique=True)
     reporter_name = models.CharField(max_length=100)
     reporter_location = models.CharField(max_length=100)
+    spec_location = models.ForeignKey(SpecLoc, on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateField()
     time = models.TimeField()
     aadhaarno=models.CharField(max_length=12, default='')
@@ -70,3 +77,4 @@ class AnonyReport(models.Model):
     witness_name = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
         return self.reporter_location
+    

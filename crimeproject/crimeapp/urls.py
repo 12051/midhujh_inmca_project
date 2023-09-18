@@ -31,4 +31,5 @@ urlpatterns = [
     path('law_login/', views.law_login, name='law_login'),
     path('law_update_status/', views.law_update_status, name='law_update_status'),
     path('update_status/', views.update_status, name='update_status'),
+    path('check_reporter_loc/', views.check_reporter_loc, name='check_reporter_loc'),
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

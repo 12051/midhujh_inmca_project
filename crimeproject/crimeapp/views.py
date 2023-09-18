@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 #from .models import User
 from .forms import CrimeReportForm, AnonyReportForm
-from .models import CustomUser,CrimeReport
+from .models import CustomUser,CrimeReport,SpecLoc
 import re
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User,auth
@@ -221,3 +221,19 @@ def update_status(request):
 #             return JsonResponse({'success': False, 'error': 'Crime report not found'})
 
 #     return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+def check_reporter_loc(request):
+    if request.method == 'GET':
+        reporter_loc = request.GET.get('reporter_loc', None)
+        if reporter_loc:
+            try:
+                # Assuming you have a SpecLoc model
+                spec_location = SpecLoc.objects.get(reporter_loc=reporter_loc)
+                data = {'valid': True, 'enforcement_loc': spec_location.enforcement_loc}
+            except SpecLoc.DoesNotExist:
+                data = {'valid': False}
+        else:
+            data = {'valid': False}
+        return JsonResponse(data)
+    else:
+        return JsonResponse({'valid': False})
