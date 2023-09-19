@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>ReportSafer | Registration</title>
+      <title>ReportSafer | Report a Crime</title>
       <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
       {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
       <meta name="keywords" content="">
@@ -50,7 +50,7 @@
         max-width: 1000px;
         margin: 0 auto;
         padding: 20px;
-        background-color: rgba(244, 244, 244, 0.8); /* Adjust opacity here */
+        background-color: #e3d1d1; /* Adjust opacity here */
         border: 1px solid #ccc;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -65,7 +65,7 @@
         max-width: 1000px;
         margin: 0 auto;
         padding: 20px;
-        background-color: #f4f4f4;
+        background-color: #e3d1d1;
         border: 1px solid #ccc;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -125,7 +125,7 @@
     </style>
 </head>
 
-<body style='font-family:Poppins,sans-serif;'>
+<body style="'font-family:Poppins,sans-serif';background:black;">
     <!-- header section start -->
     <div class="header_section ">
        <div class="container-fluid">
@@ -231,9 +231,13 @@
 
         <div class="form-group">
             <label for="reporter_location">Please specify your Location *</label>
-            <input type="text" id="reporter_location" name="reporter_location">
-            <span id="locError"></span>
-        </div>
+            <select id="reporter_location" name="reporter_location">
+                {% for location in location_options %}
+                    <option value="{{ location }}" {% if not location %}selected{% endif %}>{{ location }}</option>
+                {% endfor %}
+        </select>
+        <span id="locError"></span>
+    </div>
 
         <div class="form-group">
             <label for="spec_station">Your Specified Station *</label>
@@ -382,16 +386,19 @@
         function validateDate(fieldId) {
             var currentDate = new Date();
             var inputDate = new Date($(fieldId).val());
+            var january1_2023 = new Date('2023-01-01'); // Create a Date object for January 1, 2023
         
             if (isNaN(inputDate.getTime())) {
                 // Check if the input is not a valid date
                 $("#dateError").html("Please enter a valid date").css("color", "red");
-            } else if (inputDate >= currentDate) {
+            } else if (inputDate > currentDate) {
                 $("#dateError").html("Please enter a date earlier than the current date").css("color", "red");
+            } else if (inputDate < january1_2023) {
+                $("#dateError").html("Dates before January 1 2023 are not allowed").css("color", "red");
             } else {
                 $("#dateError").html(""); // Reset the error message
             }
-        }       
+        }              
 
         function aadharNumber(fieldId) {
             var numberRegex = /^[-+]?\d*\.?\d+$/;

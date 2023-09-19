@@ -93,7 +93,9 @@ def report_crime(request):
     else:
         form = CrimeReportForm()
     
-    return render(request, 'report_crime.html', {'form': form})
+    location_options = ["", "Changanassery", "Chethipuzha", "Kangazha", "Karukachal", "Kurichy", "Madappally", "Nedumkunnam", "Payippad", "Thottackad", "Thrikkodithanam", "Vakathanam", "Vazhappally East", "Vazhappally West", "Vazhoor", "Vellavoor", "Cheruvally", "Chirakkadavu", "Edakkunnam", "Elamgulam", "Elikkulam", "Erumeli North", "Erumeli South", "Kanjirappally", "Koottickal", "Koovappally", "Koruthodu", "Manimala", "Mundakkayam"]
+    
+    return render(request, 'report_crime.html', {'form': form, 'location_options':location_options})
 
 def reported_crimes(request):
     return render(request,'reported_crimes.html')

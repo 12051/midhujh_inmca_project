@@ -43,17 +43,17 @@
                <span class="navbar-toggler-icon"></span>
                </button>
                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav mr-auto mt-3">
+                  <ul class="navbar-nav mr-auto">
                      {% if user.is_authenticated %}
                      <li class="nav-item active">
                         <a class="nav-link" href="{% url 'index' %}">Home</a>
                      </li>
-                     <li class="nav-item">
+                     {% comment %} <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}">About Us</a>
                      </li>
                      <li class="nav-item">
                         <a class="nav-link" href="{% url 'general' %}">General Information</a>
-                     </li>
+                     </li> {% endcomment %}
                      <li class="nav-item">
                         <a class="nav-link" href="{% url 'laws' %}">Laws</a>
                      </li>
@@ -74,6 +74,9 @@
                     </div>
                      <li class="nav-item">
                      <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
                      {% else %}
                      </li>
                      {% comment %} <div class="navbar-nav ml-auto">
