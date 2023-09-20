@@ -43,7 +43,7 @@
                <span class="navbar-toggler-icon"></span>
                </button>
                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav mr-auto">
+                  <ul class="navbar-nav mr-auto mt-3">
                      {% if user.is_authenticated %}
                      <li class="nav-item active">
                         <a class="nav-link" href="{% url 'index' %}">Home</a>
@@ -68,7 +68,7 @@
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
                             <div class="dropdown-menu"> 
                                 <a href="http://127.0.0.1:8000/report_crime" class="dropdown-item">Report a Crime</a>
-                                <a href="{% url 'listcrime' %}" class="dropdown-item">View Crimes</a>       
+                                <a href="{% url 'listcrime' %}" class="dropdown-item">View Crime Status</a>       
                             </div>
                         </div>
                     </div>
@@ -117,11 +117,8 @@
          </div>
       </div>
 
-      <div class="custom-form-container">
-        <div class="custom-form-background">
-            <div class="card rounded-3 custom-form">
-              <section class="h-custom" style="margin-bottom: 300px;">
-                <div class="container py-5 h-100">
+              <section class="h-custom" style="margin-bottom: 115px; margin-top:5px; color:black;">
+                <div class="container py-5 h-100" style="background-color:#f76252;opacity:0.9;border-radius:5px;">
                   <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-lg-8 col-xl-6">
                       <div class="card rounded-3">
@@ -129,34 +126,34 @@
                           class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem; height:300px;"
                           alt="Sample photo">
                         <div class="card-body p-4 p-md-5 ali">
-                          <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" style="margin-left:30%;">Registration Form</h3>
+                          <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" style="margin-left:30%;color:bold;">Registration Form</h3>
               
                           <form id="regform" method='POST' action="{% url 'userregister' %}" class="px-md-2">
                             {% csrf_token %}
                             <div class="form-outline mb-4">
-                              <label for="vname">Name *</label>
+                              <label for="vname" style="font-weight:bold;color:black;">Name *</label>
                               <input type="text" name='name' id="vname" class="form-control" placeholder="Name"/>
                               <span id="nameError"></span>
                             </div>
                             <div class="form-outline mb-4"> 
-                              <label for="email">Email *</label>
+                              <label for="email" style="font-weight:bold;color:black;">Email *</label>
                               <input type="text" name='email' id="mail" class="form-control" placeholder="e-mail"/>
                               <span id="emailError"></span>
                             </div>
                             <div class="form-outline mb-4">
-                              <label for="password">Password *</label>
+                              <label for="password" style="font-weight:bold;color:black;">Password *</label>
                               <input type="Password" name='password' id="pd" class="form-control" placeholder="Password"/>
                               <span id="passwordError"></span>
                             </div>
                             <div class="form-outline mb-4">
-                              <label for="cpd">Confirm Password *</label>
+                              <label for="cpd" style="font-weight:bold;color:black;">Confirm Password *</label>
                               <input type="Password" name='cpd' id="cmpwd" class="form-control" placeholder="Confirm Password"/>
                               <span id="confirmPasswordError"></span>
                             </div>
                       
                             <div class="text-center">
                               <br>
-                    <button type="submit" class="btn btn-outline-primary btn-lg" style="background-color: #F75261;color:aliceblue;">Register</button></div>
+                    <button type="submit" class="btn btn-outline-primary btn-lg" style="background-color: #19A7CE;color:aliceblue;">Register</button></div>
                   </div>
                   {% for message in messages %} {{ message }} {% endfor %}
                           </form>

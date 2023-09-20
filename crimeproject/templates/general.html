@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>ReportSafer | General Informations</title>
+      <title>ReportSafer | Contact Us</title>
       <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
       <meta name="keywords" content="">
       <meta name="description" content="">
@@ -33,32 +33,68 @@
       <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
       <style>
          /* Global styles */
-body {
-    font-family: 'Poppins', sans-serif;
-}
+         body {
+            font-family: 'Poppins', sans-serif;
+         }
 
-/* Title styles */
-h1 {
-    font-size: 36px;
-    color: #333;
-}
+         /* Title styles */
+         h1 {
+            font-size: 36px;
+            color: #333;
+         }
 
-/* Section styles */
-.section {
-    margin-bottom: 40px;
-}
+         /* Section styles */
+         .section {
+            margin-bottom: 40px;
+         }
 
-/* General Information section styles */
-.general-info {
-    background-color: #f9f9f9;
-    padding: 20px;
-}
+         /* Contact section styles */
+         .contact-section {
+            background-color: #f9f9f9;
+            padding: 30px;
+         }
 
-/* Image styles */
-img {
-    max-width: 100%;
-    height: auto;
-}
+         /* Contact form styles */
+         .contact-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+         }
+
+         .contact-form h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+         }
+
+         .contact-form input[type="text"],
+         .contact-form input[type="email"],
+         .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+         }
+
+         .contact-form textarea {
+            height: 150px;
+         }
+
+         .contact-form input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+         }
+
+         .contact-form input[type="submit"]:hover {
+            background-color: #0056b3;
+         }
 
      </style>
    </head>
@@ -92,6 +128,19 @@ img {
                      <li class="nav-item">
                         <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
                      </li>
+                     <div class="navbar-nav ml-auto">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
+                            <div class="dropdown-menu"> 
+                                <a href="http://127.0.0.1:8000/report_crime" class="dropdown-item">Report a Crime</a>
+                                <a href="{% url 'listcrime' %}" class="dropdown-item">View Crime Status</a>       
+                            </div>
+                        </div>
+                    </div>
+                     <li class="nav-item">
+                     <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
+                     {% else %}
+                     </li>
                      <li class="nav-item">
                         <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
                      </li>
@@ -104,19 +153,6 @@ img {
                             </div>
                         </div>
                     </div> {% endcomment %}
-                     <li class="nav-item">
-                     <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
-                     {% else %}
-                     </li>
-                     <div class="navbar-nav ml-auto">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
-                            <div class="dropdown-menu"> 
-                                <a href="http://127.0.0.1:8000/witnessregister" class="dropdown-item">Register as Witness</a>
-                                <a href="http://127.0.0.1:8000/victimregister" class="dropdown-item">Register as Victim</a>       
-                            </div>
-                        </div>
-                    </div>
                     <li class="nav-item">
                      <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
                   </li>

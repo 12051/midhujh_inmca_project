@@ -160,7 +160,7 @@
                           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
                           <div class="dropdown-menu"> 
                               <a href="http://127.0.0.1:8000/report_crime" class="dropdown-item">Report a Crime</a>
-                              <a href="{% url 'listcrime' %}" class="dropdown-item">View Crimes</a>       
+                              <a href="{% url 'listcrime' %}" class="dropdown-item">View Crime Status</a>       
                           </div>
                       </div>
                   </div>
@@ -218,44 +218,63 @@
 
         <h1 style="font-size: 27px;">Report a Crime</h1>
 
-        <div class="form-group">
-            <label for="reporter_name">Informer Name</label>
-            <input type="text" id="reporter_name" value="{{ user.name }}" name="reporter_name" readonly/>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="reporter_name">Informer Name</label>
+                    <input type="text" id="reporter_name" value="{{ user.name }}" name="reporter_name" readonly/>
+                </div>
+            </div>
+        
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="aadhaarno">Your Aadhar Number *</label>
+                    <input type="text" name="aadhaarno" id="adnumber" class="form-control">
+                    <span id="aadhaarError"></span>
+                </div>
+            </div>
+        </div>        
+
+          <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="reporter_location">Please specify your Location *</label>
+                    <select id="reporter_location" name="reporter_location" class="form-control">
+                        {% for location in location_options %}
+                            <option value="{{ location }}" {% if not location %}selected{% endif %}>{{ location }}</option>
+                        {% endfor %}
+                    </select>
+                    <span id="locError"></span>
+                </div>
+            </div>
+        
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="spec_station">Your Specified Station *</label>
+                    <input type="text" id="spec_station" name="spec_station" class="form-control">
+                    <span id="locError"></span>
+                </div>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="aadhaarno">Your Aadhar Number *</label>
-            <input type="text" name="aadhaarno" id="adnumber">
-            <span id="aadhaarError"></span>
-          </div>
-
-        <div class="form-group">
-            <label for="reporter_location">Please specify your Location *</label>
-            <select id="reporter_location" name="reporter_location">
-                {% for location in location_options %}
-                    <option value="{{ location }}" {% if not location %}selected{% endif %}>{{ location }}</option>
-                {% endfor %}
-        </select>
-        <span id="locError"></span>
-    </div>
-
-        <div class="form-group">
-            <label for="spec_station">Your Specified Station *</label>
-            <input type="text" id="spec_station" name="spec_station">
-            <span id="locError"></span>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="date">Date of Incidence *</label>
+                    <input type="date" id="date" name="date" class="form-control">
+                    <span id="dateError"></span>
+                </div>
+            </div>
+        
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="time">Time of Incidence *</label>
+                    <input type="time" id="time" name="time" class="form-control">
+                    <span id="timeError"></span>
+                </div>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="date">Date of Incidence *</label>
-            <input type="date" id="date" name="date">
-            <span id="dateError"></span>
-        </div>
-
-        <div class="form-group">
-            <label for="time">Time of Incidence *</label>
-            <input type="time" id="time" name="time">
-            <span id="timeError"></span>
-        </div>
+        
 
         <div class="form-group">
             <label for="location">Location of Incidence *</label>
@@ -286,8 +305,8 @@
             <input type="text" id="witness_name" name="witness_name" placeholder="If any"/>
             <span id="witnameError"></span>
         </div>
+        <a href="{% url 'generate_pdf' %}"><button type="submit" class="btn btn-outline-info w-25 ml-50 mt-10"><i class="bi bi-file-earmark-arrow-down-fill"></i>Download your Response</button></a>
 
-        <button type="submit">View your Response</button>
     </form>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

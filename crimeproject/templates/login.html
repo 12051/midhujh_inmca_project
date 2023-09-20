@@ -10,9 +10,8 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>ReportSafer | Registration</title>
+      <title>ReportSafer | Login</title>
       <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
-      {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -33,16 +32,94 @@
       <!-- owl stylesheets -->
       <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
    </head>
-   <body style="font-family:Poppins,sans-serif;">
-    <style>
-      @media (min-width: 1025px) {
-      .h-custom {
-      height: 100vh !important;
-      }
-      }
-    </style>
-<section class="h-custom" style="margin-bottom: 115px;">
-  <div class="container py-5 h-100">
+   <body style='font-family:Poppins,sans-serif;'>
+      <!-- header section start -->
+      <div class="header_section ">
+         <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top-navbar">
+               <a class="logo" href="{% url 'index' %}"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto mt-3">
+                   {% if user.is_authenticated %}
+                   <li class="nav-item active">
+                      <a class="nav-link" href="{% url 'index' %}">Home</a>
+                   </li>
+                   <li class="nav-item">
+                      <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                   </li>
+                   <li class="nav-item">
+                      <a class="nav-link" href="{% url 'general' %}">General Information</a>
+                   </li>
+                   <li class="nav-item">
+                      <a class="nav-link" href="{% url 'laws' %}">Laws</a>
+                   </li>
+                   <li class="nav-item">
+                    <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
+                    </li>
+                   <li class="nav-item">
+                      <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
+                   </li>
+                   <div class="navbar-nav ml-auto">
+                      <div class="nav-item dropdown">
+                          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
+                          <div class="dropdown-menu"> 
+                              <a href="http://127.0.0.1:8000/report_crime" class="dropdown-item">Report a Crime</a>
+                              <a href="{% url 'listcrime' %}" class="dropdown-item">View Crimes</a>       
+                          </div>
+                      </div>
+                  </div>
+                   <li class="nav-item">
+                   <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
+                   </li>
+                   <li class="nav-item">
+                      <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
+                   {% else %}
+                   </li>
+                   <li class="nav-item">
+                      <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
+                   </li>
+                   {% comment %} <div class="navbar-nav ml-auto">
+                      <div class="nav-item dropdown">
+                          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
+                          <div class="dropdown-menu"> 
+                              <a href="http://127.0.0.1:8000/witnessregister" class="dropdown-item">Register as Witness</a>
+                              <a href="http://127.0.0.1:8000/victimregister" class="dropdown-item">Register as Victim</a>       
+                          </div>
+                      </div>
+                  </div> {% endcomment %}
+                 
+                   {% comment %} <li class="nav-item">
+                      <a class="nav-link" href="http://127.0.0.1:8000/register">Register</a>
+                   </li> {% endcomment %}
+                   <li class="nav-item">
+                      <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
+                   </li>
+                   <li class="nav-item">
+                      <a class="nav-link" href="http://127.0.0.1:8000/anony_report">Report Anonymously</a>
+                   </li>
+                   {% endif %}
+                   {% comment %} <h2>User: {{user.name}}</h2> {% endcomment %}
+                </ul>
+                <!-- <form class="form-inline my-2 my-lg-0">
+                   <div class="login_menu">
+                      <ul>
+                         <li><a href="#">Login</a></li>
+                         <li><a href="#">Register</a></li>
+                         <li><a href="#"><img src="images/user-icon.png"></a></li>
+                         <li><a href="#"><img src="images/search-icon.png"></a></li>
+                      </ul>
+                   </div>
+                </form> -->
+             </div>
+          </nav>
+       </div>
+    </div>
+
+<section class="h-custom" style="margin-bottom: 115px; margin-top:90px; color:black;">
+  <div class="container py-5 h-100" style="background-color:#f76252;opacity:0.9;border-radius:5px;">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-lg-8 col-xl-6">
         <div class="card rounded-3">
@@ -50,14 +127,16 @@
             class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem; height:300px;"
             alt="Sample photo">
           <div class="card-body p-4 p-md-5 ali">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Login Form</h3>
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" style="margin-left:35%;">Login Form</h3>
 
             <form method='POST' action="{% url 'login' %}" class="px-md-2">
               {% csrf_token %}
               <div class="form-outline mb-4">
+                <label style="font-weight:bold;color:black;">E-mail *</label>
                 <input type="text" id="form3Example1q" name="email" class="form-control" placeholder="e-mail"/>
               </div>
               <div class="form-outline mb-4">
+                <label style="font-weight:bold;color:black;">Password *</label>
                 <input type="password" id="form3Example1q" name="password" class="form-control" placeholder="Password"/>
               </div>
         
@@ -76,5 +155,65 @@
     </div>
   </div>
 </section>  
+
+  <!-- footer section start -->
+  <div class="footer_section layout_padding">
+    <div class="container">
+       <div class="row">
+          <div class="col-lg-3 col-md-6">
+          </div>
+          
+          <div class="col-lg-3 col-md-6">
+             <div class="social_icon">
+                <ul>
+                   <li><a href="#"><img src="{% static 'images/fb-icon.png' %}"></a></li>
+                   <li><a href="#"><img src="{% static 'images/twitter-icon.png' %}"></a></li>
+                   <li><a href="#"><img src="{% static 'images/linkedin-icon.png' %}"></a></li>
+                   <li><a href="#"><img src="{% static 'images/instagram-icon.png' %}"></a></li>
+                   <li><a href="#"><img src="{% static 'images/youtub-icon.png' %}"></a></li>
+                </ul>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+ <!-- footer section end -->
+ <!-- copyright section start -->
+ <div class="copyright_section">
+    <div class="container">
+       <p class="copyright_text">© 2020 All Rights Reserved.</p>
+    </div>
+ </div>
+ <!-- copyright section end  -->
+ <!-- Javascript files-->
+ <script src="{% static 'js/jquery.min.js' %}"></script>
+ <script src="{% static 'js/popper.min.js' %}"></script>
+ <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+ <script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
+ <script src="{% static 'js/plugin.js' %}"></script>
+ <!-- sidebar -->
+ <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+ <script src="{% static 'js/custom.js' %}"></script>
+ <!-- javascript --> 
+ <script src="{% static 'js/owl.carousel.js' %}"></script>
+ <!-- owl carousel -->
+ <script>
+    $('.owl-carousel').owlCarousel({
+    loop:true,
+    margin:30,
+    nav:true,
+    responsive:{
+     0:{
+         items:1
+     },
+     600:{
+         items:3
+     },
+     1000:{
+         items:4
+     }
+    }
+    })
+ </script>
 </body>
 </html>

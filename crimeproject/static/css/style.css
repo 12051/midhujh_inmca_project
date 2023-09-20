@@ -915,6 +915,7 @@ textarea#comment::placeholder {
 /* footer section start */
 
 .footer_section {
+    position: fixed;
     width: 100%;
     float: left;
     background-color: #2d2d2d;
@@ -1012,6 +1013,7 @@ textarea#comment::placeholder {
 .footer_section_2 {
     width: 100%;
     float: left;
+    position: fixed;
     padding-top: 70px;
 }
 
