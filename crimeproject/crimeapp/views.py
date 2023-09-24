@@ -11,6 +11,8 @@ from django.contrib.auth import logout as auth_logout
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from django.core.mail import send_mail
+from django.utils.crypto import get_random_string
 from django.http import JsonResponse
 
 # Create your views here.
@@ -35,9 +37,20 @@ def userregister(request):
             messages.error(request, "Password does not match!")
         elif name and email and password:
             user = CustomUser(name=name, email=email)
+            token = get_random_string(length=32)
+            user.verification_token = token
+            user.is_verified = False
             user.set_password(password)
             user.is_normal= True
             user.save()
+            send_mail(
+                'Email Verification',
+                f'Click the following link to verify your email: {request.build_absolute_uri("/verify/")}?token={token}',
+                'eventoplanneur@gmail.com',
+                [email],
+                fail_silently=False,
+            )
+
             return redirect('/')
     return render(request, 'userregister.html')
 
@@ -67,7 +80,7 @@ def login(request):
         password = request.POST.get('password')
         if email and password:
             user = authenticate(request, email=email, password=password)
-            if user is not None:
+            if user is not None and user.is_verified:
                 auth_login(request, user)
                 if user.is_normal:
                     return redirect('/')
@@ -77,12 +90,23 @@ def login(request):
             else:
                 try:
                     user = CustomUser.objects.get(email=email)
-                    messages.error(request, "Incorrect password")
+                    messages.error(request, "Email not Verified or Incorrect password")
                 except CustomUser.DoesNotExist:
                     messages.error(request, "Email not registered")
         else:
             messages.error(request, "Please provide both email and password")
     return render(request,'login.html')
+
+def verify(request):
+    token = request.GET.get('token')
+    user = CustomUser.objects.filter(verification_token=token).first()
+    if user:
+        user.is_verified = True
+        user.verification_token = None
+        user.save()
+        return redirect('/')  # Redirect to login page after successful verification
+    else:
+        return render(request, 'invalid_token.html')  # Handle invalid token
 
 def report_crime(request):
     if request.method == 'POST':
@@ -238,3 +262,9 @@ def check_reporter_loc(request):
         return JsonResponse(data)
     else:
         return JsonResponse({'valid': False})
+    
+def crime_category(request):
+    return render(request,'crimecategory.html')
+
+def report_doc(request):
+    return render(request,'report_doc.html')

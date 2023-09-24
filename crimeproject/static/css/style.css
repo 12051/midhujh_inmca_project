@@ -16,10 +16,8 @@
 @import url(animate.min.css);
 @import url(normalize.css);
 @import url(icomoon.css);
-@import url(css/font-awesome.min.css);
 @import url(meanmenu.css);
 @import url(owl.carousel.min.css);
-@import url(swiper.min.css);
 @import url(slick.css);
 @import url(jquery.fancybox.min.css);
 @import url(jquery-ui.css);
@@ -244,7 +242,7 @@ button {
 
 .navbar-light .navbar-nav .nav-link:focus,
 .navbar-light .navbar-nav .nav-link:hover {
-    color: #f74c67;
+    color: #304674;
 }
 
 .fixed-top-navbar {
@@ -276,7 +274,7 @@ button {
 }
 
 .login_menu li a:hover {
-    color: #f74c67;
+    color: #304674;
 }
 
 
@@ -288,15 +286,12 @@ button {
 .banner_section {
     width: 100%;
     float: left;
-    background-image: url(../images/banner-bg.png);
     height: auto;
+    background: linear-gradient(90deg, rgba(48,70,116) 0%, rgba(48,70,116) 100%);
     background-size: 100%;
     background-repeat: no-repeat;
 }
 
-.banner_bg {
-    margin-left: 0px;
-}
 
 .taital_main {
     width: 100%;
@@ -443,7 +438,7 @@ button {
 
 .read_bt_1 a:hover {
     color: #ffffff;
-    background-color: #f2515e;
+    background-color: #304674;
 }
 
 .image_1 {
@@ -537,7 +532,7 @@ button {
 
 .image_main:hover {
     transform: scale(1.1);
-    background-color: #f75261;
+    background-color: #304674;
     border: 0px;
 }
 
@@ -562,8 +557,8 @@ button {
     margin: 0 10px;
     width: 45px;
     height: 45px;
-    color: #f0390f;
-    border: 2px solid #f0390f;
+    color: #304674;
+    border: 2px solid #304674;
 }
 
 .owl-carousel .owl-nav button.owl-next,
@@ -615,7 +610,7 @@ button {
 .client_section {
     width: 100%;
     float: left;
-    background: linear-gradient(90deg, rgba(247, 80, 99, 1) 0%, rgba(247, 114, 68, 1) 100%);
+    background: linear-gradient(90deg, rgba(48,70,116) 0%, rgba(48,70,116) 100%);
     padding-bottom: 110px;
 }
 
@@ -680,7 +675,7 @@ button {
     width: 100%;
     float: left;
     font-size: 16px;
-    color: #f76f46;
+    color: #304674;
     margin: 0px;
 }
 
@@ -801,7 +796,7 @@ button {
 
 .readmore_bt a:hover {
     color: #ffffff;
-    background-color: #f2515e;
+    background-color: #304674;
 }
 
 
@@ -896,7 +891,7 @@ textarea#comment::placeholder {
 .send_bt a {
     width: 100%;
     float: left;
-    background-color: #f2515e;
+    background-color: #304674;
     color: #fefeff;
     text-align: center;
     padding: 10px 0px;
@@ -936,7 +931,7 @@ textarea#comment::placeholder {
 
 .location_icon li {
     float: left;
-    background-color: #f2515e;
+    background-color: #304674;
     border-radius: 100%;
     width: 60px;
     height: 60px;
@@ -949,7 +944,7 @@ textarea#comment::placeholder {
 }
 
 .location_icon li a:hover {
-    background-color: #f77441;
+    background-color: #304674;
 }
 
 .mail_box {
@@ -983,7 +978,7 @@ textarea#comment::placeholder {
     font-size: 18px;
     color: #fdfdfd;
     text-align: center;
-    background-color: #f2515e;
+    background-color: #304674;
     padding: 11px 10px;
     text-transform: uppercase;
     border-radius: 40px;
@@ -1061,7 +1056,7 @@ textarea#comment::placeholder {
 }
 
 .copyright_text a:hover {
-    color: #f2515e;
+    color: #304674;
 }
 .margin_top90{
     margin-top: 90px;

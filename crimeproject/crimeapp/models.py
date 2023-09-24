@@ -32,6 +32,8 @@ class CustomUser(AbstractUser):
     password = models.CharField(max_length=128)
     is_normal = models.BooleanField(default=False)
     is_law = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
+    verification_token = models.CharField(max_length=100, blank=True, null=True)
     REQUIRED_FIELDS = []
     def __str__(self): 
         return self.name
@@ -78,4 +80,8 @@ class AnonyReport(models.Model):
     witness_name = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
         return self.reporter_location
-    
+
+class Aadhaar(models.Model):
+    aadhaar_number = models.CharField(max_length=12, unique=True)
+    def __str__(self):
+        return self.aadhaar_number
