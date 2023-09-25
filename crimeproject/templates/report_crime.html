@@ -284,14 +284,14 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="description">Please provide a description of the Incident *</label>
-                    <textarea id="description" name="description" required></textarea>
+                    <textarea id="description" name="description" placeholder="A detailed description of what happened." required></textarea>
                     <span id="descriptionError"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="victimDescription">Please provide a description of the Victim</label>
-                    <textarea id="victimDescription" name="victimDescription" placeholder="Provide information about the victim, including their name, age, gender, and contact details."></textarea>
+                    <textarea id="victimDescription" name="victimDescription" placeholder="If the victim is someone else, provide informations about them including their name, age, gender, and contact details."></textarea>
                 </div>
             </div>
         </div>        
@@ -322,13 +322,13 @@
         
 <br>
     </form>
-    {% if messages %}
+    {% comment %} {% if messages %}
     <ul class="messages">
         {% for message in messages %}
             <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}
     </ul>
-    {% endif %}
+    {% endif %} {% endcomment %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>

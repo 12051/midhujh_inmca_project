@@ -68,6 +68,37 @@ class CrimeReport(models.Model):
     def __str__(self):
         return self.reporter_name
     
+class DocReport(models.Model):
+    #fir_number = models.CharField(max_length=10, null=True, unique=True)
+    i_name = models.CharField(max_length=100)
+    ano=models.CharField(max_length=12, default='')
+    mail = models.EmailField(unique=True)
+    descri = models.TextField(null=True,blank=True)
+    victimDescri = models.TextField(null=True,blank=True)
+    witnessInfo = models.TextField(null=True,blank=True)
+    delay_report = models.TextField(null=True,blank=True)
+    list_user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
+    STATUS_CHOICES = (
+        ('Reported', 'Reported'),
+        ('FIR Verified', 'FIR Verified'),
+        ('Investigation in progress', 'Investigation in progress'),
+        ('Completed', 'Completed'),
+    )
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Reported')
+    THREAT_CHOICES = [
+        ('Yes', 'Yes'),
+        ('No', 'No'),
+    ]
+    threat = models.CharField(
+        max_length=3,
+        choices=THREAT_CHOICES,
+        default='No',  # You can set the default value to 'No' if desired
+        verbose_name='Any kind of Threat or Violence faced'
+    )
+    evidence_pic_vid_aud = models.FileField(null=True,blank=True)
+    def __str__(self):
+        return self.reporter_name
+    
 class AnonyReport(models.Model):
     reporter_location = models.CharField(max_length=100)
     spec_location = models.ForeignKey(SpecLoc, on_delete=models.SET_NULL, null=True, blank=True)

@@ -35,4 +35,5 @@ urlpatterns = [
     path('check_reporter_loc/', views.check_reporter_loc, name='check_reporter_loc'),
     path('crime_category/', views.crime_category, name='crime_category'),
     path('report_doc/', views.report_doc, name='report_doc'),
+    path('report_public/', views.report_public, name='report_public'),
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

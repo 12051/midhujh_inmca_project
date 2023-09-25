@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 #from .models import User
-from .forms import CrimeReportForm, AnonyReportForm
-from .models import CustomUser,CrimeReport,SpecLoc
+from .forms import CrimeReportForm, AnonyReportForm, DocReportForm
+from .models import CustomUser,CrimeReport, DocReport,SpecLoc
 import re
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User,auth
@@ -176,6 +176,9 @@ def reported_crimes(request):
 
 #     return render(request, 'report_crime.html', {'form': form})
 
+def report_doc(request):
+    return render(request, 'report_doc.html')
+
 def about(request):
     return render(request,'about.html')
 
@@ -216,6 +219,9 @@ def anony_pdf(request):
         form = AnonyReportForm()
 
     return render(request, 'anony_report.html', {'form': form})
+
+def report_public(request):
+    return render(request,'report_public.html')
 
 @login_required
 def listcrime(request):
