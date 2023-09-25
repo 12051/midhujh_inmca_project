@@ -258,13 +258,11 @@
     <br><br><br><br><br><br>
     <form id="crime_category" method="post">
         {% csrf_token %}
-        <label style="font-size: 27px;text-align:center;" for="crimeCategory">Select the Crime Category:</label>
         <select id="crimeCategory" name="crimeCategory" style="padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px;">
-            <option value="abuse">Abuse</option>
-            <option value="doc">Document Forgery</option>
-            <option value="assault">Assault</option>
-            <option value="fraud">Fraud</option>
-            <option value="homicide">Homicide</option>
+            <option value="abuse">Offences against human body</option>
+            <option value="doc">Offences against women and children</option>
+            <option value="assault">Offences relating to document</option>
+            <option value="fraud">Offences relating to public tranquility</option>
         </select><br><br><br>
         <div style="color:black;text-align:justify;">By using our online crime reporting service, you agree to report accurate and truthful information only. We do not guarantee the accuracy of user-provided content and are not responsible for any consequences resulting from its use. We may moderate and remove inappropriate content. All platform content is protected by copyright, and you may not use it without permission. We reserve the right to modify these terms at any time. If you have questions, please contact us. By submitting a report, you acknowledge your agreement with these terms.</div>
         <div class="form-group" style="display: flex; align-items: center;">

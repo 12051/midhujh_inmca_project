@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>ReportSafer | Report a Crime</title>
+      <title>ReportSafer | Offence against Human Body</title>
       <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
       {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
       <meta name="keywords" content="">
@@ -32,7 +32,6 @@
       <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
       <!-- owl stylesheets -->
       <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.21.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
 
     /* Reset some default styles */
@@ -211,10 +210,11 @@
 
     
     <br>
-    <form id="reportform" method="post" action="{% url 'generate_pdf' %}">
-        {% csrf_token %}
+    <form id="reportform" method="post" action="{% url 'report_crime' %}">
 
-        <h1 style="font-size: 27px;">Report a Crime</h1>
+        {% csrf_token %}
+        <br>
+        <h1 style="font-size: 27px;">Offence Against Human Body</h1><br>
 
         <div class="row">
             <div class="col-md-6">
@@ -236,7 +236,7 @@
           <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="reporter_location">Please specify your Location *</label>
+                    <label for="reporter_location">Location of Incidence *</label>
                     <select id="reporter_location" name="reporter_location" class="form-control">
                         {% for location in location_options %}
                             <option value="{{ location }}" {% if not location %}selected{% endif %}>{{ location }}</option>
@@ -248,7 +248,7 @@
         
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="spec_station">Your Specified Station *</label>
+                    <label for="spec_station">Your Specified Station</label>
                     <input type="text" id="spec_station" name="spec_station" readonly/>
                     <span id="locError"></span>
                 </div>
@@ -258,58 +258,77 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="date">Date of Incidence *</label>
-                    <input type="date" id="date" name="date" class="form-control">
-                    <span id="dateError"></span>
+                    <label for="off_type">Type of Offence</label>
+                    <select id="off_type" name="off_type" class="form-control">
+                        <option value="" selected disabled>Select type</option>
+                        <option value="homicide">Homicide</option>
+                        <option value="attempt_murder">Attempt to murder</option>
+                        <option value="homicide_weapon">Homicide with a weapon</option>
+                        <option value="hurt">Hurt voluntarily</option>
+                        <option value="kidnap_abduction">Kidnapping and Abduction</option>
+                        <option value="assault">Assault</option>
+                        <option value="rape">Rape</option>
+                        <option value="murder">Murder</option>
+                    </select>
                 </div>
             </div>
-        
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="time">Time of Incidence *</label>
-                    <input type="time" id="time" name="time" class="form-control">
-                    <span id="timeError"></span>
+                    <label for="datetime">Date and Time of Incidence</label>
+                    <input type="datetime-local" id="datetime" name="datetime" class="form-control">
                 </div>
             </div>
+        </div>               
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="description">Please provide a description of the Incident *</label>
+                    <textarea id="description" name="description" required></textarea>
+                    <span id="descriptionError"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="victimDescription">Please provide a description of the Victim</label>
+                    <textarea id="victimDescription" name="victimDescription" placeholder="Provide information about the victim, including their name, age, gender, and contact details."></textarea>
+                </div>
+            </div>
+        </div>        
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="offenderDescription">Please provide a description of the Offender</label>
+                    <textarea id="offenderDescription" name="offenderDescription" placeholder="If known, provide details about the offender, including their name, physical appearance, age, and any identifying features."></textarea>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="witnessInformation">Witness Information</label>
+                    <textarea id="witnessInformation" name="witnessInformation" placeholder="Include details of any witnesses to the offense, including their names, contact information, and statements."></textarea>
+                </div>
+            </div>
+        </div>        
+
+        <div class="form-group">
+            <label for="delay">If any delay in reporting, provide reason</label>
+            <input type="text" id="delay" name="delay" placeholder="If any"/>
         </div>
+
+            {% comment %} <a href="{% url "generate_pdf" %}"> {% endcomment %}
+            <button type="submit">Download your Response</button>
+        {% comment %} </a> {% endcomment %}
         
-
-        <div class="form-group">
-            <label for="location">Location of Incidence *</label>
-            <input type="text" id="location" name="location">
-            <span id="locationError"></span>
-        </div>
-
-        <div class="form-group">
-            <label for="description">Please provide a description of the Incident *</label>
-            <textarea id="description" name="description"></textarea>
-            <span id="descriptionError"></span>
-        </div>
-
-        <div class="form-group">
-            <label for="offender_name">Offender Name</label>
-            <input type="text" id="offender_name" name="offender_name" placeholder="If known"/>
-            <span id="offnameError"></span>
-        </div>
-
-        <div class="form-group">
-            <label for="offender_vehiclenumber">Offender Vehicle Number</label>
-            <input type="text" id="offender_vehiclenumber" name="offender_vehiclenumber" placeholder="If any"/>
-            <span id="vehnumError"></span>
-        </div>
-
-        <div class="form-group">
-            <label for="witness_name">Witness Name</label>
-            <input type="text" id="witness_name" name="witness_name" placeholder="If any"/>
-            <span id="witnameError"></span>
-        </div>
-        <a href="{% url 'generate_pdf' %}">
-            <button type="submit" class="btn btn-outline-info w-25 ml-50 mt-10">
-                <i class="bi bi-file-earmark-arrow-down-fill"></i> Download your Response
-            </button>
-        </a>
-
+<br>
     </form>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
@@ -339,38 +358,18 @@
                 validateRloc("#reporter_location");
             });
       
-            $("#date").on("input", function () {
-                validateDate("#date");
-            });
-      
-            $("#location").keyup(function () {
-              validateLoc("#location");
+            $("#datetime").on("input", function () {
+                validateDate("#datetime");
             });
 
             $("#adnumber").keyup(function () {
                 aadharNumber("#adnumber");
             });
 
-            $("#offender_name").keyup(function () {
-                validateOname("#offender_name");
-            });
-
-            $("#offender_vehiclenumber").keyup(function () {
-                validateVehiclenum("#offender_vehiclenumber");
-            });
-
-            $("#witness_name").keyup(function () {
-                validateWname("#witness_name");
-            });
-
           $("reportform").submit(function (event) {
             // Perform all validations before submitting the form
-            validateOname("#offender_name");
-            validateWname("#witness_name");
             validateRloc("#reporter_location");
-            validateDate("#date");
-            validateLoc("#location");
-            validateVehiclenum("#offender_vehiclenumber");
+            validateDate("#datetime");
             aadharNumber("#adnumber");
       
             // Check if any validation errors exist
@@ -379,30 +378,6 @@
             }
           });
         });
-
-        function validateOname(fieldId) {
-            var oname = $(fieldId).val();
-            var lettersWithSpaces = /^[A-Za-z\s]+$/;
-            if (oname.trim() === "") {
-                $("#offnameError").html("Enter the Name of the Offender").css("color", "red");
-            } else if (!lettersWithSpaces.test(oname)) {
-                $("#offnameError").html("Name field required only alphabet characters with spaces").css("color", "red");
-            } else {
-                $("#offnameError").html("");
-            }
-        }
-
-        function validateWname(fieldId) {
-            var wname = $(fieldId).val();
-            var lettersWithSpaces = /^[A-Za-z\s]+$/;
-            if (wname.trim() === "") {
-                $("#witnameError").html("Enter the Name").css("color", "red");
-            } else if (!lettersWithSpaces.test(wname)) {
-                $("#witnameError").html("Name field required only alphabet characters with spaces").css("color", "red");
-            } else {
-                $("#witnameError").html("");
-            }
-        }
 
         function validateDate(fieldId) {
             var currentDate = new Date();
@@ -449,31 +424,6 @@
                 $("#locError").html("");
             }
         }
-
-        function validateLoc(fieldId) {
-            var loc = $(fieldId).val();
-            var lettersWithSpaces = /^[A-Za-z\s]+$/;
-            if (loc.trim() === "") {
-                $("#locationError").html("Enter the Location of the Offender").css("color", "red");
-            } else if (!lettersWithSpaces.test(loc)) {
-                $("#locationError").html("Location field required only alphabet characters with spaces").css("color", "red");
-            } else {
-                $("#locationError").html("");
-            }
-        }
-
-        function validateVehiclenum(fieldId) {
-            var vehicleNumber = $(fieldId).val();
-            var pattern = /^[A-Z]{2}\s\d{2}\s[A-Z]\s\d{4}$/; // Kerala vehicle number pattern
-        
-            if (pattern.test(vehicleNumber)) {
-                $("#vehnumError").html(""); // Valid vehicle number
-            } else {
-                $("#vehnumError").html("Enter a valid vehicle number").css("color", "red");
-            }
-        }
-        
-
       
       </script>      
 

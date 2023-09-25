@@ -109,46 +109,72 @@ def verify(request):
         return render(request, 'invalid_token.html')  # Handle invalid token
 
 def report_crime(request):
+    location_options = ["", "Changanassery", "Chethipuzha", "Kangazha", "Karukachal", "Kurichy", "Madappally", "Nedumkunnam", "Payippad", "Thottackad", "Thrikkodithanam", "Vakathanam", "Vazhappally East", "Vazhappally West", "Vazhoor", "Vellavoor", "Cheruvally", "Chirakkadavu", "Edakkunnam", "Elamgulam", "Elikkulam", "Erumeli North", "Erumeli South", "Kanjirappally", "Koottickal", "Koovappally", "Koruthodu", "Manimala", "Mundakkayam"]
     if request.method == 'POST':
         form = CrimeReportForm(request.POST)
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.list_user=request.user
+            spec_station_name = request.POST['spec_station']
+            reporter_location = request.POST['reporter_location']
+            spec_locs = SpecLoc.objects.filter(enforcement_loc=spec_station_name)
+            for i in spec_locs:
+                if i.reporter_loc==reporter_location:
+                    instance.spec_location = i
+            instance.save()
+            crime_report = form.save()
+            fir_id = crime_report.id
+            template_path = 'report_template.html'  # Path to your PDF template
+            context = {'crime_report': crime_report, 'fir_id': fir_id}
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="Report_{fir_id}.pdf"'
+
+            template = get_template(template_path)
+            html = template.render(context)
+
+            # Create PDF document
+            pdf_response = pisa.CreatePDF(html, dest=response)
+
+            if not pdf_response.err:
+                return response
             return redirect('/')
     else:
         form = CrimeReportForm()
+        
+    print(form.errors)
+    messages.error(request, form.errors)
     
-    location_options = ["", "Changanassery", "Chethipuzha", "Kangazha", "Karukachal", "Kurichy", "Madappally", "Nedumkunnam", "Payippad", "Thottackad", "Thrikkodithanam", "Vakathanam", "Vazhappally East", "Vazhappally West", "Vazhoor", "Vellavoor", "Cheruvally", "Chirakkadavu", "Edakkunnam", "Elamgulam", "Elikkulam", "Erumeli North", "Erumeli South", "Kanjirappally", "Koottickal", "Koovappally", "Koruthodu", "Manimala", "Mundakkayam"]
     
     return render(request, 'report_crime.html', {'form': form, 'location_options':location_options})
 
 def reported_crimes(request):
     return render(request,'reported_crimes.html')
 
-def generate_pdf(request):
-    if request.method == 'POST':
-        form = CrimeReportForm(request.POST)
-        if form.is_valid():
-            cr=form.save(commit=False)
-            cr.list_user=request.user
-            cr.save()
-            crime_report = form.save()
-            fir_id = crime_report.id
-            template_path = 'reported_crimes.html'  # Replace with your template path
-            context = {'form': form, 'fir_id': fir_id}
-            response = HttpResponse(content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename="FIR_{fir_id}.pdf"'  # Use f-string to include fir_id
+# def generate_pdf(request):
+#     if request.method == 'POST':
+#         form = CrimeReportForm(request.POST)
+#         if form.is_valid():
+#             cr=form.save(commit=False)
+#             cr.list_user=request.user
+#             cr.save()
+#             crime_report = form.save()
+#             fir_id = crime_report.id
+#             template_path = 'reported_crimes.html'  # Replace with your template path
+#             context = {'form': form, 'fir_id': fir_id}
+#             response = HttpResponse(content_type='application/pdf')
+#             response['Content-Disposition'] = f'attachment; filename="FIR_{fir_id}.pdf"'  # Use f-string to include fir_id
 
-            template = get_template(template_path)
-            html = template.render(context)
+#             template = get_template(template_path)
+#             html = template.render(context)
 
-            pisa_status = pisa.CreatePDF(html, dest=response)
-            if not pisa_status.err:
-                return response
-            return redirect('/')
-    else:
-        form = CrimeReportForm()
+#             pisa_status = pisa.CreatePDF(html, dest=response)
+#             if not pisa_status.err:
+#                 return response
+#             return redirect('/')
+#     else:
+#         form = CrimeReportForm()
 
-    return render(request, 'index.html', {'form': form})
+#     return render(request, 'report_crime.html', {'form': form})
 
 def about(request):
     return render(request,'about.html')
