@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 #from .models import User
-from .forms import CrimeReportForm, AnonyReportForm, DocReportForm
+from .forms import CrimeReportForm, AnonyReportForm, DocReportForm, PublicForm
 from .models import CustomUser,CrimeReport, DocReport,SpecLoc
 import re
 from django.contrib.auth import authenticate, login as auth_login
@@ -14,6 +14,9 @@ from xhtml2pdf import pisa
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
 from django.http import JsonResponse
+from django.http import FileResponse
+from django.template.loader import get_template
+
 
 # Create your views here.
 
@@ -177,7 +180,58 @@ def reported_crimes(request):
 #     return render(request, 'report_crime.html', {'form': form})
 
 def report_doc(request):
-    return render(request, 'report_doc.html')
+    if request.method == 'POST':
+        form = DocReportForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.list_user=request.user
+            instance.save()
+            doc_report = form.save()
+            fir_id = doc_report.id
+            template_path = 'doc_template.html'  # Path to your PDF template
+            context = {'doc_report': doc_report, 'fir_id': fir_id}
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="Report_{fir_id}.pdf"'
+
+            template = get_template(template_path)
+            html = template.render(context)
+
+            # Create PDF document
+            pdf_response = pisa.CreatePDF(html, dest=response)
+
+            if not pdf_response.err:
+                return response
+            return redirect('/')
+    else:
+        form = DocReportForm()
+        
+    print(form.errors)
+    messages.error(request, form.errors)
+    
+    
+    return render(request, 'report_doc.html', {'form': form})
+
+    if request.method == 'POST':
+        # Process the form submission
+        form = DocReportForm(request.POST, request.FILES)  # Use your form if you have one
+        if form.is_valid():
+            # Create a new DocumentReport object and save it to the database
+            report = form.save(commit=False)
+            report.user = request.user  # Assuming you have a user associated with the report
+            report.save()
+            
+
+            # Define the context for your template
+            context = {'report': report}
+            messages.success(request, 'Your report has been submitted successfully.')
+            return redirect('index')  # Redirect to the desired page after successful submission
+        else:
+            messages.error(request, form.errors)
+    else:
+        # Render the initial form
+        form = DocReportForm() 
+    return render(request, 'report_doc.html', {'form': form})
+
 
 def about(request):
     return render(request,'about.html')
@@ -221,7 +275,42 @@ def anony_pdf(request):
     return render(request, 'anony_report.html', {'form': form})
 
 def report_public(request):
-    return render(request,'report_public.html')
+    location_options = ["", "Changanassery", "Chethipuzha", "Kangazha", "Karukachal", "Kurichy", "Madappally", "Nedumkunnam", "Payippad", "Thottackad", "Thrikkodithanam", "Vakathanam", "Vazhappally East", "Vazhappally West", "Vazhoor", "Vellavoor", "Cheruvally", "Chirakkadavu", "Edakkunnam", "Elamgulam", "Elikkulam", "Erumeli North", "Erumeli South", "Kanjirappally", "Koottickal", "Koovappally", "Koruthodu", "Manimala", "Mundakkayam"]
+    if request.method == 'POST':
+        form = PublicForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.list_user=request.user
+            spec_station_name = request.POST['spec_station']
+            reporter_location = request.POST['reporter_location']
+            spec_locs = SpecLoc.objects.filter(enforcement_loc=spec_station_name)
+            for i in spec_locs:
+                if i.reporter_loc==reporter_location:
+                    instance.spec_location = i
+            instance.save()
+            public_report = form.save()
+            fir_id = public_report.id
+            template_path = 'public_template.html'  # Path to your PDF template
+            context = {'public_report': public_report, 'fir_id': fir_id}
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="Report_{fir_id}.pdf"'
+
+            template = get_template(template_path)
+            html = template.render(context)
+
+            # Create PDF document
+            pdf_response = pisa.CreatePDF(html, dest=response)
+
+            if not pdf_response.err:
+                return response
+            return redirect('/')
+    else:
+        form = CrimeReportForm()
+        
+    print(form.errors)
+    messages.error(request, form.errors)
+    
+    return render(request, 'report_public.html', {'form': form, 'location_options':location_options})
 
 @login_required
 def listcrime(request):
@@ -297,6 +386,3 @@ def check_reporter_loc(request):
     
 def crime_category(request):
     return render(request,'crimecategory.html')
-
-def report_doc(request):
-    return render(request,'report_doc.html')

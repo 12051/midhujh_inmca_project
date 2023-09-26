@@ -219,15 +219,15 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="reporter_name">Informer Name</label>
-                    <input type="text" id="reporter_name" value="{{ user.name }}" name="reporter_name" readonly/>
+                    <label for="info_name">Informer Name</label>
+                    <input type="text" id="info_name" value="{{ user.name }}" name="info_name" readonly/>
                 </div>
             </div>
         
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="aadhaarno">Your Aadhar Number *</label>
-                    <input type="text" name="aadhaarno" id="adnumber" class="form-control">
+                    <label for="aadhno">Your Aadhar Number *</label>
+                    <input type="text" name="aadhno" id="adnumber" class="form-control">
                     <span id="aadhaarError"></span>
                 </div>
             </div>
@@ -273,17 +273,13 @@
         </div>
         
         <div class="form-group">
-            <label for="off_type">Type of Offence</label>
-            <select id="off_type" name="off_type" class="form-control">
+            <label for="offen_type">Type of Offence</label>
+            <select id="offen_type" name="offen_type" class="form-control">
                 <option value="" selected disabled>Select type</option>
-                <option value="homicide">Homicide</option>
-                <option value="attempt_murder">Attempt to murder</option>
-                <option value="homicide_weapon">Homicide with a weapon</option>
-                <option value="hurt">Hurt voluntarily</option>
-                <option value="kidnap_abduction">Kidnapping and Abduction</option>
-                <option value="assault">Assault</option>
-                <option value="rape">Rape</option>
-                <option value="murder">Murder</option>
+                <option value="riot">Riot</option>
+                <option value="affray">Affray</option>
+                <option value="assembly">Unlawful Assembly</option>
+                <option value="sedition">Sedition</option>
             </select>
         </div>
 
@@ -373,6 +369,10 @@
                 aadharNumber("#adnumber");
             });
 
+            $("#mail").keyup(function () {
+                validateEmail("#mail");
+            });
+
           $("reportform").submit(function (event) {
             // Perform all validations before submitting the form
             validateRloc("#reporter_location");
@@ -417,6 +417,18 @@
                 $("#aadhaarError").html("Enter Correct Aadhar Number").css("color", "red");
             } else {
                 $("#aadhaarError").html("");
+            }
+        }
+
+        function validateEmail(fieldId) {
+            var email = $(fieldId).val();
+            var filter = /^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/;
+            if (email === "") {
+                $("#emailError").html("Enter the Email Id").css("color", "red");
+            } else if (!filter.test(email)) {
+                $("#emailError").html("Use correct Email Id").css("color", "red");
+            } else {
+                $("#emailError").html("");
             }
         }
 

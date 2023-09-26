@@ -120,11 +120,9 @@
                             <div class="row">
                                 {% for i in list_dict %}
                                 <div class="col-md-4 mb-4"> <!-- Adjust the column size as needed -->
-                                    <div class="card text-black bg-custom rounded-3" style="background-color: #f7e0c6; height: 100%;">
+                                    <div class="card text-black bg-custom rounded-3" style="background-color: #d8e1e8; height: 100%;">
                                         <div class="card-body">
                                             <strong>{{ i.reporter_location }}</strong><br>
-                                            Date: {{ i.date|date:"F j, Y" }}<br>
-                                            Time: {{ i.time }}<br>
                                             Status: {{ i.status }}<br>
                                             <!-- You can add more crime details here if needed -->
                                         </div>

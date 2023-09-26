@@ -1,5 +1,5 @@
 from django import forms
-from .models import CrimeReport, AnonyReport, DocReport
+from .models import CrimeReport, AnonyReport, DocReport, PublicReport
 
 class CrimeReportForm(forms.ModelForm):
     class Meta:
@@ -22,3 +22,9 @@ class DocReportForm(forms.ModelForm):
         label='Upload Evidence (Photograph, Video, or Audio)',
         required=False  # Set this to True if evidence is mandatory
     )
+        
+class PublicForm(forms.ModelForm):
+    class Meta:
+        model = PublicReport
+        fields = '__all__'
+        exclude = ['status']

@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReportSafer | Template</title>
+    <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
+
+</head>
+<body>
+    <h1>Crime Report</h1>
+    <p><strong>Informer Name:</strong> {{ doc_report.i_name }}</p>
+    <p><strong>Your Aadhar Number:</strong> {{ doc_report.ano }}</p>
+    <p><strong>Informer mail ID:</strong> {{ doc_report.mail }}</p>
+    <p><strong>Description of Incidence:</strong> {{ doc_report.descri }}</p>
+    <p><strong>Description of the Victim:</strong> {{ doc_report.victimDescri }}</p>
+    <p><strong>Information about the Witness, if any:</strong> {{ doc_report.witnessDescri }} </p>
+    <p><strong>Reason for delay in Reporting:</strong> {{ doc_report.delay_report}}</p>
+    <p><strong>Threat faced or not:</strong> {{ doc_report.threat}}</p>
+</body>
+</html>

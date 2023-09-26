@@ -310,21 +310,22 @@
                 </div>
             </div>
         </div>
-        
+        {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %} 
 
             {% comment %} <a href="{% url "generate_pdf" %}"> {% endcomment %}
             <button type="submit">Download your Response</button>
         {% comment %} </a> {% endcomment %}
         
 <br>
+
     </form>
-    {% comment %} {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %} {% endcomment %}
+     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
@@ -343,7 +344,7 @@
                 aadharNumber("#ano");
             });
 
-          $("reportform").submit(function (event) {
+          $("reportdocform").submit(function (event) {
             // Perform all validations before submitting the form
             validateEmail("#mail");
             aadharNumber("#adnumber");
