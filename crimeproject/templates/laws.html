@@ -127,7 +127,7 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
                             <div class="dropdown-menu"> 
-                                <a href="http://127.0.0.1:8000/report_crime" class="dropdown-item">Report a Crime</a>
+                                <a href="{% url 'crime_category' %}" class="dropdown-item">Report a Crime</a>
                                 <a href="{% url 'listcrime' %}" class="dropdown-item">View Crime Status</a>       
                             </div>
                         </div>

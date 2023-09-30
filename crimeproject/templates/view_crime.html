@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>ReportSafer | Offence relating to Documents</title>
+      <title>ReportSafer | Offence against Human Body</title>
       <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
       {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
       <meta name="keywords" content="">
@@ -207,185 +207,96 @@
           </nav>
        </div>
     </div>
+<form id="reportform" method="post" >
+
+    {% csrf_token %}
+    <br>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="reporter_name">Informer Name</label>
+                <input type="text" id="reporter_name" value="{{form.reporter_name.value}}" name="reporter_name" readonly/>
+            </div>
+        </div>
+    
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="aadhaarno">Your Aadhar Number *</label>
+                <input type="text" name="aadhaarno" id="adnumber" value="{{form.aadhaarno.value}}" class="form-control">
+                <span id="aadhaarError"></span>
+            </div>
+        </div>
+    </div>        
+
+      <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="reporter_location">Location of Incidence *</label>
+                <input type="text" name="reporter_location" id="reporter_location" value="{{form.reporter_location.value}}">
+            </div>
+        </div>
+    
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="spec_station">Your Specified Station ID</label>
+                <input type="text" id="spec_station" name="spec_station" value="{{form.spec_location.value}}" readonly/>
+                <span id="locError"></span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="off_type">Type of Offence</label>
+                    <input type="text" value="{{form.off_type.value}}">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="datetime">Date and Time of Incidence</label>
+                <input type="date" id="datetime" name="datetime" value="{{form.datetime.value|date:"Y-m-d" }}" class="form-control" required>
+            </div>
+        </div>
+    </div>               
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="description">Please provide a description of the Incident *</label>
+                <input id="description" name="description" value="{{form.description.value}}" >
+                <span id="descriptionError"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="victimDescription">Please provide a description of the Victim</label>
+                <textarea id="victimDescription" name="victimDescription" value="{{form.victimDescription.value}}"></textarea>
+            </div>
+        </div>
+    </div>        
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="offenderDescription">Please provide a description of the Offender</label>
+                <textarea id="offenderDescription" name="offenderDescription" value="{{form.offenderDescription.value}}"></textarea>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="witnessInformation">Witness Information</label>
+                <textarea id="witnessInformation" name="witnessInformation" value="{{form.witnessInformation.value}}"></textarea>
+            </div>
+        </div>
+    </div>        
+
+    <div class="form-group">
+        <label for="delay">If any delay in reporting, provide reason</label>
+        <input type="text" id="delay" name="delay" value="{{form.delay.value}}">
+    </div>
 
     
-    <br>
-    <form id="reportdocform" method="post" action="{% url 'report_doc' %}">
-
-        {% csrf_token %}
-        <br>
-        <h1 style="font-size: 27px;">Offence relating to Documents</h1><br>
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="i_name">Informer Name</label>
-                    <input type="text" id="i_name" value="{{ user.name }}" name="i_name" readonly/>
-                </div>
-            </div>
-        
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="ano">Your Aadhar Number *</label>
-                    <input type="text" name="ano" id="ano" class="form-control">
-                    <span id="aadhaarError"></span>
-                </div>
-            </div>
-        </div>        
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="email">Your e-mail ID</label>
-                    <input type="email" name='email' id="mail" class="form-control">
-                    <span id="emailError"></span>
-                </div>
-            </div>
-        
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="threat">Any kind of Threat or Violence faced</label>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="radio-inline">
-                                <input type="radio" name="threat" value="Yes"> Yes
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="threat" value="No"> No
-                            </label>
-                        </div>
-                        <div class="col-md-6 text-right">
-                            <button type="button" id="clearThreatSelection">Clear Selection</button>
-                        </div>
-                    </div>
-                </div>
-            </div>            
-        </div>             
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="descri">Please provide a description of the Incident *</label>
-                    <textarea id="descri" name="descri" placeholder="A detailed description of what happened." required></textarea>
-                    <span id="descriptionError"></span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="victimDescri">Please provide a description of the Victim</label>
-                    <textarea id="victimDescri" name="victimDescri" placeholder="Provide information about the victim, including their name, age, gender, and contact details."></textarea>
-                </div>
-            </div>
-        </div>        
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="offenderDescri">Please provide a description of the Offender</label>
-                    <textarea id="offenderDescri" name="offenderDescri" placeholder="If known, provide details about the offender, including their name, physical appearance, age, and any identifying features."></textarea>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="witnessInfo">Witness Information</label>
-                    <textarea id="witnessInfo" name="witnessInfo" placeholder="Include details of any witnesses to the offense, including their names, contact information, and statements."></textarea>
-                </div>
-            </div>
-        </div>        
-
-        <div class="form-group">
-            <label for="delay_report">If any delay in reporting, provide reason</label>
-            <input type="text" id="delay_report" name="delay_report" placeholder="If any"/>
-        </div>
-
-        <h1><u>Evidences</u></h1>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="evidence_pic_vid_aud">Upload Evidence (Photograph, Video, or Audio)</label>
-                    <input type="file" name="evidence_pic_vid_aud" id="evidence_pic_vid_aud" accept="image/*, video/*, audio/*">
-                </div>
-            </div>
-        </div>
-        {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %} 
-
-            {% comment %} <a href="{% url "generate_pdf" %}"> {% endcomment %}
-            <button type="submit">Download your Response</button>
-        {% comment %} </a> {% endcomment %}
-        
 <br>
-
-    </form>
-     
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-
-        $(document).ready(function () {
-
-            $("#clearThreatSelection").click(function() {
-                $("input[name='threat']").prop("checked", false);
-            });
-
-            $("#mail").keyup(function () {
-                validateEmail("#mail");
-            });
-
-            $("#ano").keyup(function () {
-                aadharNumber("#ano");
-            });
-
-          $("reportdocform").submit(function (event) {
-            // Perform all validations before submitting the form
-            validateEmail("#mail");
-            aadharNumber("#adnumber");
-      
-            // Check if any validation errors exist
-            if ($(".validation-error").length > 0) {
-              event.preventDefault(); // Prevent form submission
-            }
-          });
-        });    
-
-        function validateEmail(fieldId) {
-            var email = $(fieldId).val();
-            var filter = /^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/;
-            if (email === "") {
-                $("#emailError").html("Enter the Email Id").css("color", "red");
-            } else if (!filter.test(email)) {
-                $("#emailError").html("Use correct Email Id").css("color", "red");
-            } else {
-                $("#emailError").html("");
-            }
-        }
-
-        function aadharNumber(fieldId) {
-            var numberRegex = /^[-+]?\d*\.?\d+$/;
-            var phoneNumber = $(fieldId).val();
-        
-            if (phoneNumber === "") {
-                $("#aadhaarError").html("Enter the Aadhaar number").css("color", "red");
-            } else if (!numberRegex.test(phoneNumber)) {
-                $("#aadhaarError").html("Invalid Aadhaar Number").css("color", "red");
-            } else if (phoneNumber.length > 12) {
-                $("#aadhaarError").html("Enter Correct Aadhar Number").css("color", "red");
-            } else if (phoneNumber.length < 12) {
-                $("#aadhaarError").html("Enter Correct Aadhar Number").css("color", "red");
-            } else {
-                $("#aadhaarError").html("");
-            }
-        }
-      
-      </script>      
-
-</body>
-</html>
+</form>

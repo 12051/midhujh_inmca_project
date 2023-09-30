@@ -18,8 +18,9 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
-
+from crimeapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('crimeapp.urls')),
+    path('view_crime/<int:crime_id>',views.view_crime,name='view_crime'),
 ]

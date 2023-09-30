@@ -36,4 +36,7 @@ urlpatterns = [
     path('crime_category/', views.crime_category, name='crime_category'),
     path('report_doc/', views.report_doc, name='report_doc'),
     path('report_public/', views.report_public, name='report_public'),
+    path('upload_evidence/', views.upload_evidence, name='upload_evidence'),
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

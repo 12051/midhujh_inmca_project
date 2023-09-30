@@ -128,3 +128,10 @@ class PublicReport(models.Model):
     list_user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
     def __str__(self):
         return self.reporter_name
+    
+class FIRFile(models.Model):
+    crime_report = models.ForeignKey('CrimeReport', on_delete=models.CASCADE)
+    file = models.FileField(upload_to='fir_files/')
+
+    def __str__(self):
+        return f"FIR File for Crime Report ID {self.crime_report.id}"

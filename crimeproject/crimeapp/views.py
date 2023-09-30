@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 #from .models import User
 from .forms import CrimeReportForm, AnonyReportForm, DocReportForm, PublicForm
-from .models import CustomUser,CrimeReport, DocReport,SpecLoc
+from .models import CustomUser,CrimeReport, DocReport,SpecLoc,FIRFile
 import re
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User,auth
@@ -386,3 +386,28 @@ def check_reporter_loc(request):
     
 def crime_category(request):
     return render(request,'crimecategory.html')
+
+def view_crime(request,crime_id):
+    task=CrimeReport.objects.get(id=crime_id)
+    form=CrimeReportForm(request.POST or None,instance=task)
+    return render(request,'view_crime.html',{'form':form})
+
+from django.http import JsonResponse
+
+def upload_evidence(request):
+    if request.method == 'POST' and request.FILES.get('evidence_pic_vid_aud'):
+        uploaded_file = request.FILES['evidence_pic_vid_aud']
+
+        # Ensure that the CrimeReport with the given ID exists
+        crime_report_id = request.POST.get('crime_report_id')
+        try:
+            crime_report = CrimeReport.objects.get(id=crime_report_id)
+        except CrimeReport.DoesNotExist:
+            return JsonResponse({'message': 'CrimeReport does not exist'}, status=400)
+
+        fir_file = FIRFile(crime_report=crime_report, file=uploaded_file)
+        fir_file.save()
+
+        return JsonResponse({'message': 'File uploaded successfully'})
+
+    return JsonResponse({'message': 'File upload failed'}, status=400)
