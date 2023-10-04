@@ -13,8 +13,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
-from django.http import JsonResponse
-from django.http import FileResponse
+from django.http import JsonResponse, FileResponse
 from django.template.loader import get_template
 
 
@@ -181,7 +180,7 @@ def reported_crimes(request):
 
 def report_doc(request):
     if request.method == 'POST':
-        form = DocReportForm(request.POST)
+        form = DocReportForm(request.POST,request.FILES)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.list_user=request.user
@@ -211,26 +210,26 @@ def report_doc(request):
     
     return render(request, 'report_doc.html', {'form': form})
 
-    if request.method == 'POST':
-        # Process the form submission
-        form = DocReportForm(request.POST, request.FILES)  # Use your form if you have one
-        if form.is_valid():
-            # Create a new DocumentReport object and save it to the database
-            report = form.save(commit=False)
-            report.user = request.user  # Assuming you have a user associated with the report
-            report.save()
+    # if request.method == 'POST':
+    #     # Process the form submission
+    #     form = DocReportForm(request.POST, request.FILES)  # Use your form if you have one
+    #     if form.is_valid():
+    #         # Create a new DocumentReport object and save it to the database
+    #         report = form.save(commit=False)
+    #         report.user = request.user  # Assuming you have a user associated with the report
+    #         report.save()
             
 
-            # Define the context for your template
-            context = {'report': report}
-            messages.success(request, 'Your report has been submitted successfully.')
-            return redirect('index')  # Redirect to the desired page after successful submission
-        else:
-            messages.error(request, form.errors)
-    else:
-        # Render the initial form
-        form = DocReportForm() 
-    return render(request, 'report_doc.html', {'form': form})
+    #         # Define the context for your template
+    #         context = {'report': report}
+    #         messages.success(request, 'Your report has been submitted successfully.')
+    #         return redirect('index')  # Redirect to the desired page after successful submission
+    #     else:
+    #         messages.error(request, form.errors)
+    # else:
+    #     # Render the initial form
+    #     form = DocReportForm() 
+    # return render(request, 'report_doc.html', {'form': form})
 
 
 def about(request):
@@ -334,21 +333,31 @@ def law_login(request):
 
 def law_update_status(request):
     crime_reports = CrimeReport.objects.all()
-    return render(request, 'law_update_status.html', {'crime_reports': crime_reports})
-    
-
+    doc_reports = DocReport.objects.all()
+    # Assuming you have models associated with the forms
+    data1 = CrimeReport.objects.all()
+    data2 = DocReport.objects.all()
+    return render(request,'law_update_status.html', {
+            'crime_reports': crime_reports,
+            'doc_reports': doc_reports,
+            'data_from_model1': data1,
+            'data_from_model2': data2,
+        })
 def update_status(request):
     if request.method == 'POST':
         report_id = request.POST.get('report_id')
+        doc_id = request.POST.get('doc_id')
         new_status = request.POST.get('status')
-        try:
-            # Update the status in the database
+        if report_id:
             report = CrimeReport.objects.get(pk=report_id)
             report.status = new_status
             report.save()
-            return redirect('law_update_status') 
-        except CrimeReport.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'Report not found'})
+        elif doc_id:
+            report_ = DocReport.objects.get(pk=doc_id)
+            report_.status = new_status
+            report_.save()
+            
+        return redirect('law_update_status')
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
@@ -388,15 +397,28 @@ def crime_category(request):
     return render(request,'crimecategory.html')
 
 def view_crime(request,crime_id):
-    task=CrimeReport.objects.get(id=crime_id)
-    form=CrimeReportForm(request.POST or None,instance=task)
-    return render(request,'view_crime.html',{'form':form})
-
-from django.http import JsonResponse
+    try:
+        task=CrimeReport.objects.get(id=crime_id)
+        form=CrimeReportForm(request.POST or None,instance=task)
+        return render(request,'view_crime.html',{'form':form})
+    except CrimeReport.DoesNotExist:
+        task=DocReport.objects.get(id=crime_id)
+        form=DocReportForm(request.POST or None,instance=task)
+        return render(request,'view_crime.html',{'form':form})
+    
+def view_doc(request,crime_id):
+    try:
+        task=DocReport.objects.get(id=crime_id)
+        form=DocReportForm(request.POST or None,instance=task)
+        return render(request,'view_doc.html',{'form':form})
+    except CrimeReport.DoesNotExist:
+        task=CrimeReport.objects.get(id=crime_id)
+        form=CrimeReportForm(request.POST or None,instance=task)
+        return render(request,'view_doc.html',{'form':form})
 
 def upload_evidence(request):
-    if request.method == 'POST' and request.FILES.get('evidence_pic_vid_aud'):
-        uploaded_file = request.FILES['evidence_pic_vid_aud']
+    if request.method == 'POST' and request.FILES.get('evidence_image_label'):
+        uploaded_file = request.FILES['evidence_image_label']
 
         # Ensure that the CrimeReport with the given ID exists
         crime_report_id = request.POST.get('crime_report_id')

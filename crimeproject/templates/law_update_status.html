@@ -32,7 +32,13 @@
       <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
       <!-- owl stylesheets -->
       <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
-   </head>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        th{
+            text-align:center;
+        }
+    </style>
+    </head>
    <body style='font-family:Poppins,sans-serif;'>
       <!-- header section start -->
       <div class="header_section">
@@ -114,6 +120,20 @@
       </div>
 <br><br><br><br>
         {% csrf_token %}
+
+{% comment %} <!-- Render CrimeReportForm -->
+<form method="post" action="{% url 'report_crime' %}">
+    {% csrf_token %}
+    {{ crime_report_form.as_p }}
+    <button type="submit">Submit Crime Report</button>
+</form>
+
+<!-- Render DocReportForm -->
+<form method="post" action="{% url 'report_doc' %}">
+    {% csrf_token %}
+    {{ doc_report_form.as_p }}
+    <button type="submit">Submit Doc Report</button>
+</form> {% endcomment %}
     <div class="container">
         <h1 class="mt-4 mb-4">Crimes Reported</h1>
         <table class="table table-bordered">
@@ -130,10 +150,10 @@
                     <td>{{ report.reporter_name }}</td>
                     <td>{{ report.status }}</td>
                     <td>
-                        <button class="btn btn-primary edit-button" data-toggle="modal" data-target="#editModal{{ report.id }}">Edit</button>
-                        <button class="btn btn-primary edit-button" ><a href="{% url 'view_crime' report.id %}">View</a></button>
-                        <input type="file" name="evidence_pic_vid_aud" id="evidence_pic_vid_aud" accept="image/*, video/*, audio/*" data-report="{{ report.id }}">
-                        <input type="hidden" id="currentStatus{{ report.id }}" value="{{ report.status }}">
+                        <button class="btn btn-info edit-button" data-toggle="modal" data-target="#editModal{{ report.id }}" data-doc-id="{{ report.id }}">Edit Status</button>
+                        <a href="{% url 'view_crime' report.id %}"><button class="btn btn-light edit-button" >View form details</button></a>
+                        <input type="file" name="evidence_image_label" id="evidence_image_label" accept="image/*, video/*, audio/*" data-report="{{ report.id }}">
+                        <input type="hidden" name="doc_id" id="docId{{ report.id }}" value="{{ report.id }}">
                     </td>
                 </tr>
                 <!-- Modal for Editing Status -->
@@ -167,14 +187,61 @@
                     </div>
                 </div>
                 {% endfor %}
+            <tbody>
+                {% for report in doc_reports %}
+                <tr>
+                    <td>{{ report.i_name }}</td>
+                    <td>{{ report.status }}</td>
+                    <td>
+                        <button class="btn btn-info edit-button" data-toggle="modal" data-target="#editModal{{ report.id }}">Edit Status</button>
+                        <a href="{% url 'view_crime' report.id %}"><button class="btn btn-light edit-button" >View form details</button></a>
+                        <input type="file" name="evidence_image_label" id="evidence_image_label" accept="image/*, video/*, audio/*" data-report="{{ report.id }}">
+                        <input type="hidden" id="currentStatus{{ report.id }}" value="{{ report.status }}">
+                    </td>
+                </tr>
+                <!-- Modal for Editing Status -->
+                <div class="modal fade" id="editModal{{ report.id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">Edit Status</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" action="{% url 'update_status' %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">    
+                                        <label for="statusDropdown">Select Status:</label>
+                                        <select name="status" id="statusDropdown{{ report.id }}" class="form-control">
+                                            <option value="Reported">Reported</option>
+                                            <option value="FIR Verified">FIR Verified</option>
+                                            <option value="Investigation in progress">Investigation in progress</option>
+                                            <option value="Completed">Completed</option>
+                                        </select>
+                                    </div>
+                                    <input type="hidden" name="doc_id" id="reportId{{ report.id }}" value="{{ report.id }}">
+                                    <button type="submit" class="btn btn-success">Save</button>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </tbody>
         </table>
+
+
     </div>
 
     <!-- Add Bootstrap and jQuery JavaScript links -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // JavaScript to handle the "Edit" button click
         $(document).ready(function () {
@@ -184,16 +251,16 @@
                 $('#reportId' + reportId).val(reportId);
                 $('#statusDropdown' + reportId).val(currentStatus);
             });
-            $('#evidence_pic_vid_aud').change(function () {
+            $('#evidence_image_label').change(function () {
                 var fileInput = $(this);
                 var reportId = fileInput.data('report');
                 var selectedFile = fileInput.prop('files')[0];
-            
+    
                 if (selectedFile) {
                     var formData = new FormData();
-                    formData.append('evidence_pic_vid_aud', selectedFile);
+                    formData.append('evidence_image_label', selectedFile);
                     formData.append('crime_report_id', reportId); // Include the crime_report_id
-            
+    
                     // Send the file to the server using AJAX
                     $.ajax({
                         url: '{% url "upload_evidence" %}', // Replace with your upload URL
@@ -212,23 +279,69 @@
                     });
                 }
             });
-            
-            // JavaScript to handle the "Save" button click
-            {% for report in crime_reports %}
-            $('#saveStatusButton{{ report.id }}').click(function () {
-                var reportId = $('#reportId{{ report.id }}').val();
-                var newStatus = $('#statusDropdown{{ report.id }}').val();
-                // Update the status using AJAX or a form submission
-                // For this example, we'll update the hidden input
-                $('#currentStatus{{ report.id }}').val(newStatus);
-                // Close the modal
-                $('#editModal{{ report.id }}').modal('hide');
+    
+            // JavaScript to handle the "Save" button click for Crime Reports
+            $('.save-crime-status-button').click(function () {
+                var reportId = $(this).data('report-id');
+                var newStatus = $('#statusDropdown' + reportId).val();
+    
+                $.ajax({
+                    url: '{% url "update_status" %}', // Replace with your update_status URL
+                    type: 'POST',
+                    data: {
+                        'report_id': reportId,
+                        'status': newStatus,
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            // Update the status in the UI if the server request was successful
+                            $('#currentStatus' + reportId).val(newStatus);
+                            $('#editModal' + reportId).modal('hide');
+                            alert('Status Updated Successfully');
+                        } else {
+                            // Handle errors from the server if needed
+                            console.error('Status update failed');
+                        }
+                    },
+                    error: function () {
+                        // Handle errors if the request fails
+                        console.error('Status update request failed');
+                    }
+                });
             });
-            {% endfor %}
+    
+            // JavaScript to handle the "Save" button click for Doc Reports
+            $('.save-doc-status-button').click(function () {
+                var docId = $(this).data('doc-id');
+                var newStatus = $('#statusDropdownDoc' + docId).val();
+    
+                $.ajax({
+                    url: '{% url "update_status" %}', // Replace with your update_status URL
+                    type: 'POST',
+                    data: {
+                        'doc_id': docId,
+                        'status': newStatus,
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            // Update the status in the UI if the server request was successful
+                            $('#currentStatusDoc' + docId).val(newStatus);
+                            $('#editModalDoc' + docId).modal('hide');
+                        } else {
+                            // Handle errors from the server if needed
+                            console.error('Status update failed');
+                        }
+                    },
+                    error: function () {
+                        // Handle errors if the request fails
+                        console.error('Status update request failed');
+                    }
+                });
+            });
         });
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Update jQuery version if needed -->
-
+    </script>    
 
 </body>
 </html>

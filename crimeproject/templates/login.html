@@ -130,18 +130,18 @@
               {% csrf_token %}
               <div class="form-outline mb-4">
                 <label style="font-weight:bold;color:black;">E-mail *</label>
-                <input type="text" id="form3Example1q" name="email" class="form-control" placeholder="e-mail"/>
+                <input type="text" id="email" name="email" class="form-control" placeholder="e-mail"/>
               </div>
               <div class="form-outline mb-4">
                 <label style="font-weight:bold;color:black;">Password *</label>
-                <input type="password" id="form3Example1q" name="password" class="form-control" placeholder="Password"/>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password"/>
               </div>
         
               <div class="text-center">
                 <div class="pass">
                   <a href="{% url 'password_reset' %}">Forgot Password?</a>
                 </div><br>
-      <button type="submit" class="btn btn-outline-primary btn-lg" style="background-color: #19A7CE;color:aliceblue;">LOGIN</button></div>
+      <button type="submit" class="btn btn-outline-primary btn-lg" id="login" style="background-color: #19A7CE;color:aliceblue;">LOGIN</button></div>
     </div>
     {% for message in messages %} {{ message }} {% endfor %}
             </form>

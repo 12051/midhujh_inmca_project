@@ -210,7 +210,7 @@
 
     
     <br>
-    <form id="reportdocform" method="post" action="{% url 'report_doc' %}">
+    <form id="reportdocform" method="post" action="{% url 'report_doc' %}" enctype="multipart/form-data">
 
         {% csrf_token %}
         <br>
@@ -237,7 +237,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="email">Your e-mail ID</label>
-                    <input type="email" name='email' id="mail" class="form-control">
+                    <input type="email" name='email' id="email" class="form-control">
                     <span id="emailError"></span>
                 </div>
             </div>
@@ -302,14 +302,13 @@
         </div>
 
         <h1><u>Evidences</u></h1>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="evidence_pic_vid_aud">Upload Evidence (Photograph, Video, or Audio)</label>
-                    <input type="file" name="evidence_pic_vid_aud" id="evidence_pic_vid_aud" accept="image/*, video/*, audio/*">
-                </div>
-            </div>
+        <div class="form-group">
+            <!-- Display the 'evidence_image' field -->
+            <label for="{{ form.evidence_image.id_for_label }}">Upload Evidence (JPG/PNG) *:</label>
+            <input type="file" accept=".img,.jpg,.png/*" id="{{ form.evidence_image.id_for_label }}" name="{{ form.evidence_image.name }}" class="form-control" required>
+            <span class="text-danger" id="evidenceError"></span>
         </div>
+  
         {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -336,8 +335,8 @@
                 $("input[name='threat']").prop("checked", false);
             });
 
-            $("#mail").keyup(function () {
-                validateEmail("#mail");
+            $("#email").keyup(function () {
+                validateEmail("#email");
             });
 
             $("#ano").keyup(function () {
@@ -346,7 +345,7 @@
 
           $("reportdocform").submit(function (event) {
             // Perform all validations before submitting the form
-            validateEmail("#mail");
+            validateEmail("#email");
             aadharNumber("#adnumber");
       
             // Check if any validation errors exist

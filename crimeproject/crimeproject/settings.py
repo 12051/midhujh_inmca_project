@@ -137,3 +137,5 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'mailtoshowvalidationok@gmail.com'  
 EMAIL_HOST_PASSWORD = 'qtwpnirvgsxzhtdo'  
 DEFAULT_FROM_EMAIL = 'mailtoshowvalidationok@gmail.com'
+
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'

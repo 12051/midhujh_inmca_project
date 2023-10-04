@@ -205,7 +205,7 @@
          </div>
       </div>
 
-<form id="reportform" method="post" >
+<form id="reportdocform" method="post" >
 
     {% csrf_token %}
     <br>
@@ -213,15 +213,15 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="reporter_name">Informer Name</label>
-                <input type="text" id="reporter_name" value="{{form.reporter_name.value}}" name="reporter_name" readonly/>
+                <label for="i_name">Informer Name</label>
+                <input type="text" id="i_name" value="{{form.i_name.value}}" name="i_name" readonly/>
             </div>
         </div>
     
         <div class="col-md-6">
             <div class="form-group">
-                <label for="aadhaarno">Informer Aadhar Number</label>
-                <input type="text" name="aadhaarno" id="adnumber" value="{{form.aadhaarno.value}}" class="form-control">
+                <label for="ano">Informer Aadhar Number</label>
+                <input type="text" name="ano" id="ano" value="{{form.ano.value}}" class="form-control" readonly/>
                 <span id="aadhaarError"></span>
             </div>
         </div>
@@ -230,47 +230,32 @@
       <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="reporter_location">Location of Incidence</label>
-                <input type="text" name="reporter_location" id="reporter_location" value="{{form.reporter_location.value}}">
+                <label for="email">Informer e-mail ID</label>
+                <input type="text" name="email" id="email" value="{{form.email.value}}"readonly/>
             </div>
         </div>
     
         <div class="col-md-6">
             <div class="form-group">
-                <label for="spec_station">Specified Station ID</label>
-                <input type="text" id="spec_station" name="spec_station" value="{{form.spec_location.value}}" readonly/>
+                <label for="threat">Threat faced or not/label
+                <input type="text" id="threat" name="threat" value="{{form.threat.value}}" readonly/>
                 <span id="locError"></span>
             </div>
         </div>
-    </div>
-    
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="off_type">Type of Offence</label>
-                    <input type="text" value="{{form.off_type.value}}">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="datetime">Date and Time of Incidence</label>
-                <input type="date" id="datetime" name="datetime" value="{{form.datetime.value|date:"Y-m-d" }}" class="form-control" required>
-            </div>
-        </div>
-    </div>               
+    </div>            
 
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="description">Description of the Incident</label>
-                <input id="description" name="description" value="{{form.description.value}}" >
+                <label for="descri">Description of the Incident</label>
+                <input id="descri" name="descri" value="{{form.descri.value}}" >
                 <span id="descriptionError"></span>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for="victimDescription">Description of the Victim</label>
-                <textarea id="victimDescription" name="victimDescription" value="{{form.victimDescription.value}}"></textarea>
+                <label for="victimDescri">Description of the Victim</label>
+                <textarea id="victimDescri" name="victimDescri" value="{{form.victimDescri.value}}"></textarea>
             </div>
         </div>
     </div>        
@@ -278,23 +263,27 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="offenderDescription">Description of the Offender</label>
-                <textarea id="offenderDescription" name="offenderDescription" value="{{form.offenderDescription.value}}"></textarea>
+                <label for="offenderDescri">Description of the Offender</label>
+                <textarea id="offenderDescri" name="offenderDescri" value="{{form.offenderDescri.value}}"></textarea>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for="witnessInformation">Witness Information</label>
-                <textarea id="witnessInformation" name="witnessInformation" value="{{form.witnessInformation.value}}"></textarea>
+                <label for="witnessInfo">Witness Information</label>
+                <textarea id="witnessInfo" name="witnessInfo" value="{{form.witnessInfo.value}}"></textarea>
             </div>
         </div>
     </div>        
 
     <div class="form-group">
-        <label for="delay">Reason for delay in reporting</label>
-        <input type="text" id="delay" name="delay" value="{{form.delay.value}}">
+        <label for="delay_report">Delay in reporting, if any</label>
+        <input type="text" id="delay_report" name="delay_report" value="{{form.delay_report.value}}">
     </div>
 
-    
+    <div class="form-group">
+        <label for="form.evidence_image.id_for_label">Evidence</label>
+        <input type="text" id="form.evidence_image.id_for_label" name="form.evidence_image.id_for_label" value="{{form.form.evidence_image.id_for_label.value}}">
+    </div>
+
 <br>
 </form>
