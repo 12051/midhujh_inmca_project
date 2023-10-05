@@ -194,7 +194,7 @@
                     <td>{{ report.status }}</td>
                     <td>
                         <button class="btn btn-info edit-button" data-toggle="modal" data-target="#editModal{{ report.id }}">Edit Status</button>
-                        <a href="{% url 'view_crime' report.id %}"><button class="btn btn-light edit-button" >View form details</button></a>
+                        <a href="{% url 'view_doc' report.id %}"><button class="btn btn-light edit-button" >View form details</button></a>
                         <input type="file" name="evidence_image_label" id="evidence_image_label" accept="image/*, video/*, audio/*" data-report="{{ report.id }}">
                         <input type="hidden" id="currentStatus{{ report.id }}" value="{{ report.status }}">
                     </td>

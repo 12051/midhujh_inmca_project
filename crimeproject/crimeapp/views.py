@@ -88,6 +88,10 @@ def login(request):
                     return redirect('/')
                 if user.is_law:
                     return redirect('law_index')
+                if user.is_prison:
+                    return redirect('prisonstaff')
+                if user.is_control:
+                    return redirect('control')
                 return redirect('/')
             else:
                 try:
@@ -415,6 +419,7 @@ def view_doc(request,crime_id):
         task=CrimeReport.objects.get(id=crime_id)
         form=CrimeReportForm(request.POST or None,instance=task)
         return render(request,'view_doc.html',{'form':form})
+    
 
 def upload_evidence(request):
     if request.method == 'POST' and request.FILES.get('evidence_image_label'):
@@ -433,3 +438,9 @@ def upload_evidence(request):
         return JsonResponse({'message': 'File uploaded successfully'})
 
     return JsonResponse({'message': 'File upload failed'}, status=400)
+
+def prisonstaff(request):
+    return render(request,'prisonstaff.html')
+
+def control(request):
+    return render(request,'control.html')

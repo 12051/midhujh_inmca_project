@@ -32,6 +32,8 @@ class CustomUser(AbstractUser):
     password = models.CharField(max_length=128)
     is_normal = models.BooleanField(default=False)
     is_law = models.BooleanField(default=False)
+    is_prison = models.BooleanField(default=False)
+    is_control = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
     verification_token = models.CharField(max_length=100, blank=True, null=True)
     REQUIRED_FIELDS = []
@@ -77,7 +79,7 @@ class DocReport(models.Model):
     victimDescri = models.TextField(null=True,blank=True)
     witnessInfo = models.TextField(null=True,blank=True)
     delay_report = models.TextField(null=True,blank=True)
-    evidence_image = models.ImageField(upload_to='evidence_images/',null=True,blank=True)
+    evidence_image = models.FileField(upload_to='evidence_images/',null=True,blank=True)
     list_user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
     THREAT_CHOICES = [
         ('Yes', 'Yes'),

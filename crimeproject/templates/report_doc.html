@@ -304,8 +304,8 @@
         <h1><u>Evidences</u></h1>
         <div class="form-group">
             <!-- Display the 'evidence_image' field -->
-            <label for="{{ form.evidence_image.id_for_label }}">Upload Evidence (JPG/PNG) *:</label>
-            <input type="file" accept=".img,.jpg,.png/*" id="{{ form.evidence_image.id_for_label }}" name="{{ form.evidence_image.name }}" class="form-control" required>
+            <label for="{{ form.evidence_image.id_for_label }}">Upload Evidence (JPG/PNG/PDF) *:</label>
+            <input type="file" accept=".jpg, .png, .pdf" id="{{ form.evidence_image.id_for_label }}" name="{{ form.evidence_image.name }}" class="form-control" required>
             <span class="text-danger" id="evidenceError"></span>
         </div>
   

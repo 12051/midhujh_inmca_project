@@ -204,7 +204,7 @@
             </nav>
          </div>
       </div>
-
+<br><br><br><br>
 <form id="reportdocform" method="post" >
 
     {% csrf_token %}
@@ -237,7 +237,7 @@
     
         <div class="col-md-6">
             <div class="form-group">
-                <label for="threat">Threat faced or not/label
+                <label for="threat">Threat faced or not</label>
                 <input type="text" id="threat" name="threat" value="{{form.threat.value}}" readonly/>
                 <span id="locError"></span>
             </div>
@@ -280,9 +280,15 @@
         <input type="text" id="delay_report" name="delay_report" value="{{form.delay_report.value}}">
     </div>
 
+    <h1><u>Evidences</u></h1>
     <div class="form-group">
-        <label for="form.evidence_image.id_for_label">Evidence</label>
-        <input type="text" id="form.evidence_image.id_for_label" name="form.evidence_image.id_for_label" value="{{form.form.evidence_image.id_for_label.value}}">
+        <!-- Display the 'evidence_image' field -->
+        <label for="{{ form.evidence_image.id_for_label }}">Upload Evidence (JPG/PNG/PDF) *:</label>
+        {% if form.instance.evidence_image %}
+            <a href="{{ form.instance.evidence_image.url }}" download>Download Evidence</a>
+        {% else %}
+            <p>No evidence uploaded</p>
+        {% endif %}
     </div>
 
 <br>
