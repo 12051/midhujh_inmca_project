@@ -317,7 +317,7 @@
         </div>
 
             {% comment %} <a href="{% url "generate_pdf" %}"> {% endcomment %}
-            <button type="submit">Download your Response</button>
+            <button type="submit">View your Response</button>
         {% comment %} </a> {% endcomment %}
         
 <br>
@@ -382,15 +382,15 @@
         function validateDate(fieldId) {
             var currentDate = new Date();
             var inputDate = new Date($(fieldId).val());
-            var january1_2023 = new Date('2023-01-01'); // Create a Date object for January 1, 2023
+            var july1_2023 = new Date('2023-07-01'); // Create a Date object for January 1, 2023
         
             if (isNaN(inputDate.getTime())) {
                 // Check if the input is not a valid date
                 $("#dateError").html("Please enter a valid date").css("color", "red");
             } else if (inputDate > currentDate) {
                 $("#dateError").html("Please enter a date earlier than the current date").css("color", "red");
-            } else if (inputDate < january1_2023) {
-                $("#dateError").html("Dates before January 1 2023 are not allowed").css("color", "red");
+            } else if (inputDate < july1_2023) {
+                $("#dateError").html("Dates before July 1 2023 are not allowed").css("color", "red");
             } else {
                 $("#dateError").html(""); // Reset the error message
             }

@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 #from .models import User
-from .forms import CrimeReportForm, AnonyReportForm, DocReportForm, PublicForm
-from .models import CustomUser,CrimeReport, DocReport,SpecLoc,FIRFile
+from .forms import CrimeReportForm, AnonyReportForm, DocReportForm, PublicForm, PublicForm
+from .models import CustomUser, CrimeReport, DocReport, SpecLoc, FIRFile, PublicReport
 import re
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User,auth
@@ -48,7 +48,7 @@ def userregister(request):
             send_mail(
                 'Email Verification',
                 f'Click the following link to verify your email: {request.build_absolute_uri("/verify/")}?token={token}',
-                'eventoplanneur@gmail.com',
+                'reportsafer@gmail.com',
                 [email],
                 fail_silently=False,
             )
@@ -133,7 +133,7 @@ def report_crime(request):
             template_path = 'report_template.html'  # Path to your PDF template
             context = {'crime_report': crime_report, 'fir_id': fir_id}
             response = HttpResponse(content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename="Report_{fir_id}.pdf"'
+            response['Content-Disposition'] = f'inline; filename="Report_{fir_id}.pdf"'
 
             template = get_template(template_path)
             html = template.render(context)
@@ -194,7 +194,7 @@ def report_doc(request):
             template_path = 'doc_template.html'  # Path to your PDF template
             context = {'doc_report': doc_report, 'fir_id': fir_id}
             response = HttpResponse(content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename="Report_{fir_id}.pdf"'
+            response['Content-Disposition'] = f'inline; filename="Report_{fir_id}.pdf"'
 
             template = get_template(template_path)
             html = template.render(context)
@@ -263,7 +263,7 @@ def anony_pdf(request):
             template_path = 'reported_crimes.html'
             context = {'form': form, 'fir_id': fir_id}
             response = HttpResponse(content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename="FIR_{fir_id}.pdf"'  # Use f-string to include fir_id
+            response['Content-Disposition'] = f'inline; filename="FIR_{fir_id}.pdf"'  # Use f-string to include fir_id
 
             template = get_template(template_path)
             html = template.render(context)
@@ -296,7 +296,7 @@ def report_public(request):
             template_path = 'public_template.html'  # Path to your PDF template
             context = {'public_report': public_report, 'fir_id': fir_id}
             response = HttpResponse(content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename="Report_{fir_id}.pdf"'
+            response['Content-Disposition'] = f'inline; filename="Report_{fir_id}.pdf"'
 
             template = get_template(template_path)
             html = template.render(context)
@@ -318,8 +318,11 @@ def report_public(request):
 @login_required
 def listcrime(request):
     user_crime=request.user
-    list_dict=CrimeReport.objects.filter(list_user=user_crime)
-    return render(request, 'listcrime.html', {'list_dict': list_dict})
+    crime_dict=CrimeReport.objects.filter(list_user=user_crime)
+    doc_dict=DocReport.objects.filter(list_user=user_crime)
+    public_dict=PublicReport.objects.filter(list_user=user_crime)
+    combined_reports = list(crime_dict) + list(doc_dict) +list(public_dict)
+    return render(request, 'listcrime.html', {'combined_reports': combined_reports})
 
 def law_index(request):
     return render(request,'law_index.html')
@@ -338,28 +341,41 @@ def law_login(request):
 def law_update_status(request):
     crime_reports = CrimeReport.objects.all()
     doc_reports = DocReport.objects.all()
+    public_reports = PublicReport.objects.all()
     # Assuming you have models associated with the forms
     data1 = CrimeReport.objects.all()
     data2 = DocReport.objects.all()
+    data3 = PublicReport.objects.all()
     return render(request,'law_update_status.html', {
             'crime_reports': crime_reports,
             'doc_reports': doc_reports,
+            'public_reports': public_reports,
             'data_from_model1': data1,
             'data_from_model2': data2,
+            'data_from_model3': data3,
         })
+    
 def update_status(request):
     if request.method == 'POST':
         report_id = request.POST.get('report_id')
         doc_id = request.POST.get('doc_id')
+        public_id = request.POST.get('public_id')
         new_status = request.POST.get('status')
+        
         if report_id:
             report = CrimeReport.objects.get(pk=report_id)
             report.status = new_status
             report.save()
+            
         elif doc_id:
             report_ = DocReport.objects.get(pk=doc_id)
             report_.status = new_status
             report_.save()
+            
+        elif public_id:
+            report_p = PublicReport.objects.get(pk=public_id)
+            report_p.status = new_status
+            report_p.save()
             
         return redirect('law_update_status')
     else:
@@ -415,11 +431,20 @@ def view_doc(request,crime_id):
         task=DocReport.objects.get(id=crime_id)
         form=DocReportForm(request.POST or None,instance=task)
         return render(request,'view_doc.html',{'form':form})
-    except CrimeReport.DoesNotExist:
-        task=CrimeReport.objects.get(id=crime_id)
-        form=CrimeReportForm(request.POST or None,instance=task)
+    except DocReport.DoesNotExist:
+        task=DocReport.objects.get(id=crime_id)
+        form=DocReportForm(request.POST or None,instance=task)
         return render(request,'view_doc.html',{'form':form})
     
+def view_public(request,crime_id):
+    try:
+        task=PublicReport.objects.get(id=crime_id)
+        form=PublicForm(request.POST or None,instance=task)
+        return render(request,'view_public.html',{'form':form})
+    except PublicReport.DoesNotExist:
+        task=PublicReport.objects.get(id=crime_id)
+        form=PublicForm(request.POST or None,instance=task)
+        return render(request,'view_public.html',{'form':form})
 
 def upload_evidence(request):
     if request.method == 'POST' and request.FILES.get('evidence_image_label'):
@@ -444,3 +469,6 @@ def prisonstaff(request):
 
 def control(request):
     return render(request,'control.html')
+
+def report_prison(request):
+    return render(request,'report_prison.html')

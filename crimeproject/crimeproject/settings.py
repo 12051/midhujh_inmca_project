@@ -134,8 +134,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'mailtoshowvalidationok@gmail.com'  
-EMAIL_HOST_PASSWORD = 'qtwpnirvgsxzhtdo'  
-DEFAULT_FROM_EMAIL = 'mailtoshowvalidationok@gmail.com'
+EMAIL_HOST_USER = 'reportsafer@gmail.com'  
+EMAIL_HOST_PASSWORD = 'spci relf ljhn iqok'  
+DEFAULT_FROM_EMAIL = 'reportsafer@gmail.com'
 
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'

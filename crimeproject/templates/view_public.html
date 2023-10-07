@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>ReportSafer | Document related Offence</title>
+      <title>ReportSafer | Public Tranquility related Offence</title>
       <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
       {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
       <meta name="keywords" content="">
@@ -204,8 +204,8 @@
             </nav>
          </div>
       </div>
-<br><br><br><br>
-<form id="reportdocform" method="post" >
+
+<form id="reportform" method="post" >
 
     {% csrf_token %}
     <br>
@@ -213,83 +213,95 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="i_name">Informer Name</label>
-                <input type="text" id="i_name" value="{{form.i_name.value}}" name="i_name" readonly/>
+                <label for="info_name">Informer Name</label>
+                <input type="text" id="info_name" value="{{form.info_name.value}}" name="info_name" readonly/>
             </div>
         </div>
     
         <div class="col-md-6">
             <div class="form-group">
-                <label for="ano">Informer Aadhar Number</label>
-                <input type="text" name="ano" id="ano" value="{{form.ano.value}}" class="form-control" readonly/>
-                <span id="aadhaarError"></span>
+                <label for="aadhno">Informer Aadhar Number</label>
+                <input type="text" name="aadhno" id="adnumber" value="{{form.aadhno.value}}" class="form-control" readonly/>
             </div>
         </div>
     </div>        
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="mail">Informer e-mail ID</label>
+                <input type="text" name='mail' id="mail" value="{{form.mail.value}}" class="form-control" readonly/>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="datetime">Date and Time of Incidence</label>
+                <input type="text" id="datetime" name="datetime" value="{{form.datetime.value}}" class="form-control" readonly/>
+            </div>
+        </div>
+    </div>
 
       <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="email">Informer e-mail ID</label>
-                <input type="text" name="email" id="email" value="{{form.email.value}}"readonly/>
+                <label for="reporter_location">Location of Incidence</label>
+                <input type="text" name="reporter_location" id="reporter_location" value="{{form.reporter_location.value}}" readonly/>
             </div>
         </div>
     
         <div class="col-md-6">
             <div class="form-group">
-                <label for="threat">Threat faced or not</label>
-                <input type="text" id="threat" name="threat" value="{{form.threat.value}}" readonly/>
-                <span id="locError"></span>
+                <label for="spec_location">Specified Station ID</label>
+                <input type="text" id="spec_location" name="spec_location" value="{{form.spec_location.value}}" readonly/>
             </div>
         </div>
-    </div>            
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="offen_type">Type of Offence</label>
+                    <input type="text" id="offen_type" name="offen_type" value="{{form.offen_type.value}}" readonly/>
+            </div>
+        </div>
+    </div>      
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="description">Description of Incident</label>
+                <input type="text" id="description" name="description" value="{{form.description.value}}" readonly/>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="victimDescription">Description of the Victim</label>
+                <input type="text" id="victimDescription" name="victimDescription" value="{{form.victimDescription.value}}" readonly/>
+            </div>
+        </div>
+    </div>       
 
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="descri">Description of the Incident</label>
-                <input id="descri" name="descri" value="{{form.descri.value}}" >
-                <span id="descriptionError"></span>
+                <label for="offenderDescription">Description of the Offender</label>
+                <input type="text" id="offenderDescription" name="offenderDescription" value="{{form.offenderDescription.value}}" readonly/>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for="victimDescri">Description of the Victim</label>
-                <textarea id="victimDescri" name="victimDescri" value="{{form.victimDescri.value}}"></textarea>
-            </div>
-        </div>
-    </div>        
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="offenderDescri">Description of the Offender</label>
-                <textarea id="offenderDescri" name="offenderDescri" value="{{form.offenderDescri.value}}"></textarea>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="witnessInfo">Witness Information</label>
-                <textarea id="witnessInfo" name="witnessInfo" value="{{form.witnessInfo.value}}"></textarea>
+                <label for="witnessInformation">Witness Information</label>
+                <input type="text" id="witnessInformation" name="witnessInformation" value="{{form.witnessInformation.value}}" readonly/>
             </div>
         </div>
     </div>        
 
     <div class="form-group">
-        <label for="delay_report">Delay in reporting, if any</label>
-        <input type="text" id="delay_report" name="delay_report" value="{{form.delay_report.value}}">
+        <label for="delay">Reason for delay in reporting</label>
+        <input type="text" id="delay" name="delay" value="{{form.delay.value}}" readonly/>
     </div>
 
-    <h1><u>Evidences</u></h1>
-    <div class="form-group">
-        <!-- Display the 'evidence_image' field -->
-        <label for="{{ form.evidence_image.id_for_label }}">Upload Evidence (JPG/PNG/PDF) *:</label>
-        {% if form.instance.evidence_image %}
-            <a href="{{ form.instance.evidence_image.url }}" download>Download Evidence</a>
-        {% else %}
-            <p>No evidence uploaded</p>
-        {% endif %}
-    </div>
-
+    
 <br>
 </form>
