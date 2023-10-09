@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>ReportSafer | Offence against Human Body</title>
+      <title>ReportSafer | Law Enforcement Home</title>
       <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
       {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
       <meta name="keywords" content="">
@@ -123,90 +123,87 @@
     }
     
     </style>
-</head>
-
-<body style="'font-family:Poppins,sans-serif';background:black;">
-    <!-- header section start -->
-    <div class="header_section ">
-       <div class="container-fluid">
-          <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top-navbar">
-             <a class="logo" href="{% url 'index' %}"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
-             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-             <span class="navbar-toggler-icon"></span>
-             </button>
-             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto mt-3">
-                   {% if user.is_authenticated %}
-                   <li class="nav-item active">
-                      <a class="nav-link" href="{% url 'index' %}">Home</a>
-                   </li>
-                   <li class="nav-item">
-                      <a class="nav-link" href="{% url 'about' %}">About Us</a>
-                   </li>
-                   <li class="nav-item">
-                      <a class="nav-link" href="{% url 'general' %}">General Information</a>
-                   </li>
-                   <li class="nav-item">
-                      <a class="nav-link" href="{% url 'laws' %}">Laws</a>
-                   </li>
-                   <li class="nav-item">
-                    <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
-                    </li>
-                   <li class="nav-item">
-                      <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
-                   </li>
-                   <div class="navbar-nav ml-auto">
-                      <div class="nav-item dropdown">
-                          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
-                          <div class="dropdown-menu"> 
-                              <a href="{% url 'crime_category' %}" class="dropdown-item">Report a Crime</a>
-                              <a href="{% url 'listcrime' %}" class="dropdown-item">View Crime Status</a>       
-                          </div>
-                      </div>
-                  </div>
-                   <li class="nav-item">
-                   <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
-                   </li>
-                   <li class="nav-item">
-                      <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
-                   {% else %}
-                   </li>
-                   <li class="nav-item">
-                      <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
-                   </li>
-                   {% comment %} <div class="navbar-nav ml-auto">
-                      <div class="nav-item dropdown">
-                          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
-                          <div class="dropdown-menu"> 
-                              <a href="http://127.0.0.1:8000/witnessregister" class="dropdown-item">Register as Witness</a>
-                              <a href="http://127.0.0.1:8000/victimregister" class="dropdown-item">Register as Victim</a>       
-                          </div>
-                      </div>
-                  </div> {% endcomment %}
-                 
-                   {% comment %} <li class="nav-item">
-                      <a class="nav-link" href="http://127.0.0.1:8000/register">Register</a>
-                   </li> {% endcomment %}
-                   <li class="nav-item">
-                      <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
-                   </li>
-                   {% endif %}
-                   {% comment %} <h2>User: {{user.name}}</h2> {% endcomment %}
-                </ul>
-                <!-- <form class="form-inline my-2 my-lg-0">
-                   <div class="login_menu">
-                      <ul>
-                         <li><a href="#">Login</a></li>
-                         <li><a href="#">Register</a></li>
-                         <li><a href="#"><img src="images/user-icon.png"></a></li>
-                         <li><a href="#"><img src="images/search-icon.png"></a></li>
+       </head>
+       <body style='font-family:Poppins,sans-serif;'>
+          <!-- header section start -->
+          <div class="header_section">
+             <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top-navbar">
+                   <a class="logo" href="{% url 'prisonstaff' %}"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
+                   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                   <span class="navbar-toggler-icon"></span>
+                   </button>
+                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                      <ul class="navbar-nav mr-auto">
+                         {% if user.is_authenticated %}
+                         <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'index' %}">Home</a>
+                         </li>
+                         {% comment %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                         </li>
+                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'general' %}">General Information</a>
+                         </li> {% endcomment %}
+                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'laws' %}">Laws</a>
+                         </li>
+                         <li class="nav-item">
+                          <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
+                          </li>
+                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
+                         </li>
+                         <div class="navbar-nav ml-auto">
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
+                                <div class="dropdown-menu">
+                                    <a href="{% url "report_prison" %}" class="dropdown-item">Report a Crime</a>  
+                                    <a href="#" class="dropdown-item">Manage visiting times</a>   
+                                </div>
+                            </div>
+                        </div>
+                         <li class="nav-item">
+                         <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
+                         </li>
+                         <li class="nav-item">
+                            <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
+                         {% else %}
+                         </li>
+                         {% comment %} <div class="navbar-nav ml-auto">
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
+                                <div class="dropdown-menu"> 
+                                    <a href="http://127.0.0.1:8000/witnessregister" class="dropdown-item">Register as Witness</a>
+                                    <a href="http://127.0.0.1:8000/victimregister" class="dropdown-item">Register as Victim</a>       
+                                </div>
+                            </div>
+                        </div> {% endcomment %}
+                       
+                         {% comment %} <li class="nav-item">
+                            <a class="nav-link" href="http://127.0.0.1:8000/register">Register</a>
+                         </li> {% endcomment %}
+                         <li class="nav-item">
+                            <a class="nav-link" href="http://127.0.0.1:8000/law_login">Login</a>
+                         </li>
+                         {% endif %}
+                         {% comment %} <h2>User: {{user.name}}</h2> {% endcomment %}
                       </ul>
+                      <!-- <form class="form-inline my-2 my-lg-0">
+                         <div class="login_menu">
+                            <ul>
+                               <li><a href="#">Login</a></li>
+                               <li><a href="#">Register</a></li>
+                               <li><a href="#"><img src="images/user-icon.png"></a></li>
+                               <li><a href="#"><img src="images/search-icon.png"></a></li>
+                            </ul>
+                         </div>
+                      </form> -->
                    </div>
-                </form> -->
+                </nav>
              </div>
-          </nav>
-       </div>
-    </div>
+          </div>
+          
 
     
     <br>
@@ -216,104 +213,80 @@
         <br>
         <h1 style="font-size: 27px;">Report a Crime in Prison</h1><br>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="reporter_name">Offender Name</label>
-                    <input type="text" id="reporter_name" value="{{ user.name }}" name="reporter_name" readonly/>
+<h3>Inmate Details:</h3><hr>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <div id="inmate-container">
+                <div class="inmate">
+                    <label for="inmate_name">Name</label>
+                    <input type="text" id="inmate_name" name="inmate_name" class="form-control" required/>
+                    <span id="nameError"></span>
+                </div>
+                <div class="inmate">
+                    <label for="inmate_id">ID</label>
+                    <input type="text" id="inmate_id" name="inmate_id" class="form-control" required/>
+                    <span id="idError"></span>
                 </div>
             </div>
-        
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="aadhaarno">Your Cell Number *</label>
-                    <input type="text" name="aadhaarno" id="adnumber" class="form-control">
-                    <span id="aadhaarError"></span>
-                </div>
-            </div>
-        </div>        
+        </div>
+    </div>
+</div>
+<button type="button" id="add-inmate" class="btn btn-secondary">+</button>
+
+
+        <hr>
+
 
           <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="reporter_location">Location of Incidence *</label>
-                    <select id="reporter_location" name="reporter_location" class="form-control">
-                        {% for location in location_options %}
-                            <option value="{{ location }}" {% if not location %}selected{% endif %}>{{ location }}</option>
-                        {% endfor %}
+                    <label for="loc_prison">Location of Prison *</label>
+                    <select id="loc_prison" name="loc_prison" class="form-control">
+                        <option value="" selected disabled>Select Location</option>
+                        <option value="kanjirappally">Kanjirappally</option>
+                        <option value="changanassery">Changanassery</option>
                     </select>
-                    <span id="locError"></span>
                 </div>
             </div>
-        
+
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="spec_station">Your Specified Station</label>
-                    <input type="text" id="spec_station" name="spec_station" readonly/>
-                    <span id="locError"></span>
+                    <label for="nat_crime">Nature of Crime *</label>
+                    <select id="nat_crime" name="nat_crime" class="form-control">
+                        <option value="" selected disabled>Select Type</option>
+                        <option value="misconduct">Inmate Misconduct</option>
+                        <option value="breach">Security Breaches</option>
+                        <option value="harm">Harm</option>
+                    </select>
                 </div>
             </div>
+            
         </div>
         
         <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="off_type">Type of Offence</label>
-                    <select id="off_type" name="off_type" class="form-control">
-                        <option value="" selected disabled>Select type</option>
-                        <option value="homicide">Homicide</option>
-                        <option value="attempt_murder">Attempt to murder</option>
-                        <option value="homicide_weapon">Homicide with a weapon</option>
-                        <option value="hurt">Hurt voluntarily</option>
-                        <option value="kidnap_abduction">Kidnapping and Abduction</option>
-                        <option value="assault">Assault</option>
-                        <option value="rape">Rape</option>
-                        <option value="murder">Murder</option>
-                    </select>
-                </div>
-            </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="datetime">Date and Time of Incidence</label>
                     <input type="datetime-local" id="datetime" name="datetime" class="form-control">
                 </div>
             </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="description">Description of the Incident</label>
+                    <textarea id="description" name="description" class="form-control" placeholder="Provide a detailed description of the incident."></textarea>
+                </div>
+            </div>
         </div>               
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="description">Please provide a description of the Incident *</label>
-                    <textarea id="description" name="description" placeholder="A detailed description of what happened." required></textarea>
-                    <span id="descriptionError"></span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="victimDescription">Please provide a description of the Victim</label>
-                    <textarea id="victimDescription" name="victimDescription" placeholder="If the victim is someone else, provide informations about them including their name, age, gender, and contact details."></textarea>
-                </div>
-            </div>
-        </div>        
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="offenderDescription">Please provide a description of the Offender</label>
-                    <textarea id="offenderDescription" name="offenderDescription" placeholder="If known, provide details about the offender, including their name, physical appearance, age, and any identifying features."></textarea>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="witnessInformation">Witness Information</label>
-                    <textarea id="witnessInformation" name="witnessInformation" placeholder="Include details of any witnesses to the offense, including their names, contact information, and statements."></textarea>
-                </div>
-            </div>
-        </div>        
-
+        <br>
+        <h3>Evidences</h3>
+        <hr>
         <div class="form-group">
-            <label for="delay">If any delay in reporting, provide reason</label>
-            <input type="text" id="delay" name="delay" placeholder="If any"/>
+            <!-- Display the 'evidence_image' field -->
+            <label for="{{ form.evidence_image.id_for_label }}">Upload Evidence (JPG/PNG/MP4/MP3) *:</label>
+            <input type="file" accept=".jpg, .png, .mp4, .mp3" id="{{ form.evidence_image.id_for_label }}" name="{{ form.evidence_image.name }}" class="form-control" required>
+            <span class="text-danger" id="evidenceError"></span>
         </div>
 
             {% comment %} <a href="{% url "generate_pdf" %}"> {% endcomment %}
@@ -353,24 +326,14 @@
                     }
                 });
             });
-
-            $("#reporter_location").keyup(function () {
-                validateRloc("#reporter_location");
-            });
       
             $("#datetime").on("input", function () {
                 validateDate("#datetime");
             });
 
-            $("#adnumber").keyup(function () {
-                aadharNumber("#adnumber");
-            });
-
           $("reportform").submit(function (event) {
             // Perform all validations before submitting the form
-            validateRloc("#reporter_location");
             validateDate("#datetime");
-            aadharNumber("#adnumber");
       
             // Check if any validation errors exist
             if ($(".validation-error").length > 0) {
@@ -394,38 +357,40 @@
             } else {
                 $("#dateError").html(""); // Reset the error message
             }
-        }              
-
-        function aadharNumber(fieldId) {
-            var numberRegex = /^[-+]?\d*\.?\d+$/;
-            var phoneNumber = $(fieldId).val();
-        
-            if (phoneNumber === "") {
-                $("#aadhaarError").html("Enter the Aadhaar number").css("color", "red");
-            } else if (!numberRegex.test(phoneNumber)) {
-                $("#aadhaarError").html("Invalid Aadhaar Number").css("color", "red");
-            } else if (phoneNumber.length > 12) {
-                $("#aadhaarError").html("Enter Correct Aadhar Number").css("color", "red");
-            } else if (phoneNumber.length < 12) {
-                $("#aadhaarError").html("Enter Correct Aadhar Number").css("color", "red");
-            } else {
-                $("#aadhaarError").html("");
-            }
-        }
-
-        function validateRloc(fieldId) {
-            var rloc = $(fieldId).val();
-            var lettersWithSpaces = /^[A-Za-z\s]+$/;
-            if (rloc.trim() === "") {
-                $("#locError").html("Enter the Location of the Informer").css("color", "red");
-            } else if (!lettersWithSpaces.test(rloc)) {
-                $("#locError").html("Location field required only alphabet characters with spaces").css("color", "red");
-            } else {
-                $("#locError").html("");
-            }
-        }
+        } 
       
       </script>      
+    
+<script>
+    document.getElementById('add-inmate').addEventListener('click', function() {
+        const inmatesContainer = document.getElementById('inmate-container');
+        const newInmate = document.createElement('div');
+        newInmate.classList.add('inmate');
+        newInmate.innerHTML = `
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div id="inmate-container">
+                        <div class="inmate">
+                            <label for="inmate_name">Name</label>
+                            <input type="text" id="inmate_name" name="inmate_name" class="form-control" required/>
+                            <span id="nameError"></span>
+                        </div>
+                        <div class="inmate">
+                            <label for="inmate_id">ID</label>
+                            <input type="text" id="inmate_id" name="inmate_id" class="form-control" required/>
+                            <span id="idError"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="button" id="add-inmate" class="btn btn-secondary">+</button>
+        
+        `;
+        inmatesContainer.appendChild(newInmate);
+    });
+</script>
 
 </body>
 </html>

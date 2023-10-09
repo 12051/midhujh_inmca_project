@@ -32,6 +32,8 @@
       <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
       <!-- owl stylesheets -->
       <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
       <style>
 
@@ -122,6 +124,10 @@
         .form-group {
             margin-bottom: 20px;
         }
+
+        .upload-button {
+            width: 250px; /* Set the desired width here */
+        }
         
         </style>
    </head>
@@ -205,10 +211,171 @@
          </div>
       </div>
 
+      <br><br><br><br><br>
+
+      <h2 style="margin-left:10%;">MANAGE STATUS OF THE CRIME</h2>
+      <button style="margin-left:12%;" class="btn btn-info edit-button" data-toggle="modal" data-target="#editModal{{ form_id }}" data-doc-id="{{ form_id }}">Edit Status</button><br><br>
+      <!-- Modal for Editing Status -->
+      <div class="modal fade" id="editModal{{ form_id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    
+                    <h5 class="modal-title" id="editModalLabel">Edit Status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'update_status' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="statusDropdown">Select Status:</label>
+                            <select name="status" id="statusDropdown{{ form_id }}" class="form-control">
+                                <option value="Reported">Reported</option>
+                                <option value="Preliminary Investigation">Preliminary Investigation</option>
+                                <option value="Inquiry and Investigation">Inquiry and Investigation</option>
+                                <option value="Arrest and Detention">Arrest and Detention</option>
+                                <option value="Case Closed">Case Closed</option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="report_id" id="reportId{{ form_id }}" value="{{ form_id}}">
+                        <label for="txtStatus">STATUS:</label><input type="text" value="{{ form_status }}" readonly/>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+      <h2 style="margin-left:10%;">UPLOAD DOCUMENTS RELATED TO EACH STAGE OF INVESTIGATION</h2>
+
+        <!-- Form for uploading evidence documents -->
+{% comment %} <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- Include input fields for uploading evidence documents and their descriptions -->
+    <label>Upload FIR:</label>
+    <input type="file" name="evidence_fir" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button>    
+
+    <hr>
+    <label>Upload Witness Statement:</label>
+    <input type="file" name="evidence_witness" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button> 
+
+    <hr>
+    <label>Upload Forensic Report:</label>
+    <input type="file" name="evidence_forensic" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button> 
+
+    <hr>
+    <label>Upload Arrest Memo (if applicable):</label>
+    <input type="file" name="evidence_arrest" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button> 
+
+    <hr>
+    <label>Upload Charge Sheet:</label>
+    <input type="file" name="evidence_charge" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button> 
+
+    <hr>
+    <label>Upload Case Diary:</label>
+    <input type="file" name="evidence_case" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button> 
+
+    <hr>
+    <label>Upload Final Report:</label>
+    <input type="file" name="evidence_final" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <a href="{% url "up_final" %}"><button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button></a>
+
+    <hr>
+</form> {% endcomment %}
+
+<form method="post" enctype="multipart/form-data" action="{% url "up_final" %}">
+    {% csrf_token %}
+    <!-- Include input fields for uploading evidence documents and their descriptions -->
+    <input type="hidden" name="crimeidnum" id="reportId{{ form_id }}" value="{{ form_id}}" >
+    <label>
+        <span id="firLabel">Upload FIR:</span>
+    </label>
+    {{ form.document_fir }}
+    <button type="submit" class="upload-button">
+        <i class="fas fa-upload"></i> FIR
+    </button>
+    <hr>
+
+    <label>Upload Forensic Report:</label>
+    {{ form.document_witness }}
+    <button type="submit" class="upload-button">
+        <i class="fas fa-upload"></i> Witness Statement
+    </button>
+    <hr>
+
+    <label>Upload Forensic Report:</label>
+    {{ form.document_forensic }}
+    <button type="submit" class="upload-button">
+        <i class="fas fa-upload"></i> Forensic Report
+    </button>
+    <hr>
+
+    <label>Upload Arrest Memo (if applicable):</label>
+    {{ form.document_arrest }}
+    <button type="submit" class="upload-button">
+        <i class="fas fa-upload"></i> Arrest Memo
+    </button>
+    <hr>
+
+    <label>Upload Charge Sheet:</label>
+    {{ form.document_charge }}
+    <button type="submit" class="upload-button">
+        <i class="fas fa-upload"></i> Charge Sheet
+    </button>
+    <hr>
+
+    <label>Upload Case Diary:</label>
+    {{ form.document_case }}
+    <button type="submit" class="upload-button">
+        <i class="fas fa-upload"></i> Case Diary
+    </button>
+    <hr>
+
+    <label>Upload Final Report:</label>
+    {{ form.document_final }}
+    <button type="submit" class="upload-button">
+        <i class="fas fa-upload"></i> Final Report
+    </button>
+    <hr>
+</form>
+
+
+      <br><br><br><br>
+      <h2 style="margin-left:10%;">SUBMITTED FORM DETAILS</h2>
+
 <form id="reportform" method="post" >
 
     {% csrf_token %}
-    <br>
 
     <div class="row">
         <div class="col-md-6">
@@ -298,3 +465,68 @@
     
 <br>
 </form>
+<br>
+<!-- Add Bootstrap and jQuery JavaScript links -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // JavaScript to handle the "Edit" button click
+    $(document).ready(function () {
+        $('.edit-button').click(function () {
+            var reportId = $(this).data('report-id');
+            var currentStatus = $('#currentStatus' + reportId).val();
+            $('#reportId' + reportId).val(reportId);
+            $('#statusDropdown' + reportId).val(currentStatus);
+        });
+
+    // JavaScript to handle the "Save" button click for Crime Reports
+    $('.save-crime-status-button').click(function () {
+        var reportId = $(this).data('report-id');
+        var newStatus = $('#statusDropdown' + reportId).val();
+
+        $.ajax({
+            url: '{% url "update_status" %}', // Replace with your update_status URL
+            type: 'POST',
+            data: {
+                'report_id': reportId,
+                'status': newStatus,
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    // Update the status in the UI if the server request was successful
+                    $('#currentStatus' + reportId).val(newStatus);
+                    $('#editModal' + reportId).modal('hide');
+                    alert('Status Updated Successfully');
+                } else {
+                    // Handle errors from the server if needed
+                    console.error('Status update failed');
+                }
+            },
+            error: function () {
+                // Handle errors if the request fails
+                console.error('Status update request failed');
+            }
+        });
+    });
+});
+
+</script>   
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const firLabel = document.getElementById('firLabel');
+        const uploadFIRButton = document.querySelector('button[type="submit"]');
+
+        uploadFIRButton.addEventListener('click', function () {
+            // Change the label text to "FIR Uploaded"
+            firLabel.textContent = 'FIR Uploaded:';
+        });
+    });
+</script>
+
+</body>
+</html>

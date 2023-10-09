@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 #from .models import User
-from .forms import CrimeReportForm, AnonyReportForm, DocReportForm, PublicForm, PublicForm
-from .models import CustomUser, CrimeReport, DocReport, SpecLoc, FIRFile, PublicReport
+from .forms import CrimeReportForm, AnonyReportForm, DocReportForm, PublicForm, PublicForm, EvidenceCrimeForm
+from .models import CustomUser, CrimeReport, DocReport, SpecLoc, FIRFile, PublicReport, EvidenceCrimeReport
 import re
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User,auth
@@ -155,6 +155,23 @@ def report_crime(request):
 
 def reported_crimes(request):
     return render(request,'reported_crimes.html')
+
+def law_page(request):
+    crime_reports = CrimeReport.objects.all()
+    doc_reports = DocReport.objects.all()
+    public_reports = PublicReport.objects.all()
+    # Assuming you have models associated with the forms
+    data1 = CrimeReport.objects.all()
+    data2 = DocReport.objects.all()
+    data3 = PublicReport.objects.all()
+    return render(request,'law_page.html', {
+            'crime_reports': crime_reports,
+            'doc_reports': doc_reports,
+            'public_reports': public_reports,
+            'data_from_model1': data1,
+            'data_from_model2': data2,
+            'data_from_model3': data3,
+        })
 
 # def generate_pdf(request):
 #     if request.method == 'POST':
@@ -354,32 +371,40 @@ def law_update_status(request):
             'data_from_model2': data2,
             'data_from_model3': data3,
         })
-    
+
 def update_status(request):
     if request.method == 'POST':
         report_id = request.POST.get('report_id')
         doc_id = request.POST.get('doc_id')
         public_id = request.POST.get('public_id')
         new_status = request.POST.get('status')
-        
         if report_id:
             report = CrimeReport.objects.get(pk=report_id)
             report.status = new_status
             report.save()
+            
+            # Redirect to the view_crime page for CrimeReport with the updated status
+            return redirect('view_crime', crime_id=report_id)
             
         elif doc_id:
             report_ = DocReport.objects.get(pk=doc_id)
             report_.status = new_status
             report_.save()
             
+            # Redirect to the view_crime page for DocReport with the updated status
+            return redirect('view_crime', crime_id=doc_id)
+            
         elif public_id:
             report_p = PublicReport.objects.get(pk=public_id)
             report_p.status = new_status
             report_p.save()
             
-        return redirect('law_update_status')
-    else:
-        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+            # Redirect to the view_crime page for PublicReport with the updated status
+            return redirect('view_crime', crime_id=public_id)
+    
+    # Handle invalid request method here
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
 
 # def update_crime_status(request):
 #     if request.method == 'POST':
@@ -420,12 +445,53 @@ def view_crime(request,crime_id):
     try:
         task=CrimeReport.objects.get(id=crime_id)
         form=CrimeReportForm(request.POST or None,instance=task)
-        return render(request,'view_crime.html',{'form':form})
+        return render(request,'view_crime.html',{'form':form,'form_id':crime_id,'form_status':task.status})
     except CrimeReport.DoesNotExist:
         task=DocReport.objects.get(id=crime_id)
         form=DocReportForm(request.POST or None,instance=task)
-        return render(request,'view_crime.html',{'form':form})
+        return render(request,'view_crime.html',{'form':form,'form_id':crime_id,'form_status':task.status})
     
+# def up_final(request):
+#     if request.method == 'POST':
+#         # Create a new instance of CrimeReport and save it
+#         crime_report_form = EvidenceCrimeForm(request.POST)
+#         if crime_report_form.is_valid():
+#             crime_report = crime_report_form.save()
+
+#             # Get the uploaded "Final Report" file and store it in document_final field
+#             final_report_file = request.FILES.get('evidence_final')
+#             if final_report_file:
+#                 evidence_report = EvidenceCrimeReport(
+#                     crime_idnum=crime_report,
+#                     document_final=final_report_file,
+#                 )
+#                 evidence_report.save()
+
+#             return redirect('success_url')  # Replace 'success_url' with your desired URL
+
+#     # Handle GET request or form validation errors
+#     else:
+#         crime_report_form = EvidenceCrimeForm()
+
+#     return render(request, 'view_crime.html', {'crime_report_form': crime_report_form})
+    
+def up_final(request):
+    if request.method == 'POST':
+        # Create a new instance of your form and handle the POST request
+        form = EvidenceCrimeForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            instance=form.save(commit=False)
+            instance.crime_idnum = request.POST.get('crimeid')
+            # Save the form data and uploaded files
+            instance.save()
+            return render(request, 'view_crime.html', {'form': form})  # Replace 'success_url' with your desired URL after successful upload
+
+    else:
+        # Handle GET request or form validation errors
+        form = EvidenceCrimeForm()
+    return render(request, 'view_crime.html', {'form': form})
+
 def view_doc(request,crime_id):
     try:
         task=DocReport.objects.get(id=crime_id)

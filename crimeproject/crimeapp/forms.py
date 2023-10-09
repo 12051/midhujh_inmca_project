@@ -1,5 +1,5 @@
 from django import forms
-from .models import CrimeReport, AnonyReport, DocReport, PublicReport
+from .models import CrimeReport, AnonyReport, DocReport, PublicReport, EvidenceCrimeReport
 
 class CrimeReportForm(forms.ModelForm):
     class Meta:
@@ -28,3 +28,8 @@ class PublicForm(forms.ModelForm):
         model = PublicReport
         fields = '__all__'
         exclude = ['status']
+        
+class EvidenceCrimeForm(forms.ModelForm):
+    class Meta:
+        model = EvidenceCrimeReport
+        fields = ('document_fir', 'document_witness', 'document_forensic', 'document_arrest', 'document_charge', 'document_case', 'document_final')

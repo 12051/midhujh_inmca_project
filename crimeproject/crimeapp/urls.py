@@ -43,6 +43,8 @@ urlpatterns = [
     path('control', views.control, name='control'),
     path('report_prison', views.report_prison, name='report_prison'),
     path('view_public/<int:crime_id>/', views.view_public, name='view_public'),
+    path('law_page', views.law_page, name='law_page'),
+    path('up_final', views.up_final, name='up_final'),
 
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 if settings.DEBUG:
