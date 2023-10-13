@@ -61,15 +61,32 @@ class CrimeReport(models.Model):
     delay = models.TextField(null=True,blank=True)
     list_user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
     STATUS_CHOICES = (
-        ('Reported', 'Reported'),
-        ('Preliminary Investigation', 'Preliminary Investigation'),
-        ('Inquiry and Investigation', 'Inquiry and Investigation'),
+        ('Crime Reported', 'Crime Reported'),
+        ('Preliminary Investigation completed', 'Preliminary Investigation completed'),
+        ('Inquiry and Investigation in progress', 'Inquiry and Investigation in progress'),
+        ('Inquiry and Investigation completed', 'Inquiry and Investigation completed'),        
         ('Arrest and Detention', 'Arrest and Detention'),
+        ('Case Closure in progress', 'Case Closure in progress'),
         ('Case Closed', 'Case Closed'),
     )
-    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Reported',null=True,blank=True)
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Crime Reported',null=True,blank=True)
+    def fir(self):
+        self.status='Preliminary Investigation completed'
+    def witness(self):
+        self.status='Inquiry and Investigation in progress'
+    def forensic(self):
+        self.status='Inquiry and Investigation completed' 
+    def arrest(self):
+        self.status='Arrest and Detention'
+    def charge(self):
+        self.status='Case Closure in progress'
+    def case(self):
+        self.status='Case Closure in progress'
+    def final(self):
+        self.status='Case Closed'
     def __str__(self):
         return self.reporter_name
+    
     
 class DocReport(models.Model):
     #fir_number = models.CharField(max_length=10, null=True, unique=True)
@@ -94,13 +111,15 @@ class DocReport(models.Model):
         verbose_name='Any kind of Threat or Violence faced'
     )
     STATUS_CHOICES = (
-        ('Reported', 'Reported'),
-        ('Preliminary Investigation', 'Preliminary Investigation'),
-        ('Inquiry and Investigation', 'Inquiry and Investigation'),
+        ('Crime Reported', 'Crime Reported'),
+        ('Preliminary Investigation completed', 'Preliminary Investigation completed'),
+        ('Inquiry and Investigation in progress', 'Inquiry and Investigation in progress'),
+        ('Inquiry and Investigation completed', 'Inquiry and Investigation completed'),        
         ('Arrest and Detention', 'Arrest and Detention'),
+        ('Case Closure in progress', 'Case Closure in progress'),
         ('Case Closed', 'Case Closed'),
     )
-    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Reported',null=True,blank=True)
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Crime Reported',null=True,blank=True)
     def __str__(self):
         return self.i_name
     
@@ -138,15 +157,17 @@ class PublicReport(models.Model):
     delay = models.TextField(null=True,blank=True)
     list_user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
     STATUS_CHOICES = (
-        ('Reported', 'Reported'),
-        ('Preliminary Investigation', 'Preliminary Investigation'),
-        ('Inquiry and Investigation', 'Inquiry and Investigation'),
+        ('Crime Reported', 'Crime Reported'),
+        ('Preliminary Investigation completed', 'Preliminary Investigation completed'),
+        ('Inquiry and Investigation in progress', 'Inquiry and Investigation in progress'),
+        ('Inquiry and Investigation completed', 'Inquiry and Investigation completed'),        
         ('Arrest and Detention', 'Arrest and Detention'),
+        ('Case Closure in progress', 'Case Closure in progress'),
         ('Case Closed', 'Case Closed'),
     )
-    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Reported')
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Crime Reported')
     def __str__(self):
-        return self.reporter_name
+        return self.info_name
     
 class FIRFile(models.Model):
     crime_report = models.ForeignKey('CrimeReport', on_delete=models.CASCADE)
@@ -165,5 +186,3 @@ class EvidenceCrimeReport(models.Model):
     document_case = models.FileField(upload_to='evidence_case/',null=True,blank=True)
     document_final = models.FileField(upload_to='evidence_final/',null=True,blank=True)
 
-    def __str__(self):
-        return self.crime_idnum

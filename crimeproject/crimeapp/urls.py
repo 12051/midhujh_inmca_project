@@ -40,12 +40,20 @@ urlpatterns = [
     path('view_doc/<int:crime_id>/', views.view_doc, name='view_doc'),
     path('view_crime/<int:crime_id>/', views.view_crime, name='view_crime'),
     path('prisonstaff', views.prisonstaff, name='prisonstaff'),
+    path('control_page', views.control_page, name='control_page'),
+    path('control_status', views.control_status, name='control_status'),
     path('control', views.control, name='control'),
     path('report_prison', views.report_prison, name='report_prison'),
     path('view_public/<int:crime_id>/', views.view_public, name='view_public'),
     path('law_page', views.law_page, name='law_page'),
     path('up_final', views.up_final, name='up_final'),
-
+    path('fir/', views.fir, name='fir'),
+    path('witness/', views.witness, name='witness'),
+    path('forensic/', views.forensic, name='forensic'),
+    path('arrest/', views.arrest, name='arrest'),
+    path('charge/', views.charge, name='charge'),
+    path('case/', views.case, name='case'),
+    path('final/', views.final, name='final'),
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

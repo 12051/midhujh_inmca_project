@@ -1,0 +1,681 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+      <!-- site metas -->
+      <title>ReportSafer | Offence relating to Human Body</title>
+      <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
+      {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <!-- bootstrap css -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+      <!-- style css -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <!-- Responsive-->
+      <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+      <!-- fevicon -->
+      <link rel="icon" href="{% static 'images/fevicon.png' %}" type="image/gif" />
+      <!-- Scrollbar Custom CSS -->
+      <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
+      <!-- Tweaks for older IEs-->
+      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+      <!-- fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+      <!-- owl stylesheets -->
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+      <style>
+
+        /* Reset some default styles */
+        body, h1 {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: {% static 'images/bg.jpg' %};
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    
+        form {
+            
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #d8e1e8; /* Adjust opacity here */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #reportform{
+            margin-top:100px;
+            margin-bottom:10px;
+        }
+    
+        /* Apply some basic styling to the form */
+        form {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #b2cbde;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Style form headings */
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        
+        /* Style form labels */
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        /* Style form input fields and text area */
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        /* Style the submit button */
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left:40%;
+        }
+        
+        /* Style error messages */
+        .error {
+            color: #ff0000;
+            font-size: 12px;
+            display: block;
+            margin-top: 5px;
+        }
+        
+        /* Add some spacing between form groups */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .upload-button {
+            width: 250px; /* Set the desired width here */
+        }
+        
+        </style>
+   </head>
+   <body style='font-family:Poppins,sans-serif;'>
+      <!-- header section start -->
+      <div class="header_section">
+         <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top-navbar">
+               <a class="logo" href="{% url 'law_index' %}"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                     {% if user.is_authenticated %}
+                     <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'law_index' %}">Home</a>
+                     </li>
+                     {% comment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'general' %}">General Information</a>
+                     </li> {% endcomment %}
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'laws' %}">Laws</a>
+                     </li>
+                     <li class="nav-item">
+                      <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
+                      </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
+                     </li>
+                     <div class="navbar-nav ml-auto">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="acti" id- data-toggle="dropdown">Your Activity</a>
+                            <div class="dropdown-menu">
+                              
+                                <a href="{% url 'law_page' %}" class="dropdown-item">Manage Crime Status</a>    
+                            </div>
+                        </div>
+                    </div>
+                     <li class="nav-item">
+                     <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
+                     {% else %}
+                     </li>
+                     {% comment %} <div class="navbar-nav ml-auto">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
+                            <div class="dropdown-menu"> 
+                                <a href="http://127.0.0.1:8000/witnessregister" class="dropdown-item">Register as Witness</a>
+                                <a href="http://127.0.0.1:8000/victimregister" class="dropdown-item">Register as Victim</a>       
+                            </div>
+                        </div>
+                    </div> {% endcomment %}
+                   
+                     {% comment %} <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/register">Register</a>
+                     </li> {% endcomment %}
+                     <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/law_login">Login</a>
+                     </li>
+                     {% endif %}
+                     {% comment %} <h2>User: {{user.name}}</h2> {% endcomment %}
+                  </ul>
+                  <!-- <form class="form-inline my-2 my-lg-0">
+                     <div class="login_menu">
+                        <ul>
+                           <li><a href="#">Login</a></li>
+                           <li><a href="#">Register</a></li>
+                           <li><a href="#"><img src="images/user-icon.png"></a></li>
+                           <li><a href="#"><img src="images/search-icon.png"></a></li>
+                        </ul>
+                     </div>
+                  </form> -->
+               </div>
+            </nav>
+         </div>
+      </div>
+
+      <br><br>
+
+      {% comment %} <h2 style="margin-left:10%;">MANAGE STATUS OF THE CRIME</h2>
+      <button style="margin-left:12%;" class="btn btn-info edit-button" data-toggle="modal" data-target="#editModal{{ form_id }}" data-doc-id="{{ form_id }}">Edit Status</button><br><br>
+      <!-- Modal for Editing Status -->
+      <div class="modal fade" id="editModal{{ form_id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    
+                    <h5 class="modal-title" id="editModalLabel">Edit Status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'update_status' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="statusDropdown">SELECT STATUS:</label>
+                            <select name="status" id="statusDropdown{{ form_id }}" class="form-control">
+                                <option value="Reported">Crime Reported</option>
+                                <option value="Preliminary Investigation">Preliminary Investigation completed</option>
+                                <option value="Inquiry and Investigation">Inquiry and Investigation in progress</option>
+                                <option value="Inquiry and Investigation">Inquiry and Investigation completed</option>
+                                <option value="Arrest and Detention">Arrest and Detention</option>
+                                <option value="Case Closed">Case Closure in progress</option>
+                                <option value="Case Closed">Case Closed</option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="report_id" id="reportId{{ form_id }}" value="{{ form_id}}">
+                        <label for="txtStatus">CURRENT STATUS:</label><input type="text" value="{{ form_status }}" readonly/>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+
+    <br><br>
+      <h2 style="margin-left:10%;">UPLOAD DOCUMENTS RELATED TO EACH STAGE OF INVESTIGATION</h2>
+      {% comment %} <form action="{% url "up_final" %}" method="post" enctype="multipart/form-data">
+        <!-- Your other form fields -->
+        {%csrf_token%}
+        
+    <input type="hidden" name="crime_idnum" value="{{ form_id }}" >
+        <label>FIR: </label>
+        {{ file_evidence.document_fir }}
+        {% if not file_evidence.document_fir %}
+        <input type="file" name="document_fir" id="document_fir">
+        {% endif %}
+        <br>
+    
+        <label>Witness Statement: </label>
+        {{ file_evidence.document_witness }}
+        {% if not file_evidence.document_witness %}
+        <input type="file" name="document_witness" id="document_witness">
+        {% endif %}
+        <br>
+    
+        <label>Forensic Report: </label>
+        {{ file_evidence.document_forensic }}
+        {% if not file_evidence.document_forensic %}
+        <input type="file" name="document_forensic" id="document_forensic">
+        {% endif %}
+        <br>
+    
+        <label>Arrest Memo: </label>
+        {{ file_evidence.document_arrest }}
+        {% if not file_evidence.document_arrest %}
+        <input type="file" name="document_arrest" id="document_arrest">
+        {% endif %}
+        <br>
+    
+        <label>Charge Sheet: </label>
+        {{ file_evidence.document_charge }}
+        {% if not file_evidence.document_charge %}
+        <input type="file" name="document_charge" id="document_charge">
+        {% endif %}
+        <br>
+    
+        <label>Case Diary: </label>
+        {{ file_evidence.document_case }}
+        {% if not file_evidence.document_case %}
+        <input type="file" name="document_case" id="document_case">
+        {% endif %}
+        <br>
+    
+        <label>Final Report: </label>
+        {{ file_evidence.document_final }}
+        {% if not file_evidence.document_final %}
+        <input type="file" name="document_final" id="document_final">
+        {% endif %}
+        <br>
+    
+        <button type="submit">SUBMIT</button>
+    </form>
+     {% endcomment %}
+     <form action="{% url 'fir' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>FIR: </label>
+        {{ file_evidence.document_fir }}
+        {% if not file_evidence.document_fir %}
+            <input type="file" name="document_fir" id="document_fir">
+        {% endif %}
+        <br>
+    </form>
+    <form action="{% url 'witness' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Witness Statement: </label>
+        {{ file_evidence.document_witness }}
+        {% if not file_evidence.document_witness %}
+            <input type="file" name="document_witness" id="document_witness">
+        {% endif %}
+        <br>
+    </form>
+    <form action="{% url 'forensic' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Forensic Report: </label>
+        {{ file_evidence.document_forensic }}
+        {% if not file_evidence.document_forensic %}
+            <input type="file" name="document_forensic" id="document_forensic">
+        {% endif %}
+        <br>
+    </form>
+    <form action="{% url 'arrest' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Arrest Memo: </label>
+        {{ file_evidence.document_arrest }}
+        {% if not file_evidence.document_arrest %}
+            <input type="file" name="document_arrest" id="document_arrest">
+        {% endif %}
+        <br>
+    </form>
+    <form action="{% url 'charge' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Charge Sheet: </label>
+        {{ file_evidence.document_charge }}
+        {% if not file_evidence.document_charge %}
+            <input type="file" name="document_charge" id="document_charge">
+        {% endif %}
+        <br>
+    </form>
+    <form action="{% url 'case' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Case Diary: </label>
+        {{ file_evidence.document_case }}
+        {% if not file_evidence.document_case %}
+            <input type="file" name="document_case" id="document_case">
+        {% endif %}
+        <br>
+    </form>
+    <form action="{% url 'final' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Final Report: </label>
+        {{ file_evidence.document_final }}
+        {% if not file_evidence.document_final %}
+            <input type="file" name="document_final" id="document_final">
+        {% endif %}
+        <br>
+    </form>
+
+        <!-- Form for uploading evidence documents -->
+{% comment %} <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- Include input fields for uploading evidence documents and their descriptions -->
+    <label>Upload FIR:</label>
+    <input type="file" name="evidence_fir" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button>    
+
+    <hr>
+    <label>Upload Witness Statement:</label>
+    <input type="file" name="evidence_witness" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button> 
+
+    <hr>
+    <label>Upload Forensic Report:</label>
+    <input type="file" name="evidence_forensic" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button> 
+
+    <hr>
+    <label>Upload Arrest Memo (if applicable):</label>
+    <input type="file" name="evidence_arrest" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button> 
+
+    <hr>
+    <label>Upload Charge Sheet:</label>
+    <input type="file" name="evidence_charge" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button> 
+
+    <hr>
+    <label>Upload Case Diary:</label>
+    <input type="file" name="evidence_case" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button> 
+
+    <hr>
+    <label>Upload Final Report:</label>
+    <input type="file" name="evidence_final" multiple>
+    <!-- Add more fields as needed for additional files -->
+    <a href="{% url "up_final" %}"><button type="submit">
+        <i class="fas fa-upload"></i> Upload
+    </button></a>
+
+    <hr>
+</form> {% endcomment %}
+{% comment %} 
+<form method="post" enctype="multipart/form-data" action="{% url "up_final" %}">
+    {% csrf_token %}
+    <!-- Include input fields for uploading evidence documents and their descriptions -->
+    <input type="hidden" name="crime_idnum" value="{{ form_id }}" >
+
+    <label>
+        <span id="firLabel">Upload FIR:</span>
+    </label>
+    {{ file_evidence.document_fir }}
+    <button type="submit" class="upload-button" id="fir-button" data-order="1">
+        <i class="fas fa-upload"></i> FIR
+    </button>
+    <hr>
+
+    <label>Upload Forensic Report:</label>
+    {{ file_evidence.document_witness }}
+    <button type="button" class="upload-button" id="witness-button" data-order="2" disabled>
+        <i class="fas fa-upload"></i> Witness Statement
+    </button>
+    <hr>
+
+    <label>Upload Forensic Report:</label>
+    {{ file_evidence.document_forensic }}
+    <button type="button" class="upload-button" id="forensic-button" data-order="3" disabled>
+        <i class="fas fa-upload"></i> Forensic Report
+    </button>
+    <hr>
+
+    <label>Upload Arrest Memo (if applicable):</label>
+    {{ file_evidence.document_arrest }}
+    <button type="submit" class="upload-button" id="arrest-button" data-order="4" disabled>
+        <i class="fas fa-upload"></i> Arrest Memo
+    </button>
+    <hr>
+
+    <label>Upload Charge Sheet:</label>
+    {{ file_evidence.document_charge }}
+    <button type="submit" class="upload-button" id="charge-button" data-order="5" disabled>
+        <i class="fas fa-upload"></i> Charge Sheet
+    </button>
+    <hr>
+
+    <label>Upload Case Diary:</label>
+    {{ file_evidence.document_case }}
+    <button type="submit" class="upload-button" id="case-button" data-order="6" disabled>
+        <i class="fas fa-upload"></i> Case Diary
+    </button>
+    <hr>
+
+    <label>Upload Final Report:</label>
+    {{ file_evidence.document_final }}
+    <button type="submit" class="upload-button" id="final-button" data-order="7" disabled>
+        <i class="fas fa-upload"></i> Final Report
+    </button>
+    <hr>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+     $(document).ready(function () {
+        // Add event listener for file input change
+        $(":file").change(function () {
+            // Get the order of the current button
+            var currentOrder = parseInt($(this).closest(".upload-button").attr("data-order"));
+
+            // Enable the next button and disable all previous buttons
+            $(".upload-button").each(function () {
+                var buttonOrder = parseInt($(this).attr("data-order"));
+                $(this).prop("disabled", buttonOrder < currentOrder);
+            });
+        });
+    });
+</script> {% endcomment %}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+      <br><br><br><br>
+      <h2 style="margin-left:10%;">SUBMITTED FORM DETAILS</h2>
+
+<form id="reportform" method="post" >
+    
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="reporter_name">Informer Name</label>
+                <input type="text" id="reporter_name" value="{{form.reporter_name.value}}" name="reporter_name" readonly/>
+            </div>
+        </div>
+    
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="aadhaarno">Informer Aadhar Number</label>
+                <input type="text" name="aadhaarno" id="adnumber" value="{{form.aadhaarno.value}}" class="form-control">
+                <span id="aadhaarError"></span>
+            </div>
+        </div>
+    </div>        
+
+      <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="reporter_location">Location of Incidence</label>
+                <input type="text" name="reporter_location" id="reporter_location" value="{{form.reporter_location.value}}">
+            </div>
+        </div>
+    
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="spec_station">Specified Station ID</label>
+                <input type="text" id="spec_station" name="spec_station" value="{{form.spec_location.value}}" readonly/>
+                <span id="locError"></span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="off_type">Type of Offence</label>
+                    <input type="text" value="{{form.off_type.value}}">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="datetime">Date and Time of Incidence</label>
+                <input type="date" id="datetime" name="datetime" value="{{form.datetime.value|date:"Y-m-d" }}" class="form-control" required>
+            </div>
+        </div>
+    </div>               
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="description">Description of the Incident</label>
+                <input id="description" name="description" value="{{form.description.value}}" >
+                <span id="descriptionError"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="victimDescription">Description of the Victim</label>
+                <textarea id="victimDescription" name="victimDescription" value="{{form.victimDescription.value}}"></textarea>
+            </div>
+        </div>
+    </div>        
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="offenderDescription">Description of the Offender</label>
+                <textarea id="offenderDescription" name="offenderDescription" value="{{form.offenderDescription.value}}"></textarea>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="witnessInformation">Witness Information</label>
+                <textarea id="witnessInformation" name="witnessInformation" value="{{form.witnessInformation.value}}"></textarea>
+            </div>
+        </div>
+    </div>        
+
+    <div class="form-group">
+        <label for="delay">Reason for delay in reporting</label>
+        <input type="text" id="delay" name="delay" value="{{form.delay.value}}">
+    </div>
+
+    
+<br>
+</form>
+<br>
+<!-- Add Bootstrap and jQuery JavaScript links -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // JavaScript to handle the "Edit" button click
+    $(document).ready(function () {
+        $('.edit-button').click(function () {
+            var reportId = $(this).data('report-id');
+            var currentStatus = $('#currentStatus' + reportId).val();
+            $('#reportId' + reportId).val(reportId);
+            $('#statusDropdown' + reportId).val(currentStatus);
+        });
+
+    // JavaScript to handle the "Save" button click for Crime Reports
+    $('.save-crime-status-button').click(function () {
+        var reportId = $(this).data('report-id');
+        var newStatus = $('#statusDropdown' + reportId).val();
+
+        $.ajax({
+            url: '{% url "update_status" %}', // Replace with your update_status URL
+            type: 'POST',
+            data: {
+                'report_id': reportId,
+                'status': newStatus,
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    // Update the status in the UI if the server request was successful
+                    $('#currentStatus' + reportId).val(newStatus);
+                    $('#editModal' + reportId).modal('hide');
+                    alert('Status Updated Successfully');
+                } else {
+                    // Handle errors from the server if needed
+                    console.error('Status update failed');
+                }
+            },
+            error: function () {
+                // Handle errors if the request fails
+                console.error('Status update request failed');
+            }
+        });
+    });
+});
+
+</script>   
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const firLabel = document.getElementById('firLabel');
+        const uploadFIRButton = document.querySelector('button[type="submit"]');
+
+        uploadFIRButton.addEventListener('click', function () {
+            // Change the label text to "FIR Uploaded"
+            firLabel.textContent = 'FIR Uploaded:';
+        });
+    });
+</script>
+
+</body>
+</html>

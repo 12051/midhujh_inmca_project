@@ -65,9 +65,9 @@
                      </li>
                      <div class="navbar-nav ml-auto">
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
+                            <a href="#" class="nav-link dropdown-toggle" id="activity" data-toggle="dropdown">Your Activity</a>
                             <div class="dropdown-menu"> 
-                                <a href="{% url 'crime_category' %}" class="dropdown-item">Report a Crime</a>
+                                <a href="{% url 'crime_category' %}" id="reportcrime" class="dropdown-item">Report a Crime</a>
                                 <a href="{% url 'listcrime' %}" class="dropdown-item">View Crime Status</a>       
                             </div>
                         </div>

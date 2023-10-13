@@ -144,7 +144,7 @@
                   <ul class="navbar-nav mr-auto">
                      {% if user.is_authenticated %}
                      <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                        <a class="nav-link" href="{% url 'law_index' %}">Home</a>
                      </li>
                      {% comment %} <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}">About Us</a>
@@ -163,10 +163,10 @@
                      </li>
                      <div class="navbar-nav ml-auto">
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
+                            <a href="#" class="nav-link dropdown-toggle" id="acti" id- data-toggle="dropdown">Your Activity</a>
                             <div class="dropdown-menu">
                               
-                                <a href="{% url 'law_update_status' %}" class="dropdown-item">Manage Crime Status</a>    
+                                <a href="{% url 'law_page' %}" class="dropdown-item">Manage Crime Status</a>    
                             </div>
                         </div>
                     </div>
@@ -211,9 +211,9 @@
          </div>
       </div>
 
-      <br><br><br><br><br>
+      <br><br>
 
-      <h2 style="margin-left:10%;">MANAGE STATUS OF THE CRIME</h2>
+      {% comment %} <h2 style="margin-left:10%;">MANAGE STATUS OF THE CRIME</h2>
       <button style="margin-left:12%;" class="btn btn-info edit-button" data-toggle="modal" data-target="#editModal{{ form_id }}" data-doc-id="{{ form_id }}">Edit Status</button><br><br>
       <!-- Modal for Editing Status -->
       <div class="modal fade" id="editModal{{ form_id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -230,26 +230,176 @@
                     <form method="post" action="{% url 'update_status' %}">
                         {% csrf_token %}
                         <div class="form-group">
-                            <label for="statusDropdown">Select Status:</label>
+                            <label for="statusDropdown">SELECT STATUS:</label>
                             <select name="status" id="statusDropdown{{ form_id }}" class="form-control">
-                                <option value="Reported">Reported</option>
-                                <option value="Preliminary Investigation">Preliminary Investigation</option>
-                                <option value="Inquiry and Investigation">Inquiry and Investigation</option>
+                                <option value="Reported">Crime Reported</option>
+                                <option value="Preliminary Investigation">Preliminary Investigation completed</option>
+                                <option value="Inquiry and Investigation">Inquiry and Investigation in progress</option>
+                                <option value="Inquiry and Investigation">Inquiry and Investigation completed</option>
                                 <option value="Arrest and Detention">Arrest and Detention</option>
+                                <option value="Case Closed">Case Closure in progress</option>
                                 <option value="Case Closed">Case Closed</option>
                             </select>
                         </div>
                         <input type="hidden" name="report_id" id="reportId{{ form_id }}" value="{{ form_id}}">
-                        <label for="txtStatus">STATUS:</label><input type="text" value="{{ form_status }}" readonly/>
+                        <label for="txtStatus">CURRENT STATUS:</label><input type="text" value="{{ form_status }}" readonly/>
                         <button type="submit" class="btn btn-success">Save</button>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
+    </div> {% endcomment %}
 
     <br><br>
       <h2 style="margin-left:10%;">UPLOAD DOCUMENTS RELATED TO EACH STAGE OF INVESTIGATION</h2>
+      {% comment %} <form action="{% url "up_final" %}" method="post" enctype="multipart/form-data">
+        <!-- Your other form fields -->
+        {%csrf_token%}
+        
+    <input type="hidden" name="crime_idnum" value="{{ form_id }}" >
+        <label>FIR: </label>
+        {{ file_evidence.document_fir }}
+        {% if not file_evidence.document_fir %}
+        <input type="file" name="document_fir" id="document_fir">
+        {% endif %}
+        <br>
+    
+        <label>Witness Statement: </label>
+        {{ file_evidence.document_witness }}
+        {% if not file_evidence.document_witness %}
+        <input type="file" name="document_witness" id="document_witness">
+        {% endif %}
+        <br>
+    
+        <label>Forensic Report: </label>
+        {{ file_evidence.document_forensic }}
+        {% if not file_evidence.document_forensic %}
+        <input type="file" name="document_forensic" id="document_forensic">
+        {% endif %}
+        <br>
+    
+        <label>Arrest Memo: </label>
+        {{ file_evidence.document_arrest }}
+        {% if not file_evidence.document_arrest %}
+        <input type="file" name="document_arrest" id="document_arrest">
+        {% endif %}
+        <br>
+    
+        <label>Charge Sheet: </label>
+        {{ file_evidence.document_charge }}
+        {% if not file_evidence.document_charge %}
+        <input type="file" name="document_charge" id="document_charge">
+        {% endif %}
+        <br>
+    
+        <label>Case Diary: </label>
+        {{ file_evidence.document_case }}
+        {% if not file_evidence.document_case %}
+        <input type="file" name="document_case" id="document_case">
+        {% endif %}
+        <br>
+    
+        <label>Final Report: </label>
+        {{ file_evidence.document_final }}
+        {% if not file_evidence.document_final %}
+        <input type="file" name="document_final" id="document_final">
+        {% endif %}
+        <br>
+    
+        <button type="submit">SUBMIT</button>
+    </form>
+     {% endcomment %}
+     <form action="{% url 'fir' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>FIR: </label>
+        {{ file_evidence.document_fir }}
+        {% if not file_evidence.document_fir %}
+            <input type="file" name="document_fir" id="document_fir">
+        {% endif %}
+        <br>
+        <button type="submit" id="charge-fir" name="charge-fir">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
+    <form action="{% url 'witness' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Witness Statement: </label>
+        {{ file_evidence.document_witness }}
+        {% if not file_evidence.document_witness %}
+            <input type="file" name="document_witness" id="document_witness">
+        {% endif %}
+        <br>
+        <button type="submit" id="charge-wit" name="charge-wit">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
+    <form action="{% url 'forensic' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Forensic Report: </label>
+        {{ file_evidence.document_forensic }}
+        {% if not file_evidence.document_forensic %}
+            <input type="file" name="document_forensic" id="document_forensic">
+        {% endif %}
+        <br>
+        <button type="submit" id="charge-forensic" name="charge-forensic">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
+    <form action="{% url 'arrest' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Arrest Memo: </label>
+        {{ file_evidence.document_arrest }}
+        {% if not file_evidence.document_arrest %}
+            <input type="file" name="document_arrest" id="document_arrest">
+        {% endif %}
+        <br>
+        <button type="submit" id="charge-arrest" name="charge-arrest">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
+    <form action="{% url 'charge' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Charge Sheet: </label>
+        {{ file_evidence.document_charge }}
+        {% if not file_evidence.document_charge %}
+            <input type="file" name="document_charge" id="document_charge">
+        {% endif %}
+        <br>
+        <button type="submit" id="charge-btn" name="charge-btn">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
+    <form action="{% url 'case' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Case Diary: </label>
+        {{ file_evidence.document_case }}
+        {% if not file_evidence.document_case %}
+            <input type="file" name="document_case" id="document_case">
+        {% endif %}
+        <br>
+        <button type="submit" id="charge-case" name="charge-case">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
+    <form action="{% url 'final' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Final Report: </label>
+        {{ file_evidence.document_final }}
+        {% if not file_evidence.document_final %}
+            <input type="file" name="document_final" id="document_final">
+        {% endif %}
+        <br>
+        <button type="submit" id="charge-final" name="charge-final">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
 
         <!-- Form for uploading evidence documents -->
 {% comment %} <form method="post" enctype="multipart/form-data">
@@ -312,71 +462,91 @@
 
     <hr>
 </form> {% endcomment %}
-
+{% comment %} 
 <form method="post" enctype="multipart/form-data" action="{% url "up_final" %}">
     {% csrf_token %}
     <!-- Include input fields for uploading evidence documents and their descriptions -->
-    <input type="hidden" name="crimeidnum" id="reportId{{ form_id }}" value="{{ form_id}}" >
+    <input type="hidden" name="crime_idnum" value="{{ form_id }}" >
+
     <label>
         <span id="firLabel">Upload FIR:</span>
     </label>
-    {{ form.document_fir }}
-    <button type="submit" class="upload-button">
+    {{ file_evidence.document_fir }}
+    <button type="submit" class="upload-button" id="fir-button" data-order="1">
         <i class="fas fa-upload"></i> FIR
     </button>
     <hr>
 
     <label>Upload Forensic Report:</label>
-    {{ form.document_witness }}
-    <button type="submit" class="upload-button">
+    {{ file_evidence.document_witness }}
+    <button type="button" class="upload-button" id="witness-button" data-order="2" disabled>
         <i class="fas fa-upload"></i> Witness Statement
     </button>
     <hr>
 
     <label>Upload Forensic Report:</label>
-    {{ form.document_forensic }}
-    <button type="submit" class="upload-button">
+    {{ file_evidence.document_forensic }}
+    <button type="button" class="upload-button" id="forensic-button" data-order="3" disabled>
         <i class="fas fa-upload"></i> Forensic Report
     </button>
     <hr>
 
     <label>Upload Arrest Memo (if applicable):</label>
-    {{ form.document_arrest }}
-    <button type="submit" class="upload-button">
+    {{ file_evidence.document_arrest }}
+    <button type="submit" class="upload-button" id="arrest-button" data-order="4" disabled>
         <i class="fas fa-upload"></i> Arrest Memo
     </button>
     <hr>
 
     <label>Upload Charge Sheet:</label>
-    {{ form.document_charge }}
-    <button type="submit" class="upload-button">
+    {{ file_evidence.document_charge }}
+    <button type="submit" class="upload-button" id="charge-button" data-order="5" disabled>
         <i class="fas fa-upload"></i> Charge Sheet
     </button>
     <hr>
 
     <label>Upload Case Diary:</label>
-    {{ form.document_case }}
-    <button type="submit" class="upload-button">
+    {{ file_evidence.document_case }}
+    <button type="submit" class="upload-button" id="case-button" data-order="6" disabled>
         <i class="fas fa-upload"></i> Case Diary
     </button>
     <hr>
 
     <label>Upload Final Report:</label>
-    {{ form.document_final }}
-    <button type="submit" class="upload-button">
+    {{ file_evidence.document_final }}
+    <button type="submit" class="upload-button" id="final-button" data-order="7" disabled>
         <i class="fas fa-upload"></i> Final Report
     </button>
     <hr>
 </form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+     $(document).ready(function () {
+        // Add event listener for file input change
+        $(":file").change(function () {
+            // Get the order of the current button
+            var currentOrder = parseInt($(this).closest(".upload-button").attr("data-order"));
+
+            // Enable the next button and disable all previous buttons
+            $(".upload-button").each(function () {
+                var buttonOrder = parseInt($(this).attr("data-order"));
+                $(this).prop("disabled", buttonOrder < currentOrder);
+            });
+        });
+    });
+</script> {% endcomment %}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
       <br><br><br><br>
       <h2 style="margin-left:10%;">SUBMITTED FORM DETAILS</h2>
 
 <form id="reportform" method="post" >
-
+    
     {% csrf_token %}
-
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">

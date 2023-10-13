@@ -32,6 +32,7 @@
       <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
       <!-- owl stylesheets -->
       <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
       <style>
 
@@ -160,7 +161,7 @@
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
                             <div class="dropdown-menu">
                               
-                                <a href="{% url 'law_update_status' %}" class="dropdown-item">Manage Crime Status</a>    
+                                <a href="{% url 'law_page' %}" class="dropdown-item">Manage Crime Status</a>    
                             </div>
                         </div>
                     </div>
@@ -204,7 +205,106 @@
             </nav>
          </div>
       </div>
-<br><br><br><br>
+<br><br><br><br><br><br>
+
+<h2 style="margin-left:10%;">UPLOAD DOCUMENTS RELATED TO EACH STAGE OF INVESTIGATION</h2>
+
+      <form action="{% url 'fir' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>FIR: </label>
+        {{ file_evidence.document_fir }}
+        {% if not file_evidence.document_fir %}
+            <input type="file" name="document_fir" id="document_fir">
+        {% endif %}
+        <br>
+        <button type="submit">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
+    <form action="{% url 'witness' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Witness Statement: </label>
+        {{ file_evidence.document_witness }}
+        {% if not file_evidence.document_witness %}
+            <input type="file" name="document_witness" id="document_witness">
+        {% endif %}
+        <br>
+        <button type="submit">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
+    <form action="{% url 'forensic' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Forensic Report: </label>
+        {{ file_evidence.document_forensic }}
+        {% if not file_evidence.document_forensic %}
+            <input type="file" name="document_forensic" id="document_forensic">
+        {% endif %}
+        <br>
+        <button type="submit">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
+    <form action="{% url 'arrest' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Arrest Memo: </label>
+        {{ file_evidence.document_arrest }}
+        {% if not file_evidence.document_arrest %}
+            <input type="file" name="document_arrest" id="document_arrest">
+        {% endif %}
+        <br>
+        <button type="submit">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
+    <form action="{% url 'charge' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Charge Sheet: </label>
+        {{ file_evidence.document_charge }}
+        {% if not file_evidence.document_charge %}
+            <input type="file" name="document_charge" id="document_charge">
+        {% endif %}
+        <br>
+        <button type="submit">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
+    <form action="{% url 'case' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Case Diary: </label>
+        {{ file_evidence.document_case }}
+        {% if not file_evidence.document_case %}
+            <input type="file" name="document_case" id="document_case">
+        {% endif %}
+        <br>
+        <button type="submit">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
+    <form action="{% url 'final' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="crime_idnum" value="{{ form_id }}">
+        <label>Final Report: </label>
+        {{ file_evidence.document_final }}
+        {% if not file_evidence.document_final %}
+            <input type="file" name="document_final" id="document_final">
+        {% endif %}
+        <br>
+        <button type="submit">
+            <i class="fas fa-upload"></i> Upload
+        </button>
+    </form>
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+          <br><br><br><br>
+          <h2 style="margin-left:10%;">SUBMITTED FORM DETAILS</h2>
 <form id="reportdocform" method="post" >
 
     {% csrf_token %}
@@ -293,3 +393,68 @@
 
 <br>
 </form>
+<br>
+<!-- Add Bootstrap and jQuery JavaScript links -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // JavaScript to handle the "Edit" button click
+    $(document).ready(function () {
+        $('.edit-button').click(function () {
+            var reportId = $(this).data('report-id');
+            var currentStatus = $('#currentStatus' + reportId).val();
+            $('#reportId' + reportId).val(reportId);
+            $('#statusDropdown' + reportId).val(currentStatus);
+        });
+
+    // JavaScript to handle the "Save" button click for Crime Reports
+    $('.save-crime-status-button').click(function () {
+        var reportId = $(this).data('report-id');
+        var newStatus = $('#statusDropdown' + reportId).val();
+
+        $.ajax({
+            url: '{% url "update_status" %}', // Replace with your update_status URL
+            type: 'POST',
+            data: {
+                'report_id': reportId,
+                'status': newStatus,
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    // Update the status in the UI if the server request was successful
+                    $('#currentStatus' + reportId).val(newStatus);
+                    $('#editModal' + reportId).modal('hide');
+                    alert('Status Updated Successfully');
+                } else {
+                    // Handle errors from the server if needed
+                    console.error('Status update failed');
+                }
+            },
+            error: function () {
+                // Handle errors if the request fails
+                console.error('Status update request failed');
+            }
+        });
+    });
+});
+
+</script>   
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const firLabel = document.getElementById('firLabel');
+        const uploadFIRButton = document.querySelector('button[type="submit"]');
+
+        uploadFIRButton.addEventListener('click', function () {
+            // Change the label text to "FIR Uploaded"
+            firLabel.textContent = 'FIR Uploaded:';
+        });
+    });
+</script>
+
+</body>
+</html>

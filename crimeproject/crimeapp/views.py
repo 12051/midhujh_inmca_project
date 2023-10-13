@@ -15,7 +15,8 @@ from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
 from django.http import JsonResponse, FileResponse
 from django.template.loader import get_template
-
+from django.urls import reverse
+from django.http import Http404
 
 # Create your views here.
 
@@ -211,7 +212,7 @@ def report_doc(request):
             template_path = 'doc_template.html'  # Path to your PDF template
             context = {'doc_report': doc_report, 'fir_id': fir_id}
             response = HttpResponse(content_type='application/pdf')
-            response['Content-Disposition'] = f'inline; filename="Report_{fir_id}.pdf"'
+            response['Content-Disposition'] = f'attachment; filename="Report_{fir_id}.pdf"'
 
             template = get_template(template_path)
             html = template.render(context)
@@ -441,16 +442,24 @@ def check_reporter_loc(request):
 def crime_category(request):
     return render(request,'crimecategory.html')
 
-def view_crime(request,crime_id):
+def control(request):
+    return render(request,'control.html')
+
+def view_crime(request, crime_id):
     try:
-        task=CrimeReport.objects.get(id=crime_id)
-        form=CrimeReportForm(request.POST or None,instance=task)
-        return render(request,'view_crime.html',{'form':form,'form_id':crime_id,'form_status':task.status})
+        task = CrimeReport.objects.get(id=crime_id)
+        form = CrimeReportForm(request.POST or None, instance=task)
+        try:
+            evidence = EvidenceCrimeReport.objects.get(crime_idnum_id=crime_id)
+            file_evidence = EvidenceCrimeForm(request.POST or None, instance=evidence)
+            return render(request, 'view_crime.html', {'form': form, 'form_id': crime_id, 'form_status': task.status, 'file_evidence': file_evidence})
+        except EvidenceCrimeReport.DoesNotExist:
+            return render(request, 'view_crime.html', {'form': form, 'form_id': crime_id, 'form_status': task.status, 'file_evidence': None})
     except CrimeReport.DoesNotExist:
-        task=DocReport.objects.get(id=crime_id)
-        form=DocReportForm(request.POST or None,instance=task)
-        return render(request,'view_crime.html',{'form':form,'form_id':crime_id,'form_status':task.status})
-    
+        task = DocReport.objects.get(id=crime_id)
+        form = DocReportForm(request.POST or None, instance=task)
+        return render(request, 'view_crime.html', {'form': form, 'form_id': crime_id})
+ 
 # def up_final(request):
 #     if request.method == 'POST':
 #         # Create a new instance of CrimeReport and save it
@@ -474,23 +483,267 @@ def view_crime(request,crime_id):
 #         crime_report_form = EvidenceCrimeForm()
 
 #     return render(request, 'view_crime.html', {'crime_report_form': crime_report_form})
-    
 def up_final(request):
     if request.method == 'POST':
-        # Create a new instance of your form and handle the POST request
-        form = EvidenceCrimeForm(request.POST, request.FILES)
-        
-        if form.is_valid():
-            instance=form.save(commit=False)
-            instance.crime_idnum = request.POST.get('crimeid')
-            # Save the form data and uploaded files
-            instance.save()
-            return render(request, 'view_crime.html', {'form': form})  # Replace 'success_url' with your desired URL after successful upload
+        crime = request.POST.get('crime_idnum')
 
+        if crime is not None:
+            try:
+                crime_report = CrimeReport.objects.get(id=int(crime))
+            except (CrimeReport.DoesNotExist, ValueError):
+                crime_report = None  # Handle the case where the CrimeReport doesn't exist or the ID is not valid
+        else:
+            crime_report = None
+        if crime_report:
+            try:
+                evidence = EvidenceCrimeReport.objects.get(crime_idnum=crime_report)
+            except EvidenceCrimeReport.DoesNotExist:
+                evidence = None
+
+            form = EvidenceCrimeForm(request.POST, request.FILES, instance=evidence)
+
+            if form.is_valid():
+                instance = form.save(commit=False)
+                instance.crime_idnum = crime_report
+                instance.save()
+                return redirect(reverse('view_crime', kwargs={'crime_id': crime_report.id}))  # Corrected this line
+        else:
+            return redirect('/')
     else:
-        # Handle GET request or form validation errors
         form = EvidenceCrimeForm()
-    return render(request, 'view_crime.html', {'form': form})
+    
+    # You should pass the crime_report ID here; this line assumes you have the ID from somewhere
+    return redirect(reverse('view_crime', kwargs={'crime_id': crime_report.id, 'form': form}))
+
+from django.shortcuts import render, redirect
+from .models import CrimeReport, EvidenceCrimeReport
+from .forms import EvidenceCrimeForm
+
+def fir(request):
+    if request.method == 'POST':
+        crime_id = request.POST.get('crime_idnum')
+        crime_report = CrimeReport.objects.get(id=crime_id)  # Assuming the crime_id is valid
+        try:
+                evidence = EvidenceCrimeReport.objects.get(crime_idnum=crime_report)
+        except EvidenceCrimeReport.DoesNotExist:
+                evidence = None
+        # Create an instance of the EvidenceCrimeForm
+        form = EvidenceCrimeForm(request.POST, request.FILES,instance=evidence)
+
+        if form.is_valid():
+            # Save the form data without committing to the database
+            instance = form.save(commit=False)
+            instance.crime_idnum = crime_report  # Associate the evidence with the crime report
+            instance.save()  # Commit to the database
+
+            # Update the status of the crime report to 'Preliminary Investigation completed'
+            crime_report.status = 'Preliminary Investigation completed'
+            crime_report.save()
+
+            return redirect('view_crime', crime_id=crime_id)
+    else:
+        form = EvidenceCrimeForm()
+
+    return render(request, 'view.html', {'form': form})
+
+def witness(request):
+    if request.method == 'POST':
+        crime_id = request.POST.get('crime_idnum')
+        crime_report = CrimeReport.objects.get(id=crime_id)  # Assuming the crime_id is valid
+
+        try:
+                evidence = EvidenceCrimeReport.objects.get(crime_idnum=crime_report)
+        except EvidenceCrimeReport.DoesNotExist:
+                evidence = None
+        # Create an instance of the EvidenceCrimeForm
+        form = EvidenceCrimeForm(request.POST, request.FILES,instance=evidence)
+
+        if form.is_valid():
+            # Save the form data without committing to the database
+            instance = form.save(commit=False)
+            instance.crime_idnum = crime_report  # Associate the evidence with the crime report
+            instance.save()  # Commit to the database
+
+            # Update the status of the crime report to 'Preliminary Investigation completed'
+            crime_report.witness()
+            crime_report.save()
+
+            return redirect('view_crime', crime_id=crime_id)
+    else:
+        form = EvidenceCrimeForm()
+
+    return render(request, 'view.html', {'form': form})
+
+def forensic(request):
+    if request.method == 'POST':
+        crime_id = request.POST.get('crime_idnum')
+        crime_report = CrimeReport.objects.get(id=crime_id)  # Assuming the crime_id is valid
+
+        try:
+                evidence = EvidenceCrimeReport.objects.get(crime_idnum=crime_report)
+        except EvidenceCrimeReport.DoesNotExist:
+                evidence = None
+        # Create an instance of the EvidenceCrimeForm
+        form = EvidenceCrimeForm(request.POST, request.FILES,instance=evidence)
+
+        if form.is_valid():
+            # Save the form data without committing to the database
+            instance = form.save(commit=False)
+            instance.crime_idnum = crime_report  # Associate the evidence with the crime report
+            instance.save()  # Commit to the database
+
+            # Update the status of the crime report to 'Preliminary Investigation completed'
+            crime_report.forensic()
+            crime_report.save()
+
+            return redirect('view_crime', crime_id=crime_id)
+    else:
+        form = EvidenceCrimeForm()
+
+    return render(request, 'view.html', {'form': form})
+def arrest(request):
+    if request.method == 'POST':
+        crime_id = request.POST.get('crime_idnum')
+        crime_report = CrimeReport.objects.get(id=crime_id)  # Assuming the crime_id is valid
+
+        try:
+                evidence = EvidenceCrimeReport.objects.get(crime_idnum=crime_report)
+        except EvidenceCrimeReport.DoesNotExist:
+                evidence = None
+        # Create an instance of the EvidenceCrimeForm
+        form = EvidenceCrimeForm(request.POST, request.FILES,instance=evidence)
+
+        if form.is_valid():
+            # Save the form data without committing to the database
+            instance = form.save(commit=False)
+            instance.crime_idnum = crime_report  # Associate the evidence with the crime report
+            instance.save()  # Commit to the database
+
+            # Update the status of the crime report to 'Preliminary Investigation completed'
+            crime_report.arrest()
+            crime_report.save()
+
+            return redirect('view_crime', crime_id=crime_id)
+    else:
+        form = EvidenceCrimeForm()
+
+    return render(request, 'view.html', {'form': form})
+def charge(request):
+    if request.method == 'POST':
+        crime_id = request.POST.get('crime_idnum')
+        crime_report = CrimeReport.objects.get(id=crime_id)  # Assuming the crime_id is valid
+
+        try:
+                evidence = EvidenceCrimeReport.objects.get(crime_idnum=crime_report)
+        except EvidenceCrimeReport.DoesNotExist:
+                evidence = None
+        # Create an instance of the EvidenceCrimeForm
+        form = EvidenceCrimeForm(request.POST, request.FILES,instance=evidence)
+
+        if form.is_valid():
+            # Save the form data without committing to the database
+            instance = form.save(commit=False)
+            instance.crime_idnum = crime_report  # Associate the evidence with the crime report
+            instance.save()  # Commit to the database
+
+            # Update the status of the crime report to 'Preliminary Investigation completed'
+            crime_report.charge()
+            crime_report.save()
+
+            return redirect('view_crime', crime_id=crime_id)
+    else:
+        form = EvidenceCrimeForm()
+
+    return render(request, 'view.html', {'form': form})
+def case(request):
+    if request.method == 'POST':
+        crime_id = request.POST.get('crime_idnum')
+        crime_report = CrimeReport.objects.get(id=crime_id)  # Assuming the crime_id is valid
+
+        try:
+                evidence = EvidenceCrimeReport.objects.get(crime_idnum=crime_report)
+        except EvidenceCrimeReport.DoesNotExist:
+                evidence = None
+        # Create an instance of the EvidenceCrimeForm
+        form = EvidenceCrimeForm(request.POST, request.FILES,instance=evidence)
+
+        if form.is_valid():
+            # Save the form data without committing to the database
+            instance = form.save(commit=False)
+            instance.crime_idnum = crime_report  # Associate the evidence with the crime report
+            instance.save()  # Commit to the database
+
+            # Update the status of the crime report to 'Preliminary Investigation completed'
+            crime_report.case()
+            crime_report.save()
+
+            return redirect('view_crime', crime_id=crime_id)
+    else:
+        form = EvidenceCrimeForm()
+
+    return render(request, 'view.html', {'form': form})
+def final(request):
+    if request.method == 'POST':
+        crime_id = request.POST.get('crime_idnum')
+        crime_report = CrimeReport.objects.get(id=crime_id)  # Assuming the crime_id is valid
+
+        try:
+                evidence = EvidenceCrimeReport.objects.get(crime_idnum=crime_report)
+        except EvidenceCrimeReport.DoesNotExist:
+                evidence = None
+        # Create an instance of the EvidenceCrimeForm
+        form = EvidenceCrimeForm(request.POST, request.FILES,instance=evidence)
+
+        if form.is_valid():
+            # Save the form data without committing to the database
+            instance = form.save(commit=False)
+            instance.crime_idnum = crime_report  # Associate the evidence with the crime report
+            instance.save()  # Commit to the database
+
+            # Update the status of the crime report to 'Preliminary Investigation completed'
+            crime_report.final()
+            crime_report.save()
+
+            return redirect('view_crime', crime_id=crime_id)
+    else:
+        form = EvidenceCrimeForm()
+
+    return render(request, 'view.html', {'form': form})
+# Import your models and forms here
+
+
+# def up_final(request):
+#     if request.method == 'POST':
+#         form = EvidenceCrimeForm(request.POST, request.FILES)
+#         crime_id = request.POST.get('crime_idnum')
+        
+#         try:
+#             crime_report = CrimeReport.objects.get(id=int(crime_id))
+#         except (CrimeReport.DoesNotExist, ValueError):
+#             crime_report = None  # Handle the case where the CrimeReport doesn't exist or the ID is not valid
+        
+#         if crime_report:
+#             # Try to get an existing EvidenceCrimeReport object for the given crime_id
+#             try:
+#                 evidence_report = EvidenceCrimeReport.objects.get(crime_idnum=crime_report)
+#                 # Update the existing object's fields with the form data
+#                 form = EvidenceCrimeForm(request.POST, request.FILES, instance=evidence_report)
+#             except EvidenceCrimeReport.DoesNotExist:
+#                 evidence_report = None  # Handle the case where the EvidenceCrimeReport doesn't exist
+
+#             if form.is_valid():
+#                 instance = form.save(commit=False)
+#                 instance.crime_idnum = crime_report
+#                 instance.save()
+#                 return redirect(reverse('view_crime', kwargs={'crime_id': crime_report.id}))
+            
+    #     else:
+    #         # Handle the case where the CrimeReport doesn't exist or the ID is not valid
+    #         raise Http404("CrimeReport not found")
+
+    # else:
+    #     form = EvidenceCrimeForm()
+    # return render(request, 'view_crime.html', {'form': form})
 
 def view_doc(request,crime_id):
     try:
@@ -533,8 +786,39 @@ def upload_evidence(request):
 def prisonstaff(request):
     return render(request,'prisonstaff.html')
 
-def control(request):
-    return render(request,'control.html')
+def control_page(request):
+    crime_reports = CrimeReport.objects.all()
+    doc_reports = DocReport.objects.all()
+    public_reports = PublicReport.objects.all()
+    # Assuming you have models associated with the forms
+    data1 = CrimeReport.objects.all()
+    data2 = DocReport.objects.all()
+    data3 = PublicReport.objects.all()
+    return render(request,'control_page.html', {
+            'crime_reports': crime_reports,
+            'doc_reports': doc_reports,
+            'public_reports': public_reports,
+            'data_from_model1': data1,
+            'data_from_model2': data2,
+            'data_from_model3': data3,
+        })
+
+def control_status(request):
+    crime_reports = CrimeReport.objects.all()
+    doc_reports = DocReport.objects.all()
+    public_reports = PublicReport.objects.all()
+    # Assuming you have models associated with the forms
+    data1 = CrimeReport.objects.all()
+    data2 = DocReport.objects.all()
+    data3 = PublicReport.objects.all()
+    return render(request,'control_status.html', {
+            'crime_reports': crime_reports,
+            'doc_reports': doc_reports,
+            'public_reports': public_reports,
+            'data_from_model1': data1,
+            'data_from_model2': data2,
+            'data_from_model3': data3,
+        })
 
 def report_prison(request):
     return render(request,'report_prison.html')
