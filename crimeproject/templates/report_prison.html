@@ -207,33 +207,33 @@
 
     
     <br>
-    <form id="reportform" method="post" action="{% url 'report_prison' %}">
+    <form id="reportprisonform" method="post" action="{% url 'report_prison' %}">
 
         {% csrf_token %}
         <br>
         <h1 style="font-size: 27px;">Report a Crime in Prison</h1><br>
 
-<h3>Inmate Details:</h3><hr>
+<h3>Inmate Details *</h3><hr>
 <div class="row">
+    <div id="inmates-container">
     <div class="col-md-6">
         <div class="form-group">
-            <div id="inmate-container">
-                <div class="inmate">
-                    <label for="inmate_name">Name</label>
+                    <label for="inmate_name">Name of Prisoner</label>
                     <input type="text" id="inmate_name" name="inmate_name" class="form-control" required/>
                     <span id="nameError"></span>
-                </div>
-                <div class="inmate">
-                    <label for="inmate_id">ID</label>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+                <div class="form-group">
+                    <label for="inmate_id">ID of Prisoner</label>
                     <input type="text" id="inmate_id" name="inmate_id" class="form-control" required/>
                     <span id="idError"></span>
                 </div>
-            </div>
-        </div>
     </div>
 </div>
+</div>
 <button type="button" id="add-inmate" class="btn btn-secondary">+</button>
-
 
         <hr>
 
@@ -326,14 +326,28 @@
                     }
                 });
             });
+
+            $("#reporter_location").keyup(function () {
+                validateRloc("#reporter_location");
+            });
       
             $("#datetime").on("input", function () {
                 validateDate("#datetime");
             });
 
+            $("#adnumber").keyup(function () {
+                aadharNumber("#adnumber");
+            });
+
+            $("#mail").keyup(function () {
+                validateEmail("#mail");
+            });
+
           $("reportform").submit(function (event) {
             // Perform all validations before submitting the form
+            validateRloc("#reporter_location");
             validateDate("#datetime");
+            aadharNumber("#adnumber");
       
             // Check if any validation errors exist
             if ($(".validation-error").length > 0) {
@@ -345,52 +359,62 @@
         function validateDate(fieldId) {
             var currentDate = new Date();
             var inputDate = new Date($(fieldId).val());
-            var january1_2023 = new Date('2023-01-01'); // Create a Date object for January 1, 2023
+            var july1_2023 = new Date('2023-07-01'); // Create a Date object for January 1, 2023
         
             if (isNaN(inputDate.getTime())) {
                 // Check if the input is not a valid date
                 $("#dateError").html("Please enter a valid date").css("color", "red");
             } else if (inputDate > currentDate) {
                 $("#dateError").html("Please enter a date earlier than the current date").css("color", "red");
-            } else if (inputDate < january1_2023) {
-                $("#dateError").html("Dates before January 1 2023 are not allowed").css("color", "red");
+            } else if (inputDate < july1_2023) {
+                $("#dateError").html("Dates before July 1 2023 are not allowed").css("color", "red");
             } else {
                 $("#dateError").html(""); // Reset the error message
             }
-        } 
+        }              
+
+        function aadharNumber(fieldId) {
+            var numberRegex = /^[-+]?\d*\.?\d+$/;
+            var phoneNumber = $(fieldId).val();
+        
+            if (phoneNumber === "") {
+                $("#aadhaarError").html("Enter the Aadhaar number").css("color", "red");
+            } else if (!numberRegex.test(phoneNumber)) {
+                $("#aadhaarError").html("Invalid Aadhaar Number").css("color", "red");
+            } else if (phoneNumber.length > 12) {
+                $("#aadhaarError").html("Enter Correct Aadhar Number").css("color", "red");
+            } else if (phoneNumber.length < 12) {
+                $("#aadhaarError").html("Enter Correct Aadhar Number").css("color", "red");
+            } else {
+                $("#aadhaarError").html("");
+            }
+        }
+
+        function validateEmail(fieldId) {
+            var email = $(fieldId).val();
+            var filter = /^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/;
+            if (email === "") {
+                $("#emailError").html("Enter the Email Id").css("color", "red");
+            } else if (!filter.test(email)) {
+                $("#emailError").html("Use correct Email Id").css("color", "red");
+            } else {
+                $("#emailError").html("");
+            }
+        }
+
+        function validateRloc(fieldId) {
+            var rloc = $(fieldId).val();
+            var lettersWithSpaces = /^[A-Za-z\s]+$/;
+            if (rloc.trim() === "") {
+                $("#locError").html("Enter the Location of the Informer").css("color", "red");
+            } else if (!lettersWithSpaces.test(rloc)) {
+                $("#locError").html("Location field required only alphabet characters with spaces").css("color", "red");
+            } else {
+                $("#locError").html("");
+            }
+        }
       
       </script>      
-    
-<script>
-    document.getElementById('add-inmate').addEventListener('click', function() {
-        const inmatesContainer = document.getElementById('inmate-container');
-        const newInmate = document.createElement('div');
-        newInmate.classList.add('inmate');
-        newInmate.innerHTML = `
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div id="inmate-container">
-                        <div class="inmate">
-                            <label for="inmate_name">Name</label>
-                            <input type="text" id="inmate_name" name="inmate_name" class="form-control" required/>
-                            <span id="nameError"></span>
-                        </div>
-                        <div class="inmate">
-                            <label for="inmate_id">ID</label>
-                            <input type="text" id="inmate_id" name="inmate_id" class="form-control" required/>
-                            <span id="idError"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button type="button" id="add-inmate" class="btn btn-secondary">+</button>
-        
-        `;
-        inmatesContainer.appendChild(newInmate);
-    });
-</script>
 
 </body>
 </html>

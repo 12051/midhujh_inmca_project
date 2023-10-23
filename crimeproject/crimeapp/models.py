@@ -186,3 +186,16 @@ class EvidenceCrimeReport(models.Model):
     document_case = models.FileField(upload_to='evidence_case/',null=True,blank=True)
     document_final = models.FileField(upload_to='evidence_final/',null=True,blank=True)
 
+class Inmate(models.Model):
+    inmate_name = models.TextField(max_length=100,null=True,blank=True)
+    inmate_id = models.CharField(max_length=10,null=True,blank=True)
+    
+class PrisonReport(models.Model):
+    inmates = models.ManyToManyField(Inmate, blank=True)
+    loc_prison = models.CharField(max_length=100, choices=[("kanjirappally", "Kanjirappally"), ("changanassery", "Changanassery")])
+    nat_crime = models.CharField(max_length=100, choices=[("misconduct", "Inmate Misconduct"), ("breach", "Security Breaches"), ("harm", "Harm")])
+    datetime = models.DateTimeField(null=True,blank=True)
+    description = models.TextField(null=True,blank=True)
+    evidence_image = models.FileField(upload_to='evidence_images/',null=True,blank=True)
+    def __str__(self):
+        return self.datetime

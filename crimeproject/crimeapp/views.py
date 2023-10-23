@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 #from .models import User
-from .forms import CrimeReportForm, AnonyReportForm, DocReportForm, PublicForm, PublicForm, EvidenceCrimeForm
-from .models import CustomUser, CrimeReport, DocReport, SpecLoc, FIRFile, PublicReport, EvidenceCrimeReport
+from .forms import CrimeReportForm, AnonyReportForm, DocReportForm, PublicForm, PublicForm, EvidenceCrimeForm, PrisonReportForm
+from .models import CustomUser, CrimeReport, DocReport, SpecLoc, FIRFile, PublicReport, EvidenceCrimeReport, PrisonReport, Inmate
 import re
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User,auth
@@ -821,4 +821,19 @@ def control_status(request):
         })
 
 def report_prison(request):
+    form = PrisonReportForm(request.POST)
+    pri = form.save(commit=False)
+        # Set the organizer to the currently logged-in user
+    pri.org_user = request.user
+    pri.save()  # Commit the webinar to the database
+
+        # Process speakers
+    inmate_name = request.POST.getlist('inmate_name[]')
+    inmate_id = request.POST.getlist('inmate_id[]')
+    for i in range(len(inmate_name)):
+        inmate = Inmate.objects.create(
+            inmate_name = inmate_name[i],
+            inmate_id = inmate_id[i]
+        )
+        pri.inmates.add(inmate)
     return render(request,'report_prison.html')
