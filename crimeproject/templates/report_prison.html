@@ -309,25 +309,6 @@
 
         $(document).ready(function () {
 
-            $('#reporter_location').on('blur', function () {
-                var reporter_loc = $(this).val();
-    
-                $.ajax({
-                    url: '/check_reporter_loc/',
-                    data: { 'reporter_loc': reporter_loc },
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.valid) {
-                            $('#spec_station').val(data.enforcement_loc);
-                        }
-                    },
-                    error: function () {
-                        // Handle AJAX error
-                        alert('An error occurred while checking Location.');
-                    }
-                });
-            });
-
             $("#inmate_name").keyup(function () {
                 validateName("#inmate_name");
             });
@@ -340,7 +321,7 @@
                 validateDate("#datetime");
             });
 
-          $("reportprisonform").submit(function (event) {
+          $("#reportprisonform").submit(function (event) {
             // Perform all validations before submitting the form
             validateName("#inmate_name");
             validateDate("#datetime");

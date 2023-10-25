@@ -824,7 +824,9 @@ def control_status(request):
 
 def report_prison(request):
     form = PrisonReportForm(request.POST)
+    
     pri = form.save(commit=False)
+    print(form.errors)
         # Set the organizer to the currently logged-in user
     pri.org_user = request.user
     pri.save()  # Commit the webinar to the database
