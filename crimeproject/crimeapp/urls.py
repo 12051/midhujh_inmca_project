@@ -54,6 +54,9 @@ urlpatterns = [
     path('charge/', views.charge, name='charge'),
     path('case/', views.case, name='case'),
     path('final/', views.final, name='final'),
+    path('book_appointment/', views.book_appointment, name='book_appointment'),
+    path('appointment/', views.appointment_view, name='appointment_view'),
+
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

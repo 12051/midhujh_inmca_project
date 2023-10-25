@@ -186,9 +186,18 @@ class EvidenceCrimeReport(models.Model):
     document_case = models.FileField(upload_to='evidence_case/',null=True,blank=True)
     document_final = models.FileField(upload_to='evidence_final/',null=True,blank=True)
 
+class InmatePlaces(models.Model):
+    place_id = models.AutoField(primary_key=True)
+    place_name = models.CharField(max_length=100,null=True,blank=True)
+    def __str__(self):
+        return self.place_name
+
 class Inmate(models.Model):
     inmate_name = models.TextField(max_length=100,null=True,blank=True)
     inmate_id = models.CharField(max_length=10,null=True,blank=True)
+    inmate_loc = models.ForeignKey(InmatePlaces,on_delete=models.CASCADE,null=True)
+    def __str__(self):
+        return self.inmate_name
     
 class PrisonReport(models.Model):
     inmates = models.ManyToManyField(Inmate, blank=True)
@@ -199,3 +208,16 @@ class PrisonReport(models.Model):
     evidence_image = models.FileField(upload_to='evidence_images/',null=True,blank=True)
     def __str__(self):
         return self.datetime
+    
+class Jailor(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+
+class Appointment(models.Model):
+    ap_name = models.CharField(max_length=20,null=True,blank=True)
+    time_slot = models.CharField(max_length=20,null=True,blank=True)
+    date = models.DateField(null=True,blank=True)
+    # Add more fields as needed
+
+    def __str__(self):
+        return f'Appointment for {self.ap_name} on {self.date} at {self.time_slot}'

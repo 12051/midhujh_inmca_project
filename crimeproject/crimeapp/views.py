@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 #from .models import User
 from .forms import CrimeReportForm, AnonyReportForm, DocReportForm, PublicForm, PublicForm, EvidenceCrimeForm, PrisonReportForm
-from .models import CustomUser, CrimeReport, DocReport, SpecLoc, FIRFile, PublicReport, EvidenceCrimeReport, PrisonReport, Inmate
+from .models import CustomUser, CrimeReport, DocReport, Jailor, SpecLoc, FIRFile, PublicReport, EvidenceCrimeReport, PrisonReport, Inmate
 import re
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User,auth
@@ -17,6 +17,8 @@ from django.http import JsonResponse, FileResponse
 from django.template.loader import get_template
 from django.urls import reverse
 from django.http import Http404
+from django.core.mail import send_mail
+from django.contrib import messages
 
 # Create your views here.
 
@@ -837,3 +839,40 @@ def report_prison(request):
         )
         pri.inmates.add(inmate)
     return render(request,'report_prison.html')
+
+from django.utils import timezone
+from django.core.mail import send_mail
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from .models import Appointment
+from django.contrib import messages
+
+
+
+
+def book_appointment(request):
+    inmates = Inmate.objects.all()
+    if request.method == 'POST':
+        in_id = request.POST.get('in_name')
+        time = request.POST.get('timet')
+        date = request.POST.get('dated')
+        # Check if the selected time slot is available and other validation if needed
+        # If the time slot is available, create an Appointment instance and save it
+        appointment = Appointment(ap_name=in_id, time_slot=time, date=date)
+        print(appointment)
+        appointment.save()
+
+        # You can also add additional logic, such as sending confirmation emails
+
+        # Add a success message
+        messages.success(request, 'Appointment booked successfully.')
+
+        return redirect('book_appointment')  # Redirect to the same page or another page
+    else:
+        # Handle GET requests if needed
+        return render(request, 'book_appointment.html',{'inmates': inmates})
+    
+    
+def appointment_view(request):
+    appointments = Appointment.objects.all()  # Retrieve all appointments
+    return render(request, 'view_appointment.html', {'appointments': appointments})
