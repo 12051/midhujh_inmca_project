@@ -139,3 +139,9 @@ EMAIL_HOST_PASSWORD = 'spci relf ljhn iqok'
 DEFAULT_FROM_EMAIL = 'reportsafer@gmail.com'
 
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+TWILIO_PHONE_NUMBER = '+447488884670'
+
+TWILIO_AUTH_TOKEN = '03bd18d3a8490e492d9ddac7333bc107'
+
+TWILIO_ACCOUNT_SID = 'AC21526515cf3095fa558718377363de7a'

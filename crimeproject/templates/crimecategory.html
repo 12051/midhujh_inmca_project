@@ -183,33 +183,40 @@
              <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mt-3">
                    {% if user.is_authenticated %}
-                   <li class="nav-item active">
-                      <a class="nav-link" href="{% url 'index' %}">Home</a>
-                   </li>
-                   <li class="nav-item">
-                      <a class="nav-link" href="{% url 'about' %}">About Us</a>
-                   </li>
-                   <li class="nav-item">
-                      <a class="nav-link" href="{% url 'general' %}">General Information</a>
-                   </li>
-                   <li class="nav-item">
-                      <a class="nav-link" href="{% url 'laws' %}">Laws</a>
-                   </li>
-                   <li class="nav-item">
-                    <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
-                    </li>
-                   <li class="nav-item">
-                      <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
-                   </li>
-                   <div class="navbar-nav ml-auto">
-                      <div class="nav-item dropdown">
-                          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
-                          <div class="dropdown-menu"> 
-                              <a href="{% url 'crime_category' %}" class="dropdown-item">Report a Crime</a>
-                              <a href="{% url 'listcrime' %}" class="dropdown-item">View Crime Status</a>       
-                          </div>
-                      </div>
-                  </div>
+                   {% comment %} <li class="nav-item active">
+                        <a class="nav-link" id="index" href="{% url 'index' %}">Home</a>
+                     </li> {% endcomment %}
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'general' %}">General Information</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'laws' %}">Laws</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'crime_category' %}">Report a crime</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listcrime' %}">View Crime Status</a>
+                     </li>
+                     {% comment %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
+                      </li> {% endcomment %}
+                     {% comment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
+                     </li> {% endcomment %}
+                     {% comment %} <div class="navbar-nav ml-auto">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="activity" data-toggle="dropdown">Your Activity</a>
+                            <div class="dropdown-menu"> 
+                                <a href="{% url 'crime_category' %}" id="reportcrime" class="dropdown-item">Report a Crime</a>
+                                <a href="{% url 'listcrime' %}" id="viewcrime" class="dropdown-item">View Crime Status</a>
+                                <a href="{% url 'book_appointment' %}" id="jailtime" class="dropdown-item">Book Prison Inmate Visiting Time</a>       
+                            </div>
+                        </div>
+                    </div> {% endcomment %}
                    <li class="nav-item">
                    <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
                    </li>

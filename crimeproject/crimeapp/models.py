@@ -29,6 +29,7 @@ class CustomUser(AbstractUser):
     # username=models.CharField(unique=True,max_length=20,default='')
     name = models.CharField(max_length=100, default='') 
     email = models.EmailField(unique=True) 
+    num = models.IntegerField(max_length=10, blank=True, null=True)
     password = models.CharField(max_length=128)
     is_normal = models.BooleanField(default=False)
     is_law = models.BooleanField(default=False)

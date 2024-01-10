@@ -23,6 +23,26 @@ from django.contrib import messages
 # Create your views here.
 
 def index(request):
+    if request.method == 'POST':
+        # Retrieve form data from request.POST
+        your_name = request.POST.get('your_name', '')
+        phone_number = request.POST.get('phone_number', '')
+        email = request.POST.get('email', '')
+        message = request.POST.get('message', '')
+        
+        # Handle the form data as needed
+        print(f"Name: {your_name}, Phone Number: {phone_number}, Email: {email}, Message: {message}")
+
+        # Send email
+        subject = 'Contact Us Form Submission'
+        message_body = f"Name: {your_name}\nPhone Number: {phone_number}\nEmail: {email}\nMessage: {message}"
+        from_email = {email}  # Replace with your email address
+        recipient_list = ['reportsafer@gmail.com']
+        send_mail(subject, message_body, from_email, recipient_list, fail_silently=False)
+
+        messages.warning(request, "Your Response Sent!!")
+        # return HttpResponse("Form submitted successfully and email sent!")
+
     return render(request,'index.html')
 
 def logout(request):
@@ -878,3 +898,82 @@ def book_appointment(request):
 def appointment_view(request):
     appointments = Appointment.objects.all()  # Retrieve all appointments
     return render(request, 'view_appointment.html', {'appointments': appointments})
+
+def generate_otp():
+    return str(random.randint(1000, 9999))
+
+def send_otp(phone_number, otp):
+    phone_number_with_country_code = '+91' + phone_number
+    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+
+    try:
+        message = client.messages.create(
+            to=phone_number_with_country_code,
+            from_=settings.TWILIO_PHONE_NUMBER,
+            body=f'Your OTP is: {otp}'
+        )
+        print(message.sid) 
+    except Exception as e:
+        print(f"Error sending OTP: {e}")
+
+def login_otp(request):
+    if request.method == 'POST':
+        phone_number = request.POST.get('phone_number')
+
+        if not phone_number:
+            messages.error(request, 'Phone number is required.')
+            return render(request, 'login/login_via_otp.html')
+
+        phone_number = phone_number.replace(" ", "")
+        if len(phone_number) != 10 or not phone_number.isdigit():
+            messages.error(request, 'Invalid phone number.')
+            return render(request, 'login/login_via_otp.html')
+
+        # Generate and send OTP
+        otp = generate_otp()
+        send_otp(phone_number, otp)
+
+        # Save OTP and phone number in session for verification
+        request.session['login_otp'] = otp
+        request.session['login_phone'] = phone_number
+
+        return redirect('otp_verification')  # Redirect to the OTP verification page
+
+    return render(request, 'login/login_via_otp.html')
+
+def otp_verification(request):
+    if request.method == 'POST':
+        entered_otp = request.POST.get('entered_otp')
+        stored_otp = request.session.get('login_otp')
+        phone_number = request.session.get('login_phone')
+        
+        print(f"Entered OTP: {entered_otp}")
+        print(f"Stored OTP: {stored_otp}")
+        print(f"Phone Number: {phone_number}")
+
+        if entered_otp == stored_otp:
+            print("Entered authentication")
+            User = get_user_model()
+            user = authenticate(request, phone=phone_number)  # No need to provide a password
+
+            if user:
+                login(request, user)
+                print("User authenticated and logged in:", user)
+                
+                if user.user_type == 'admin':
+                    return redirect(reverse('admin_dashboard'))
+                elif user.user_type == 'client':
+                    return redirect(reverse('client_dashboard'))
+                elif user.user_type == 'lawyer':
+                    # Assuming you have a one-to-one relationship between CustomUser and LawyerProfile
+                    lawyer_profile = LawyerProfile.objects.get(user=user)
+                    if lawyer_profile.time_update is None or (timezone.now() - lawyer_profile.time_update).days > 14:
+                        return redirect(reverse('assign_working_hours'))
+                    else:
+                        return redirect(reverse('lawyer_dashboard'))
+                elif user.user_type == 'student':
+                    return redirect(reverse('student_dashboard'))
+            else:
+                messages.error(request, 'Invalid OTP. Please try again')
+
+    return render(request, 'login/otp_verification.html')

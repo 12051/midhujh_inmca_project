@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>ReportSafer | Contact Us</title>
+      <title>ReportSafer | General</title>
       <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
       <meta name="keywords" content="">
       <meta name="description" content="">
@@ -103,16 +103,16 @@
       <div class="header_section">
          <div class="container-fluid">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-               <a class="logo" href="#"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
+               <a class="logo" href="{% url 'index' %}"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                <span class="navbar-toggler-icon"></span>
                </button>
                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav mr-auto">
                      {% if user.is_authenticated %}
-                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'index' %}">Home</a>
-                     </li>
+                     {% comment %} <li class="nav-item active">
+                        <a class="nav-link" id="index" href="{% url 'index' %}">Home</a>
+                     </li> {% endcomment %}
                      <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}">About Us</a>
                      </li>
@@ -123,24 +123,34 @@
                         <a class="nav-link" href="{% url 'laws' %}">Laws</a>
                      </li>
                      <li class="nav-item">
-                      <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
-                      </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
+                        <a class="nav-link" href="{% url 'crime_category' %}">Report a crime</a>
                      </li>
-                     <div class="navbar-nav ml-auto">
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listcrime' %}">View Crime Status</a>
+                     </li>
+                     {% comment %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
+                      </li> {% endcomment %}
+                     {% comment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
+                     </li> {% endcomment %}
+                     {% comment %} <div class="navbar-nav ml-auto">
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
+                            <a href="#" class="nav-link dropdown-toggle" id="activity" data-toggle="dropdown">Your Activity</a>
                             <div class="dropdown-menu"> 
-                                <a href="{% url 'crime_category' %}" class="dropdown-item">Report a Crime</a>
-                                <a href="{% url 'listcrime' %}" class="dropdown-item">View Crime Status</a>       
+                                <a href="{% url 'crime_category' %}" id="reportcrime" class="dropdown-item">Report a Crime</a>
+                                <a href="{% url 'listcrime' %}" id="viewcrime" class="dropdown-item">View Crime Status</a>
+                                <a href="{% url 'book_appointment' %}" id="jailtime" class="dropdown-item">Book Prison Inmate Visiting Time</a>       
                             </div>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                      <li class="nav-item">
                      <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
-                     {% else %}
-                     </li>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
+                  {% else %}
+                  </li>
                      <li class="nav-item">
                         <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
                      </li>
@@ -183,7 +193,7 @@
             </div>
          </div>
       </div>
-
+      <br>
 <!-- General Information content -->
 <div class="container">
    <div class="row">
@@ -191,7 +201,79 @@
            <h1>General Information</h1>
        </div>
    </div>
+   <p>
+      <h2>Commissions in India and their Contacts</h2>
+      <b>Central Information Commission (CIC)</b><br>	To receive and inquire into complaints from aggrieved persons: 2005<br>
+<b>Central Vigilance Commission (CVC)</b><br>	To address and probe offences by Central Government officers, officers of societies, corporation, and local authority under the Central Government: 1964<br>
+<b>Atomic Energy Commission of India</b><br>	To look after atomic energy activities in India: 1948<br>
+<b>Commission for Agricultural Costs and Prices (CACP)</b><br>	To give meaningful real income levels to farmers, and to help farmers adopt new technology for increased productivity: 1965<br>
+<b>National Commission for Backward Classes (NCBC)</b><br>	To consider inclusions in and exclusions from the lists of communities notified as backward for job reservations and tenders needful advice to the Central Government on such matters: 1993<br>
+<b>National Commission on Cattle</b><br>	To recommend ways to improve cattle condition in India: 2002<br>
+<b>National Commission for Women (NCW)</b><br>	To protect and promote the interests of women in India: 1992<br>
+<b>Competition Commission of India (CCI)</b><br>	To enforce ‘The Competition Act, 2002’ all over India: 2003<br>
+<b>Telecom Commission</b><br>	To deal with various aspects of telecommunications: 1989<br>
+<b>National Statistical Commission (NCS)</b><br>	To reduce the problems faced by statistical agencies about the collection of data: 2005<br>
+<b>Election Commission (ECI)</b><br>	To administer the election process all over India: 1950<br>
+<b>Law Commission</b><br>	To reform the law for promoting justice in society: 1834<br>
+<b>Chief Labour Commissioner</b><br>	To enforce labour laws and other labour-related issues: 1945<br>
+<b>Finance Commission (FCI)</b><br>	To define the financial relations between the centre and the states: 1951<br>
+<b>National Human Rights Commission (NHRC)</b><br>	To protect and promote human rights: 1993<br>
+<b>University Grants Commission (UGC)</b><br>	To provide recognition to universities in India, disburse funds and maintain standards in university education: 1956<br>
+<b>National Commission for Scheduled Tribes (NCST)</b><br>	To protect and develop the condition of STs in India: 2004<br>
+<b>National Commission for Enterprises in the Unorganized Sector</b><br>	To address the issues faced by enterprises in the unorganized sector: 2004<br>
+<b>National Forest Commission</b><br>	To review and assess the existing forest policy: 2003<br>
+<b>Central Water Commission (CWC)</b><br>	To manage schemes for control, conservation, and utilization of water resources throughout the country: 1945<br>
+<b>Commission for Additional Sources of Energy</b><br>	To formulate and implement policies and programmes for the development of new and renewable energy, and also conduct R&D in this area: 1981<br>
+<b>National Flood Commission (Rashtriya Barh Ayog)</b><br>	To evolve a coordinated, integrated, and scientific approach to the flood control problems in the country: 1976<br>
+<b>Indo-Bangladesh Joint Rivers Commission (JRC)</b><br>	To maintain liaison to ensure the most effective joint effort in maximizing the benefits from common river systems between India and Bangladesh: 1972<br>
+<b>Khadi and Village Industries Commission (KVIC)</b><br>	To plan, promote, organize, facilitate and assist in the establishment and development of khadi and village industries in rural area: 1956<br>
+<b>Staff Selection Commission (SSC)</b><br>	To recruit staff for various posts in the Ministries and Departments of the Union Governmen: 1975<br>
+<b>Administrative Reforms Commission (ARC)</b><br>	To give recommendations regarding the public administration system of India: 1966<br>
+<b>Union Public Service Commission (UPSC)</b><br>	
+Conduct examinations for appointment to the services of the Union, Direct recruitment by selection through interviews, Appointment of officers on promotion/deputation/ absorption and more: 1926<br>
+   </p>
+   <p>
+   <h2>Urgent Helpline Numbers</h2>
+   <b>Emergency Services:</b><br>
 
+Police: 100<br>
+Fire: 101<br>
+Ambulance: 102<br>
+<b>Women Helpline:</b><br>
+
+Women Helpline (Domestic Violence): 181<br>
+National Commission for Women (NCW) Helpline: 1091<br>
+Women in Distress Helpline: 1090<br>
+<b>Child Helpline:</b><br>
+
+Child Helpline: 1098<br>
+<b>Medical Helpline:</b><br>
+
+Medical Emergency/ Ambulance: 102<br>
+<b>Senior Citizens Helpline:</b><br>
+
+Senior Citizens Helpline: 14567<br>
+<b>Disaster Management:</b><br>
+
+National Disaster Response Force (NDRF) Helpline: 1078<br>
+<b>Mental Health Helpline:</b><br>
+
+Vandrevala Foundation for Mental Health: 1860-2662-345 or 1800-2333-330<br>
+<b>Railway Helpline:</b><br>
+
+Indian Railways Helpline: 139<br>
+<b>Road Accident Emergency Service:</b><br>
+
+Road Accident Emergency Service: 1073<br>
+<b>AIDS Helpline:</b><br>
+
+National AIDS Helpline: 1097<br>
+<b>Anti-Poison Helpline:</b><br>
+
+Anti-Poison Helpline: 011-1066 or 1800-11-1066<br>
+<b>COVID-19 Helpline:</b><br>
+
+National COVID-19 Helpline: 1075<br></p>
    <!-- Content and Image Divs -->
    <div class="row section general-info">
        <!-- First Column for Content -->
@@ -222,7 +304,7 @@
                <li>Accessibility: Our platform is user-friendly and accessible from any device.</li>
            </ul>
        </div>
-
+     
    </div>
 
    <!-- More sections with styling -->
@@ -254,7 +336,7 @@
 <!-- copyright section start -->
 <div class="copyright_section">
    <div class="container">
-      <p class="copyright_text">© 2020 All Rights Reserved.</p>
+      <p class="copyright_text">© 2024 All Rights Reserved.</p>
    </div>
 </div>
 <!-- copyright section end  -->

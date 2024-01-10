@@ -90,6 +90,37 @@
          
          /* Add more specific styles for other sections as needed */
          
+         /* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #A7C7E7;
+}
+
+/* Style the buttons that are used to open the tab content */
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #C6D1D5;
+}
+
+/* Style the tab content */
+.tab button {
+   background-color: inherit;
+   float: left;
+   border: none;
+   outline: none;
+   cursor: pointer;
+   padding: 14px 16px;
+   width: 33.33%; /* Equal width for each tab */
+   box-sizing: border-box;
+   transition: 0.3s;
+}
 
      </style>
    </head>
@@ -98,16 +129,16 @@
       <div class="header_section">
          <div class="container-fluid">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-               <a class="logo" href="#"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
+               <a class="logo" href="{% url 'index' %}"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                <span class="navbar-toggler-icon"></span>
                </button>
                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav mr-auto">
                      {% if user.is_authenticated %}
-                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'index' %}">Home</a>
-                     </li>
+                     {% comment %} <li class="nav-item active">
+                        <a class="nav-link" id="index" href="{% url 'index' %}">Home</a>
+                     </li> {% endcomment %}
                      <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}">About Us</a>
                      </li>
@@ -118,24 +149,34 @@
                         <a class="nav-link" href="{% url 'laws' %}">Laws</a>
                      </li>
                      <li class="nav-item">
-                      <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
-                      </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
+                        <a class="nav-link" href="{% url 'crime_category' %}">Report a crime</a>
                      </li>
-                     <div class="navbar-nav ml-auto">
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listcrime' %}">View Crime Status</a>
+                     </li>
+                     {% comment %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
+                      </li> {% endcomment %}
+                     {% comment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
+                     </li> {% endcomment %}
+                     {% comment %} <div class="navbar-nav ml-auto">
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
+                            <a href="#" class="nav-link dropdown-toggle" id="activity" data-toggle="dropdown">Your Activity</a>
                             <div class="dropdown-menu"> 
-                                <a href="{% url 'crime_category' %}" class="dropdown-item">Report a Crime</a>
-                                <a href="{% url 'listcrime' %}" class="dropdown-item">View Crime Status</a>       
+                                <a href="{% url 'crime_category' %}" id="reportcrime" class="dropdown-item">Report a Crime</a>
+                                <a href="{% url 'listcrime' %}" id="viewcrime" class="dropdown-item">View Crime Status</a>
+                                <a href="{% url 'book_appointment' %}" id="jailtime" class="dropdown-item">Book Prison Inmate Visiting Time</a>       
                             </div>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                      <li class="nav-item">
                      <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
-                     {% else %}
-                     </li>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
+                  {% else %}
+                  </li>
                      <li class="nav-item">
                         <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
                      </li>
@@ -181,47 +222,167 @@
 
       <div style="margin-left:30px;">
       <h1>Indian Laws</h1>
-      <nav>
-         <ul>
-             <li><a href="#civil-laws">Civil Laws</a></li>
-             <li><a href="#criminal-laws">Criminal Laws</a></li>
-             <li><a href="#constitutional-laws">Constitutional Laws</a></li>
-         </ul>
-     </nav>
-   </div>
-     <main>
-         <section id="civil-laws">
-             <h2>Civil Laws</h2>
-             <ul>
-               <li><strong>Contract Law:</strong> Governs agreements and contracts between parties, including terms, obligations, and remedies for breaches.</li>
-               <li><strong>Property Law:</strong> Addresses issues related to the ownership, use, and transfer of real and personal property.</li>
-               <li><strong>Tort Law:</strong> Deals with civil wrongs or injuries caused by one party to another, such as negligence or intentional harm.</li>
-               <li><strong>Family Law:</strong> Covers matters related to marriage, divorce, child custody, and adoption.</li>
-               <li><strong>Consumer Protection:</strong> Ensures the rights and safety of consumers when purchasing goods and services.</li>
-           </ul>
-         </section>
-         <section id="criminal-laws">
-             <h2>Criminal Laws</h2>
-             <ul>
-               <li><strong>Homicide:</strong> Defines various forms of unlawful killing, such as murder and manslaughter, and specifies the corresponding penalties.</li>
-               <li><strong>Theft and Robbery:</strong> Prohibits the unlawful taking of someone else's property and includes offenses like burglary, larceny, and embezzlement.</li>
-               <li><strong>Assault and Battery:</strong> Addresses physical harm or threats of harm against individuals, with varying degrees of severity.</li>
-               <li><strong>Drug Offenses:</strong> Outlines illegal drug possession, distribution, trafficking, and related crimes.</li>
-               <li><strong>Sexual Offenses:</strong> Covers offenses like rape, sexual assault, and child exploitation, with strict penalties.</li>
-           </ul>
-         </section>
-         <section id="constitutional-laws">
-             <h2>Constitutional Laws</h2>
-             <!-- Add content related to constitutional laws here -->
-             <ul>
-               <li><strong>Separation of Powers:</strong> Constitutional laws typically establish separate branches of government, such as the executive, legislative, and judicial branches, each with specific powers and responsibilities.</li>
-               <li><strong>Bill of Rights:</strong> Many constitutions include a bill of rights that guarantees fundamental individual rights and freedoms, such as freedom of speech, religion, and due process.</li>
-               <li><strong>Amendment Process:</strong> Procedures for amending the constitution are often outlined, making it possible to adapt to changing societal needs over time.</li>
-               <li><strong>Federal vs. Unitary Systems:</strong> Constitutional laws may specify whether a country operates under a federal system, where power is shared between central and regional governments, or a unitary system with a centralized government.</li>
-               <li><strong>Checks and Balances:</strong> Constitutional laws establish mechanisms for checks and balances among government branches to prevent the abuse of power.</li>
-           </ul>
-         </section>
-     </main>
+
+
+
+
+<!-- Tab links -->
+<div class="tab">
+   <button class="tablinks" onclick="openCity(event, 'London')">CIVIL LAWS</button>
+   <button class="tablinks" onclick="openCity(event, 'Paris')">CRIMINAL LAWS</button>
+   <button class="tablinks" onclick="openCity(event, 'Tokyo')">CONSTITUTIONAL LAWS</button>
+ </div>
+ 
+ <!-- Tab content -->
+ <div id="London" class="tabcontent">
+   <p><b>Indian Contract Act, 1872:</b><br>
+
+      Section 1 to Section 75: General provisions related to contracts.<br>
+      Section 2(e): Definition of an agreement.<br>
+      Section 10 to Section 30: Essential elements of a valid contract.<br>
+      Section 62 to Section 70: Performance of contracts.<br>
+      Section 73 and Section 74: Damages for breach of contract.<br><br>
+      <b>Sale of Goods Act, 1930:</b><br>
+      
+      Section 1 to Section 76: Applicability and general provisions.<br>
+      Section 4 to Section 5: Sale and agreement to sell.<br>
+      Section 9 to Section 15: Conditions and warranties.<br>
+      Section 39 to Section 50: Performance of the contract of sale.<br>
+      Section 55 to Section 61: Rights of an unpaid seller.<br><br>
+      <b>Transfer of Property Act, 1882:</b><br>
+      
+      Section 5 to Section 53A: Various modes of transferring property.<br>
+      Section 54: Sale defined.<br>
+      Section 123 to Section 130: Gifts.<br>
+      Section 41 to Section 44: Transfer of actionable claims.<br><br>
+      <b>Specific Relief Act, 1963:</b><br>
+      
+      Section 4 to Section 25: Specific relief that may be granted.<br>
+      Section 34 to Section 38: Preventive relief.<br>
+      Section 41 to Section 43: Declaratory decrees.<br>
+      Section 45 to Section 55: Injunctions.<br><br>
+      <b>Code of Civil Procedure, 1908:</b><br>
+      
+      Order I to Order XXXVIII: Provisions related to the parties to suits.<br>
+      Order IV to Order XX: Rules regarding the institution of suits.<br>
+      Order XXI: Execution of decrees and orders.<br><br>
+      <b>Family Laws:</b><br>
+      
+      Hindu Marriage Act, 1955:<br>
+      
+      Section 5 to Section 18: Conditions for a Hindu marriage.<br>
+      Section 9 to Section 13: Restitution of conjugal rights and judicial separation.<br>
+      Section 24 to Section 28: Maintenance.<br>
+      Hindu Succession Act, 1956:<br>
+      
+      Section 6 to Section 30: Intestate succession among Hindus.<br>
+      Dissolution of Muslim Marriages Act, 1939:<br>
+      
+      Sections 2 to 6: Grounds for the dissolution of Muslim marriages.<br><br>
+      <b>Guardians and Wards Act, 1890:</b><br>
+      
+      Section 1 to Section 49: Appointment of guardians for minors.<br><br>
+      <b>Limitation Act, 1963:</b><br>
+      
+      Section 2 to Section 27: Provisions related to the limitation period for different suits and appeals.</p>
+ </div>
+ 
+ <div id="Paris" class="tabcontent" style="display: none;">
+   <p><b>Indian Penal Code, 1860:</b><br>
+
+      General Sections:<br>
+      
+      Section 299 to Section 377: Offenses against the human body.<br>
+      Section 378 to Section 462: Offenses against property.<br>
+      Section 463 to Section 489-E: Offenses relating to documents and property marks.<br>
+      Section 489-A to Section 489-E: Offenses relating to currency notes and banknotes.<br>
+      Section 490 to Section 492: Offenses against marriage.<br>
+      Section 493 to Section 498: Offenses relating to abduction, adultery, and cruelty to married women.<br>
+      Section 499 to Section 502: Defamation.<br>
+      Section 503 to Section 510: Criminal intimidation, insult, and annoyance.<br><br>
+      <b>Offenses Against the State:</b><br>
+      
+      Section 121 to Section 130: Offenses against the state.<br>
+      Section 131 to Section 140: Offenses relating to the army, navy, and air force.<br><br>
+      <b>Offenses Against Public Tranquility:</b><br>
+      
+      Section 141 to Section 160: Offenses against public tranquility.<br><br>
+      <b>Offenses Relating to Religion:</b><br>
+      
+      Section 295 to Section 298: Offenses affecting the public religious sentiments.<br><br>
+      <b>Offenses Against Public Health:</b><br>
+      
+      Section 269 to Section 294-A: Offenses against public health, safety, and convenience.<br><br>
+      <b>Code of Criminal Procedure, 1973:</b><br>
+      
+      General Sections:<br>
+      
+      Section 1 to Section 484: Provisions regarding the administration of criminal justice.<br>
+      Section 154 to Section 176: Information to the police and their powers of investigation.<br>
+      Section 227 to Section 231: The trial of warrant cases by the Court of Session.<br>
+      Section 232 to Section 237: The trial of summons cases by Magistrates.<br>
+      Section 238 to Section 259: Summary trials.<br><br>
+      <b>Special Provisions:</b><br>
+      
+      Section 376 to Section 376E: Offenses related to rape and its punishment.<br>
+      Section 302: Punishment for murder.<br>
+      Section 307: Attempt to murder.<br><br>
+      <b>Protection of Children from Sexual Offences (POCSO) Act, 2012:</b><br>
+      
+      Sections 3 to 11: Offenses against children and their punishment.<br><br>
+      <b>Narcotic Drugs and Psychotropic Substances Act, 1985:</b><br>
+      
+      Sections 15 to 30: Offenses and penalties related to narcotics and psychotropic substances.<br><br>
+      <b>Prevention of Corruption Act, 1988:</b><br>
+      
+      Sections 7 to 13: Offenses related to corruption by public servants.<br><br>
+      <b>Information Technology Act, 2000:</b><br>
+      
+      Sections 65 to 78: Offenses related to cybercrimes.<br><br>
+      <b>Juvenile Justice (Care and Protection of Children) Act, 2015:</b><br>
+      
+      Sections 13 to 21: Offenses committed by children and their rehabilitation.</p>
+ </div>
+ 
+ <div id="Tokyo" class="tabcontent" style="display: none;">
+   <p><b>Fundamental Rights (Part III of the Constitution):</b><br>
+
+      Article 14 to Article 32: Equality before law and equal protection of laws.<br>
+      Article 19: Protection of certain rights regarding freedom of speech, assembly, association, movement, residence, and profession.<br>
+      Article 21: Protection of life and personal liberty.<br>
+      Article 32: Remedies for the enforcement of fundamental rights.<br><br>
+      <b>Directive Principles of State Policy (Part IV of the Constitution):</b><br>
+      
+      Article 36 to Article 51: Guidelines for the state to establish a just and egalitarian society.<br><br>
+      <b>Fundamental Duties (Article 51A):</b><br>
+      
+      Article 51A: Imposition of duties on citizens to promote harmony and the spirit of common brotherhood.<br><br>
+      <b>Union Executive (Part V of the Constitution):</b><br>
+      
+      Article 52 to Article 78: Powers and functions of the President, Vice President, Prime Minister, and Council of Ministers.<br><br>
+      <b>Parliament (Part V of the Constitution):</b><br>
+      
+      Article 79 to Article 122: Composition, powers, and procedures of the Parliament of India.<br><br>
+      <b>State Executive (Part VI of the Constitution):</b><br>
+      
+      Article 153 to Article 167: Executive powers of the State, Governor, and Council of Ministers.<br><br>
+      <b>Judiciary (Part V and Part VI of the Constitution):</b><br>
+      
+      Article 124 to Article 147: Establishment, composition, and powers of the Supreme Court.<br>
+      Article 214 to Article 231: High Courts in the states.<br><br>
+      <b>Emergency Provisions (Part XVIII of the Constitution):</b><br>
+      
+      Article 352 to Article 360: Provisions for declaring a state of emergency, including national emergency, state emergency, and financial emergency.<br><br>
+      <b>Amendment of the Constitution (Article 368):</b><br>
+      
+      Article 368: Procedure for amending the Constitution.<br><br>
+      <b>Election Commission of India (Article 324):</b><br>
+      
+      Article 324: Provides for the establishment and powers of the Election Commission for the conduct of elections.<br><br>
+      <b>Scheduled and Tribal Areas (Article 244 and Schedule V, VI):</b><br>
+      
+      Article 244 and Schedules V, VI: Special provisions for the administration of tribal areas and Scheduled Areas.</p>
+ </div>
 
      <div class="footer_section layout_padding">
       <div class="container">
@@ -247,7 +408,7 @@
    <!-- copyright section start -->
    <div class="copyright_section">
       <div class="container">
-         <p class="copyright_text">© 2020 All Rights Reserved.</p>
+         <p class="copyright_text">© 2024 All Rights Reserved.</p>
       </div>
    </div>
    <!-- copyright section end  -->
@@ -280,6 +441,35 @@
        }
       }
       })
+   </script>
+
+   <script>
+      document.addEventListener("DOMContentLoaded", function () {
+         // Set the first tab as active
+         document.querySelector(".tab button:first-child").classList.add("active");
+       });
+
+
+      function openCity(evt, cityName) {
+         // Declare all variables
+         var i, tabcontent, tablinks;
+       
+         // Get all elements with class="tabcontent" and hide them
+         tabcontent = document.getElementsByClassName("tabcontent");
+         for (i = 0; i < tabcontent.length; i++) {
+           tabcontent[i].style.display = "none";
+         }
+       
+         // Get all elements with class="tablinks" and remove the class "active"
+         tablinks = document.getElementsByClassName("tablinks");
+         for (i = 0; i < tablinks.length; i++) {
+           tablinks[i].className = tablinks[i].className.replace(" active", "");
+         }
+       
+         // Show the current tab, and add an "active" class to the button that opened the tab
+         document.getElementById(cityName).style.display = "block";
+         evt.currentTarget.className += " active";
+       }
    </script>
    </body>
    </html>
