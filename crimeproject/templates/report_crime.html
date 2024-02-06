@@ -137,9 +137,9 @@
              <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mt-3">
                    {% if user.is_authenticated %}
-                   <li class="nav-item active">
+                   {% comment %} <li class="nav-item active">
                       <a class="nav-link" href="{% url 'index' %}">Home</a>
-                   </li>
+                   </li> {% endcomment %}
                    <li class="nav-item">
                       <a class="nav-link" href="{% url 'about' %}">About Us</a>
                    </li>
@@ -149,13 +149,13 @@
                    <li class="nav-item">
                       <a class="nav-link" href="{% url 'laws' %}">Laws</a>
                    </li>
-                   <li class="nav-item">
+                   {% comment %} <li class="nav-item">
                     <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
                     </li>
                    <li class="nav-item">
                       <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
-                   </li>
-                   <div class="navbar-nav ml-auto">
+                   </li> {% endcomment %}
+                   {% comment %} <div class="navbar-nav ml-auto">
                       <div class="nav-item dropdown">
                           <a href="reportcrime" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
                           <div class="dropdown-menu"> 
@@ -163,17 +163,23 @@
                               <a href="{% url 'listcrime' %}" class="dropdown-item">View Crime Status</a>       
                           </div>
                       </div>
-                  </div>
-                   <li class="nav-item">
-                   <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
-                   </li>
-                   <li class="nav-item">
-                      <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
-                   {% else %}
-                   </li>
-                   <li class="nav-item">
-                      <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
-                   </li>
+                  </div> {% endcomment %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'crime_category' %}">Report a crime</a>
+                 </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'listcrime' %}">View Crime Status</a>
+                 </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
+                    </li>
+                    <li class="nav-item">
+                       <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
+                    {% else %}
+                    </li>
+                    <li class="nav-item">
+                       <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
+                    </li> 
                    {% comment %} <div class="navbar-nav ml-auto">
                       <div class="nav-item dropdown">
                           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
@@ -220,7 +226,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="reporter_name">Informer Name</label>
-                    <input type="text" id="reporter_name" value="{{ user.name }}" name="reporter_name" readonly/>
+                    <input type="text" id="reporter_name" name="reporter_name" class="form-control" value="Anonymous">
+                    <span id="nameError"></span>
                 </div>
             </div>
         
@@ -283,8 +290,8 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="description">Please provide a description of the Incident *</label>
-                    <textarea id="description" name="description" placeholder="A detailed description of what happened." required></textarea>
+                    <label for="description">Please provide a description of the Incident</label>
+                    <textarea id="description" name="description" placeholder="A detailed description of what happened."></textarea>
                     <span id="descriptionError"></span>
                 </div>
             </div>
@@ -366,19 +373,37 @@
                 aadharNumber("#adnumber");
             });
 
+            $("#reporter_name").keyup(function () {
+                validateName("#reporter_name");
+            });
+
           $("reportform").submit(function (event) {
             // Perform all validations before submitting the form
             validateRloc("#reporter_location");
             validateDate("#datetime");
             aadharNumber("#adnumber");
+            validateName("#reporter_name");
       
             // Check if any validation errors exist
             if ($(".validation-error").length > 0) {
               event.preventDefault(); // Prevent form submission
             }
           });
-        });
+        });      
 
+        function validateName(fieldId) {
+            var name = $(fieldId).val();
+            var nameError = $(fieldId + "Error");
+        
+            // Your validation logic
+            
+            if (/\d/.test(name)) {
+                $("#nameError").html('Name cannot contain numbers').css('color', 'red');
+            } else {
+                $("#nameError").html('');  // Clear error messages if valid
+            }
+        }     
+        
         function validateDate(fieldId) {
             var currentDate = new Date();
             var inputDate = new Date($(fieldId).val());
@@ -394,7 +419,7 @@
             } else {
                 $("#dateError").html(""); // Reset the error message
             }
-        }              
+        }
 
         function aadharNumber(fieldId) {
             var numberRegex = /^[-+]?\d*\.?\d+$/;

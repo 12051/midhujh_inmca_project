@@ -93,7 +93,7 @@
                      </li>
                      <li class="nav-item">
                         <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
-                     </li>
+                     </li> 
                      {% comment %} <div class="navbar-nav ml-auto">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
@@ -137,7 +137,7 @@
                   <div class="carousel-item active">
                      <div class="taital_main">
                         <div class="taital_left">
-                           <h1 class="banner_taital">REPORTSAFER with Us..</h1>
+                           <h1 class="banner_taital" style="text-transform: capitalize;">ReportSafer with Us...</h1>
                         </div>
                         <div class="taital_right mt-3">
                            <div class="product_img mt-5"><img src="{% static 'images/bg1-transformed.png' %}"></div>
@@ -176,31 +176,31 @@
 
             <a href="{% url 'crime_category' %}">
             <div class="card-deck">
-               <div class="card" style="margin-left:-200px;">
+               <div class="card" style="margin-left:-20px;">
                  <img class="card-img-top" style="width:80px;height:80px;margin-left:42%;" src="{% static 'images/help1.jpg' %}" alt="Card image cap">
                  <div class="card-body">
                    <h5 class="card-title" style="text-align:center;">REPORT A CRIME</h5>
-                   <p class="card-text" style="text-align:center;">Instant Action: Reporting Crime with a Single Click.</p>
+                   <p class="card-text" style="text-align:center;">Instant Action: Your Voice Matters.</p>
                  </div>
                </div>
             </a>
                
-            <a href="{% url 'login' %}">
+            <a href="{% url 'listcrime' %}">
                <div class="card">
-                 <img class="card-img-top" style="width:80px;height:75px;margin-left:42%;margin-top:5px;" src="{% static 'images/report.jpg' %}" alt="Card image cap">
+                 <img class="card-img-top" style="width:80px;height:75px;margin-left:42%;margin-top:5px;" src="{% static 'images/e-service-status.png' %}" alt="Card image cap">
                  <div class="card-body">
-                   <h5 class="card-title" style="text-align:center;">VIEW FIR</h5>
-                   <p class="card-text" style="text-align:center;">Peek into FIRs: Unveiling the Truth, Protecting the Community.</p>
+                   <h5 class="card-title" style="text-align:center;">VIEW REPORTED CRIME STATUS</h5>
+                   <p class="card-text" style="text-align:center;">Check Crime Reports: Stay Informed, Stay Safe.</p>
                  </div>
                </div>
             </a>
 
             <a href="{% url 'login' %}">
                <div class="card">
-                 <img class="card-img-top" style="width:80px;height:75px;margin-left:44%;margin-top:5px;" src="{% static 'images/e-service-status.png' %}" alt="Card image cap">
+                 <img class="card-img-top" style="width:80px;height:75px;margin-left:44%;margin-top:5px;" src="{% static 'images/e-service-chatbot.png' %}" alt="Card image cap">
                  <div class="card-body">
-                   <h5 class="card-title" style="text-align:center;margin-left:50px;">TRACK FIR</h5>
-                   <p class="card-text" style="text-align:center;margin-left:50px;">Check your FIR Status.</p>
+                   <h5 class="card-title" style="text-align:center;margin-left:50px;">CHAT ASSISTANCE</h5>
+                   <p class="card-text" style="text-align:center;margin-left:50px;">ChatBot: Instant Help, 24/7.</p>
                  </div>
                </div>
             </a>

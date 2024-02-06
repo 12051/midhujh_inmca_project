@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>ReportSafer | Law Enforcement Home</title>
+      <title>ReportSafer | Law Home</title>
       <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
       {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
       <meta name="keywords" content="">
@@ -32,10 +32,15 @@
       <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
       <!-- owl stylesheets -->
       <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
+      <style>
+         .error {
+            color: red;
+        }
+      </style>
    </head>
    <body style='font-family:Poppins,sans-serif;'>
       <!-- header section start -->
-      <div class="header_section">
+      <div class="header_section ">
          <div class="container-fluid">
             <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top-navbar">
                <a class="logo" href="{% url 'law_index' %}"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
@@ -43,35 +48,39 @@
                <span class="navbar-toggler-icon"></span>
                </button>
                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav mr-auto">
+                  <ul class="navbar-nav mr-auto mt-3">
                      {% if user.is_authenticated %}
-                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'index' %}">Home</a>
-                     </li>
-                     {% comment %} <li class="nav-item">
-                        <a class="nav-link" href="{% url 'about' %}">About Us</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'general' %}">General Information</a>
+                     {% comment %} <li class="nav-item active">
+                        <a class="nav-link" id="index" href="{% url 'index' %}">Home</a>
                      </li> {% endcomment %}
                      <li class="nav-item">
-                        <a class="nav-link" href="{% url 'laws' %}">Laws</a>
+                        <a class="nav-link" href="{% url 'law_about' %}">About Us</a>
                      </li>
                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'law_general' %}">General Information</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'law_laws' %}">Laws</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'law_page' %}">Manage Crime Status</a>
+                     </li>
+                     {% comment %} <li class="nav-item">
                       <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
-                      </li>
-                     <li class="nav-item">
+                      </li> {% endcomment %}
+                     {% comment %} <li class="nav-item">
                         <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
-                     </li>
-                     <div class="navbar-nav ml-auto">
+                     </li> {% endcomment %}
+                     {% comment %} <div class="navbar-nav ml-auto">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" id="activity" data-toggle="dropdown">Your Activity</a>
-                            <div class="dropdown-menu">
-                              
-                                <a href="{% url 'law_page' %}" id="managecrime" class="dropdown-item">Manage Crime Status</a>    
+                            <div class="dropdown-menu"> 
+                                <a href="{% url 'crime_category' %}" id="reportcrime" class="dropdown-item">Report a Crime</a>
+                                <a href="{% url 'listcrime' %}" id="viewcrime" class="dropdown-item">View Crime Status</a>
+                                <a href="{% url 'book_appointment' %}" id="jailtime" class="dropdown-item">Book Prison Inmate Visiting Time</a>       
                             </div>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                      <li class="nav-item">
                      <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
                      </li>
@@ -79,6 +88,9 @@
                         <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
                      {% else %}
                      </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
+                     </li> 
                      {% comment %} <div class="navbar-nav ml-auto">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
@@ -93,7 +105,7 @@
                         <a class="nav-link" href="http://127.0.0.1:8000/register">Register</a>
                      </li> {% endcomment %}
                      <li class="nav-item">
-                        <a class="nav-link" href="http://127.0.0.1:8000/law_login">Login</a>
+                        <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
                      </li>
                      {% endif %}
                      {% comment %} <h2>User: {{user.name}}</h2> {% endcomment %}
@@ -115,16 +127,16 @@
       
       <!-- header section end -->
       <!-- banner section start -->
-      <div class="banner_section banner_bg">
+      <div class="banner_section banner_bg ">
          <div class="container-fluid">
             <div id="my_slider" class="carousel slide" data-ride="carousel">
                <div class="carousel-inner">
                   <div class="carousel-item active">
                      <div class="taital_main">
                         <div class="taital_left">
-                           <h1 class="banner_taital">REPORTSAFER with Us..</h1>
+                           <h1 class="banner_taital" style="text-transform: capitalize;">ReportSafer with Us...</h1>
                         </div>
-                        <div class="taital_right">
+                        <div class="taital_right mt-3">
                            <div class="product_img mt-5"><img src="{% static 'images/bg1-transformed.png' %}"></div>
                         </div>
                      </div>
@@ -135,50 +147,8 @@
       </div>
 
 
-      <div class="about_section layout_padding">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-6">
-                  <div><img style="height:450px;width:600px;" src="{% static 'images/abt-pic.jpg' %}" class="about_img"></div>
-               </div>
-               <div class="col-md-6">
-                  <h1 class="about_taital">About Us</h1>
-                  <p class="about_text">ReportSafer has a reputation for being one of the best-managed law-enforcement forces in the country and is one of the top-ranking states in terms of maintenance of law and order.</p>
-                  <div class="read_bt_1"><a href="{% url 'about' %}">Read More</a></div>
-               </div>
-            </div>
-         </div>
-      </div>
+      
       <!-- about section end -->
-      <!-- product section start -->
-      <div class="product_section layout_padding">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-12">
-                  <h1 class="product_taital">OUR E-SERVICES</h1>
-               </div>
-            </div>
-
-            <a href="{% url 'report_crime' %}">
-            <div class="card-deck">
-               <div class="card">
-                 <img class="card-img-top" style="width:80px;height:80px;margin-left:42%;" src="{% static 'images/help1.jpg' %}" alt="Card image cap">
-                 <div class="card-body">
-                   <h5 class="card-title" style="text-align:center;">REPORT A CRIME</h5>
-                   <p class="card-text" style="text-align:center;">Instant Action: Reporting Crime with a Single Click.</p>
-                 </div>
-               </div>
-            </a>
-               
-            <a href="{% url 'login' %}">
-               <div class="card">
-                 <img class="card-img-top" style="width:80px;height:75px;margin-left:44%;margin-top:5px;" src="{% static 'images/report.jpg' %}" alt="Card image cap">
-                 <div class="card-body">
-                   <h5 class="card-title" style="text-align:center;">VIEW FIR</h5>
-                   <p class="card-text" style="text-align:center;">Peek into FIRs: Unveiling the Truth, Protecting the Community.</p>
-                 </div>
-               </div>
-            </a>
                {% comment %} <div class="card">
                  <img class="card-img-top" src="..." alt="Card image cap">
                  <div class="card-body">
@@ -189,7 +159,7 @@
                    <small class="text-muted">Last updated 3 mins ago</small>
                  </div>
                </div> {% endcomment %}
-             </div>
+             </div><br><br>
 
             {% comment %} <div class="contain">
                   <div class="report-crime-service">
@@ -324,7 +294,7 @@
       </div>
       <!-- contact section end -->
 
-      <!-- footer section start -->
+      {% comment %} <!-- footer section start -->
       <div class="footer_section layout_padding">
          <div class="container">
             <div class="row">
@@ -345,7 +315,7 @@
             </div>
          </div>
       </div>
-      <!-- footer section end -->
+      <!-- footer section end --> {% endcomment %}
       <!-- copyright section start -->
       <div class="copyright_section">
          <div class="container">

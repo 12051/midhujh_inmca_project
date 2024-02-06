@@ -4,6 +4,7 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from .views import contact_us, evidence_crime_report_view, law_about, law_general, law_laws, report_child, report_property, report_election, report_state
 
 urlpatterns = [
     path('',views.index,name='index'),
@@ -39,12 +40,12 @@ urlpatterns = [
     path('upload_evidence/', views.upload_evidence, name='upload_evidence'),
     path('view_doc/<int:crime_id>/', views.view_doc, name='view_doc'),
     path('view_crime/<int:crime_id>/', views.view_crime, name='view_crime'),
+    path('view_public/<int:crime_id>/', views.view_public, name='view_public'),
     path('prisonstaff', views.prisonstaff, name='prisonstaff'),
     path('control_page', views.control_page, name='control_page'),
     path('control_status', views.control_status, name='control_status'),
     path('control', views.control, name='control'),
     path('report_prison', views.report_prison, name='report_prison'),
-    path('view_public/<int:crime_id>/', views.view_public, name='view_public'),
     path('law_page', views.law_page, name='law_page'),
     path('up_final', views.up_final, name='up_final'),
     path('fir/', views.fir, name='fir'),
@@ -56,7 +57,33 @@ urlpatterns = [
     path('final/', views.final, name='final'),
     path('book_appointment/', views.book_appointment, name='book_appointment'),
     path('appointment/', views.appointment_view, name='appointment_view'),
-
+    path('evidence_crime_report/<int:crime_report_id>/',views.evidence_crime_report_view, name='evidence_crime_report'),
+    path('evidence_doc_report/<int:crime_report_id>/',views.evidence_doc_report_view, name='evidence_doc_report'),
+    path('evidence_public_report/<int:crime_report_id>/',views.evidence_public_report_view, name='evidence_public_report'),
+    path('law_about/', law_about, name='law_about'),
+    path('law_general/', law_general, name='law_general'),
+    path('law_laws/', law_laws, name='law_laws'),
+    path('report_property/', report_property, name='report_property'),
+    path('report_child/', report_child, name='report_child'),
+    path('report_election/', report_election, name='report_election'),
+    path('report_state/', report_state, name='report_state'),
+    
+    path('firdoc/', views.firdoc, name='firdoc'),
+    path('witnessdoc/', views.witnessdoc, name='witnessdoc'),
+    path('forensicdoc/', views.forensicdoc, name='forensicdoc'),
+    path('arrestdoc/', views.arrestdoc, name='arrestdoc'),
+    path('chargedoc/', views.chargedoc, name='chargedoc'),
+    path('casedoc/', views.casedoc, name='casedoc'),
+    path('finaldoc/', views.finaldoc, name='finaldoc'),
+    path('firpublic/', views.firpublic, name='firpublic'),
+    path('witnesspublic/', views.witnesspublic, name='witnesspublic'),
+    path('forensicpublic/', views.forensicpublic, name='forensicpublic'),
+    path('arrestpublic/', views.arrestpublic, name='arrestpublic'),
+    path('chargepublic/', views.chargepublic, name='chargepublic'),
+    path('casepublic/', views.casepublic, name='casepublic'),
+    path('finalpublic/', views.finalpublic, name='finalpublic'),
+    path('contact_us/', contact_us, name='contact_us'),
+    
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

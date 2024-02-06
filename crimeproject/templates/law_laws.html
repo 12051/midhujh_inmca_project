@@ -1,0 +1,507 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+      <!-- site metas -->
+      <title>ReportSafer | Law Laws</title>
+      <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
+      {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <!-- bootstrap css -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+      <!-- style css -->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <!-- Responsive-->
+      <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+      <!-- fevicon -->
+      <link rel="icon" href="{% static 'images/fevicon.png' %}" type="image/gif" />
+      <!-- Scrollbar Custom CSS -->
+      <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
+      <!-- Tweaks for older IEs-->
+      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+      <!-- fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+      <!-- owl stylesheets -->
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
+      <style>
+        /* Global styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Title styles */
+        h1 {
+            font-size: 36px;
+            color: #333;
+            margin-top: 20px;
+        }
+        
+        /* Section styles */
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        /* Image styles */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Navigation bar styles */
+        .navbar {
+            background-color: #fff;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #333;
+        }
+        
+        
+        /* Specific styles for the "Indian Laws" section */
+        #civil-laws,
+        #criminal-laws,
+        #constitutional-laws {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        #civil-laws h2,
+        #criminal-laws h2,
+        #constitutional-laws h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        /* Add more specific styles for other sections as needed */
+        
+        /* Style the tab */
+.tab {
+ overflow: hidden;
+ border: 1px solid #ccc;
+ background-color: #A7C7E7;
+}
+
+/* Style the buttons that are used to open the tab content */
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+ background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+ background-color: #C6D1D5;
+}
+
+/* Style the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  width: 33.33%; /* Equal width for each tab */
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+    </style>
+   </head>
+   <body style='font-family:Poppins,sans-serif;'>
+      <!-- header section start -->
+      <div class="header_section ">
+         <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top-navbar">
+               <a class="logo" href="{% url 'law_index' %}"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto mt-3">
+                     {% if user.is_authenticated %}
+                     {% comment %} <li class="nav-item active">
+                        <a class="nav-link" id="index" href="{% url 'index' %}">Home</a>
+                     </li> {% endcomment %}
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'law_about' %}">About Us</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'law_general' %}">General Information</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'law_laws' %}">Laws</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'law_page' %}">Manage Crime Status</a>
+                     </li>
+                     {% comment %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
+                      </li> {% endcomment %}
+                     {% comment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
+                     </li> {% endcomment %}
+                     {% comment %} <div class="navbar-nav ml-auto">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="activity" data-toggle="dropdown">Your Activity</a>
+                            <div class="dropdown-menu"> 
+                                <a href="{% url 'crime_category' %}" id="reportcrime" class="dropdown-item">Report a Crime</a>
+                                <a href="{% url 'listcrime' %}" id="viewcrime" class="dropdown-item">View Crime Status</a>
+                                <a href="{% url 'book_appointment' %}" id="jailtime" class="dropdown-item">Book Prison Inmate Visiting Time</a>       
+                            </div>
+                        </div>
+                    </div> {% endcomment %}
+                     <li class="nav-item">
+                     <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
+                     {% else %}
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
+                     </li> 
+                     {% comment %} <div class="navbar-nav ml-auto">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
+                            <div class="dropdown-menu"> 
+                                <a href="http://127.0.0.1:8000/witnessregister" class="dropdown-item">Register as Witness</a>
+                                <a href="http://127.0.0.1:8000/victimregister" class="dropdown-item">Register as Victim</a>       
+                            </div>
+                        </div>
+                    </div> {% endcomment %}
+                   
+                     {% comment %} <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/register">Register</a>
+                     </li> {% endcomment %}
+                     <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
+                     </li>
+                     {% endif %}
+                     {% comment %} <h2>User: {{user.name}}</h2> {% endcomment %}
+                  </ul>
+                  <!-- <form class="form-inline my-2 my-lg-0">
+                     <div class="login_menu">
+                        <ul>
+                           <li><a href="#">Login</a></li>
+                           <li><a href="#">Register</a></li>
+                           <li><a href="#"><img src="images/user-icon.png"></a></li>
+                           <li><a href="#"><img src="images/search-icon.png"></a></li>
+                        </ul>
+                     </div>
+                  </form> -->
+               </div>
+            </nav>
+         </div>
+      </div>
+
+   <!-- header section end --><br><br><br><br><br>
+
+   <button onclick="goBack()" style="background-color: #F3B95F; /* Green */
+   border: none;
+   color: white;
+   padding: 10px 20px;
+   margin-left:79px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   cursor: pointer;
+   border-radius: 4px;"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+Go Back
+</button> <br><br>
+      <!-- banner section start -->
+      <div class="banner_section banner_bg">
+         <div class="container-fluid">
+            <div id="my_slider" class="carousel slide" data-ride="carousel">
+               <div class="carousel-inner">
+                  <div class="carousel-item active">
+                     <div class="taital_main">
+                        <div class="taital_left">
+                           <h1 class="banner_taital" style="text-transform: capitalize;">ReportSafer with Us...</h1>
+                        </div>
+                        <div class="taital_right">
+                           <div class="product_img"><img src="{% static 'images/bg1-transformed.png' %}"></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div style="margin-left:30px;">
+      <h1>Indian Laws</h1>
+
+
+
+
+<!-- Tab links -->
+<div class="tab">
+   <button class="tablinks" onclick="openCity(event, 'London')">CIVIL LAWS</button>
+   <button class="tablinks" onclick="openCity(event, 'Paris')">CRIMINAL LAWS</button>
+   <button class="tablinks" onclick="openCity(event, 'Tokyo')">CONSTITUTIONAL LAWS</button>
+ </div>
+ 
+ <!-- Tab content -->
+ <div id="London" class="tabcontent">
+   <p><b>Indian Contract Act, 1872:</b><br>
+
+      Section 1 to Section 75: General provisions related to contracts.<br>
+      Section 2(e): Definition of an agreement.<br>
+      Section 10 to Section 30: Essential elements of a valid contract.<br>
+      Section 62 to Section 70: Performance of contracts.<br>
+      Section 73 and Section 74: Damages for breach of contract.<br><br>
+      <b>Sale of Goods Act, 1930:</b><br>
+      
+      Section 1 to Section 76: Applicability and general provisions.<br>
+      Section 4 to Section 5: Sale and agreement to sell.<br>
+      Section 9 to Section 15: Conditions and warranties.<br>
+      Section 39 to Section 50: Performance of the contract of sale.<br>
+      Section 55 to Section 61: Rights of an unpaid seller.<br><br>
+      <b>Transfer of Property Act, 1882:</b><br>
+      
+      Section 5 to Section 53A: Various modes of transferring property.<br>
+      Section 54: Sale defined.<br>
+      Section 123 to Section 130: Gifts.<br>
+      Section 41 to Section 44: Transfer of actionable claims.<br><br>
+      <b>Specific Relief Act, 1963:</b><br>
+      
+      Section 4 to Section 25: Specific relief that may be granted.<br>
+      Section 34 to Section 38: Preventive relief.<br>
+      Section 41 to Section 43: Declaratory decrees.<br>
+      Section 45 to Section 55: Injunctions.<br><br>
+      <b>Code of Civil Procedure, 1908:</b><br>
+      
+      Order I to Order XXXVIII: Provisions related to the parties to suits.<br>
+      Order IV to Order XX: Rules regarding the institution of suits.<br>
+      Order XXI: Execution of decrees and orders.<br><br>
+      <b>Family Laws:</b><br>
+      
+      Hindu Marriage Act, 1955:<br>
+      
+      Section 5 to Section 18: Conditions for a Hindu marriage.<br>
+      Section 9 to Section 13: Restitution of conjugal rights and judicial separation.<br>
+      Section 24 to Section 28: Maintenance.<br>
+      Hindu Succession Act, 1956:<br>
+      
+      Section 6 to Section 30: Intestate succession among Hindus.<br>
+      Dissolution of Muslim Marriages Act, 1939:<br>
+      
+      Sections 2 to 6: Grounds for the dissolution of Muslim marriages.<br><br>
+      <b>Guardians and Wards Act, 1890:</b><br>
+      
+      Section 1 to Section 49: Appointment of guardians for minors.<br><br>
+      <b>Limitation Act, 1963:</b><br>
+      
+      Section 2 to Section 27: Provisions related to the limitation period for different suits and appeals.</p>
+ </div>
+ 
+ <div id="Paris" class="tabcontent" style="display: none;">
+   <p><b>Indian Penal Code, 1860:</b><br>
+
+      General Sections:<br>
+      
+      Section 299 to Section 377: Offenses against the human body.<br>
+      Section 378 to Section 462: Offenses against property.<br>
+      Section 463 to Section 489-E: Offenses relating to documents and property marks.<br>
+      Section 489-A to Section 489-E: Offenses relating to currency notes and banknotes.<br>
+      Section 490 to Section 492: Offenses against marriage.<br>
+      Section 493 to Section 498: Offenses relating to abduction, adultery, and cruelty to married women.<br>
+      Section 499 to Section 502: Defamation.<br>
+      Section 503 to Section 510: Criminal intimidation, insult, and annoyance.<br><br>
+      <b>Offenses Against the State:</b><br>
+      
+      Section 121 to Section 130: Offenses against the state.<br>
+      Section 131 to Section 140: Offenses relating to the army, navy, and air force.<br><br>
+      <b>Offenses Against Public Tranquility:</b><br>
+      
+      Section 141 to Section 160: Offenses against public tranquility.<br><br>
+      <b>Offenses Relating to Religion:</b><br>
+      
+      Section 295 to Section 298: Offenses affecting the public religious sentiments.<br><br>
+      <b>Offenses Against Public Health:</b><br>
+      
+      Section 269 to Section 294-A: Offenses against public health, safety, and convenience.<br><br>
+      <b>Code of Criminal Procedure, 1973:</b><br>
+      
+      General Sections:<br>
+      
+      Section 1 to Section 484: Provisions regarding the administration of criminal justice.<br>
+      Section 154 to Section 176: Information to the police and their powers of investigation.<br>
+      Section 227 to Section 231: The trial of warrant cases by the Court of Session.<br>
+      Section 232 to Section 237: The trial of summons cases by Magistrates.<br>
+      Section 238 to Section 259: Summary trials.<br><br>
+      <b>Special Provisions:</b><br>
+      
+      Section 376 to Section 376E: Offenses related to rape and its punishment.<br>
+      Section 302: Punishment for murder.<br>
+      Section 307: Attempt to murder.<br><br>
+      <b>Protection of Children from Sexual Offences (POCSO) Act, 2012:</b><br>
+      
+      Sections 3 to 11: Offenses against children and their punishment.<br><br>
+      <b>Narcotic Drugs and Psychotropic Substances Act, 1985:</b><br>
+      
+      Sections 15 to 30: Offenses and penalties related to narcotics and psychotropic substances.<br><br>
+      <b>Prevention of Corruption Act, 1988:</b><br>
+      
+      Sections 7 to 13: Offenses related to corruption by public servants.<br><br>
+      <b>Information Technology Act, 2000:</b><br>
+      
+      Sections 65 to 78: Offenses related to cybercrimes.<br><br>
+      <b>Juvenile Justice (Care and Protection of Children) Act, 2015:</b><br>
+      
+      Sections 13 to 21: Offenses committed by children and their rehabilitation.</p>
+ </div>
+ 
+ <div id="Tokyo" class="tabcontent" style="display: none;">
+   <p><b>Fundamental Rights (Part III of the Constitution):</b><br>
+
+      Article 14 to Article 32: Equality before law and equal protection of laws.<br>
+      Article 19: Protection of certain rights regarding freedom of speech, assembly, association, movement, residence, and profession.<br>
+      Article 21: Protection of life and personal liberty.<br>
+      Article 32: Remedies for the enforcement of fundamental rights.<br><br>
+      <b>Directive Principles of State Policy (Part IV of the Constitution):</b><br>
+      
+      Article 36 to Article 51: Guidelines for the state to establish a just and egalitarian society.<br><br>
+      <b>Fundamental Duties (Article 51A):</b><br>
+      
+      Article 51A: Imposition of duties on citizens to promote harmony and the spirit of common brotherhood.<br><br>
+      <b>Union Executive (Part V of the Constitution):</b><br>
+      
+      Article 52 to Article 78: Powers and functions of the President, Vice President, Prime Minister, and Council of Ministers.<br><br>
+      <b>Parliament (Part V of the Constitution):</b><br>
+      
+      Article 79 to Article 122: Composition, powers, and procedures of the Parliament of India.<br><br>
+      <b>State Executive (Part VI of the Constitution):</b><br>
+      
+      Article 153 to Article 167: Executive powers of the State, Governor, and Council of Ministers.<br><br>
+      <b>Judiciary (Part V and Part VI of the Constitution):</b><br>
+      
+      Article 124 to Article 147: Establishment, composition, and powers of the Supreme Court.<br>
+      Article 214 to Article 231: High Courts in the states.<br><br>
+      <b>Emergency Provisions (Part XVIII of the Constitution):</b><br>
+      
+      Article 352 to Article 360: Provisions for declaring a state of emergency, including national emergency, state emergency, and financial emergency.<br><br>
+      <b>Amendment of the Constitution (Article 368):</b><br>
+      
+      Article 368: Procedure for amending the Constitution.<br><br>
+      <b>Election Commission of India (Article 324):</b><br>
+      
+      Article 324: Provides for the establishment and powers of the Election Commission for the conduct of elections.<br><br>
+      <b>Scheduled and Tribal Areas (Article 244 and Schedule V, VI):</b><br>
+      
+      Article 244 and Schedules V, VI: Special provisions for the administration of tribal areas and Scheduled Areas.</p>
+ </div>
+
+     <div class="footer_section layout_padding">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-3 col-md-6">
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+               <div class="social_icon">
+                  <ul>
+                     <li><a href="#"><img src="{% static 'images/fb-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/twitter-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/linkedin-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/instagram-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/youtub-icon.png' %}"></a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- footer section end -->
+   <!-- copyright section start -->
+   <div class="copyright_section">
+      <div class="container">
+         <p class="copyright_text">© 2024 All Rights Reserved.</p>
+      </div>
+   </div>
+   <!-- copyright section end  -->
+   <!-- Javascript files-->
+   <script src="{% static 'js/jquery.min.js' %}"></script>
+   <script src="{% static 'js/popper.min.js' %}"></script>
+   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+   <script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
+   <script src="{% static 'js/plugin.js' %}"></script>
+   <!-- sidebar -->
+   <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+   <script src="{% static 'js/custom.js' %}"></script>
+   <!-- javascript --> 
+   <script src="{% static 'js/owl.carousel.js' %}"></script>
+   <!-- owl carousel -->
+   <script>
+      $('.owl-carousel').owlCarousel({
+      loop:true,
+      margin:30,
+      nav:true,
+      responsive:{
+       0:{
+           items:1
+       },
+       600:{
+           items:3
+       },
+       1000:{
+           items:4
+       }
+      }
+      })
+   </script>
+
+   <script>
+      document.addEventListener("DOMContentLoaded", function () {
+         // Set the first tab as active
+         document.querySelector(".tab button:first-child").classList.add("active");
+       });
+
+
+      function openCity(evt, cityName) {
+         // Declare all variables
+         var i, tabcontent, tablinks;
+       
+         // Get all elements with class="tabcontent" and hide them
+         tabcontent = document.getElementsByClassName("tabcontent");
+         for (i = 0; i < tabcontent.length; i++) {
+           tabcontent[i].style.display = "none";
+         }
+       
+         // Get all elements with class="tablinks" and remove the class "active"
+         tablinks = document.getElementsByClassName("tablinks");
+         for (i = 0; i < tablinks.length; i++) {
+           tablinks[i].className = tablinks[i].className.replace(" active", "");
+         }
+       
+         // Show the current tab, and add an "active" class to the button that opened the tab
+         document.getElementById(cityName).style.display = "block";
+         evt.currentTarget.className += " active";
+       }
+   </script>
+   <script>
+      function goBack() {
+          window.history.back();
+      }
+   </script>
+   </body>
+   </html>

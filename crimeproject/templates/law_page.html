@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>ReportSafer | Law Enforcement Crimes</title>
+      <title>ReportSafer | Law Manage</title>
       <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
       {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
       <meta name="keywords" content="">
@@ -32,16 +32,15 @@
       <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
       <!-- owl stylesheets -->
       <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        th{
-            text-align:center;
+      <style>
+         .error {
+            color: red;
         }
-    </style>
-    </head>
+      </style>
+   </head>
    <body style='font-family:Poppins,sans-serif;'>
       <!-- header section start -->
-      <div class="header_section">
+      <div class="header_section ">
          <div class="container-fluid">
             <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top-navbar">
                <a class="logo" href="{% url 'law_index' %}"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
@@ -49,35 +48,39 @@
                <span class="navbar-toggler-icon"></span>
                </button>
                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav mr-auto">
+                  <ul class="navbar-nav mr-auto mt-3">
                      {% if user.is_authenticated %}
-                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'law_index' %}">Home</a>
-                     </li>
-                     {% comment %} <li class="nav-item">
-                        <a class="nav-link" href="{% url 'about' %}">About Us</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'general' %}">General Information</a>
+                     {% comment %} <li class="nav-item active">
+                        <a class="nav-link" id="index" href="{% url 'index' %}">Home</a>
                      </li> {% endcomment %}
                      <li class="nav-item">
-                        <a class="nav-link" href="{% url 'laws' %}">Laws</a>
+                        <a class="nav-link" href="{% url 'law_about' %}">About Us</a>
                      </li>
                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'law_general' %}">General Information</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'law_laws' %}">Laws</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'law_page' %}">Manage Crime Status</a>
+                     </li>
+                     {% comment %} <li class="nav-item">
                       <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
-                      </li>
-                     <li class="nav-item">
+                      </li> {% endcomment %}
+                     {% comment %} <li class="nav-item">
                         <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
-                     </li>
-                     <div class="navbar-nav ml-auto">
+                     </li> {% endcomment %}
+                     {% comment %} <div class="navbar-nav ml-auto">
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
-                            <div class="dropdown-menu">
-                              
-                                <a href="{% url 'law_page' %}" class="dropdown-item">Manage Crime Status</a>    
+                            <a href="#" class="nav-link dropdown-toggle" id="activity" data-toggle="dropdown">Your Activity</a>
+                            <div class="dropdown-menu"> 
+                                <a href="{% url 'crime_category' %}" id="reportcrime" class="dropdown-item">Report a Crime</a>
+                                <a href="{% url 'listcrime' %}" id="viewcrime" class="dropdown-item">View Crime Status</a>
+                                <a href="{% url 'book_appointment' %}" id="jailtime" class="dropdown-item">Book Prison Inmate Visiting Time</a>       
                             </div>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                      <li class="nav-item">
                      <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
                      </li>
@@ -85,6 +88,9 @@
                         <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
                      {% else %}
                      </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
+                     </li> 
                      {% comment %} <div class="navbar-nav ml-auto">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
@@ -99,7 +105,7 @@
                         <a class="nav-link" href="http://127.0.0.1:8000/register">Register</a>
                      </li> {% endcomment %}
                      <li class="nav-item">
-                        <a class="nav-link" href="http://127.0.0.1:8000/law_login">Login</a>
+                        <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
                      </li>
                      {% endif %}
                      {% comment %} <h2>User: {{user.name}}</h2> {% endcomment %}
@@ -118,6 +124,7 @@
             </nav>
          </div>
       </div>
+
       <br><br><br><br>
 {% csrf_token %}
 <div class="container">

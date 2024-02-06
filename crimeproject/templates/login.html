@@ -1,5 +1,7 @@
-{% load static %}
+{% comment %} {% load socialaccount %} {% endcomment %}
+{% block content %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
    <head>
       <!-- basic -->
@@ -142,6 +144,12 @@
                <div class="otp">
                   <a>OTP LOGIN</a>
                 </div><br>
+                    {% comment %} <button class="btn btn-outline-info">
+                        <a href="{% provider_login_url 'google'%}?next=/">
+                            <i class="fab fa-google"></i>
+                            Login with Google
+                        </a>
+                    </button> {% endcomment %}
                 <div class="pass">
                   <a href="{% url 'password_reset' %}">Forgot Password?</a>
                 </div><br>
@@ -156,6 +164,7 @@
     </div>
   </div>
 </section>  
+{% endblock content %}
 
   <!-- footer section start -->
   <div class="footer_section layout_padding">

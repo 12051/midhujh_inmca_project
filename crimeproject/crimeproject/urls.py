@@ -23,4 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('crimeapp.urls')),
     path('view_crime/<int:crime_id>',views.view_crime,name='view_crime'),
+    # path("", include("allauth.urls")),
+    # path('accounts/', include("django.contrib.auth.urls")),
 ]

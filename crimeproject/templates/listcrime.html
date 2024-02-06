@@ -10,8 +10,9 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>ReportSafer | Reported Crimes</title>
+      <title>ReportSafer | Offence against Human Body</title>
       <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
+      {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -31,12 +32,104 @@
       <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
       <!-- owl stylesheets -->
       <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
-   </head>
-   <body style="font-family:Poppins,sans-serif;">
+    <style>
+
+    /* Reset some default styles */
+    body, h1 {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: {% static 'images/bg.jpg' %};
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    form {
+        
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #d8e1e8; /* Adjust opacity here */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    #reportform{
+        margin-top:100px;
+        margin-bottom:10px;
+    }
+
+    /* Apply some basic styling to the form */
+    form {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #b2cbde;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Style form headings */
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    
+    /* Style form labels */
+    label {
+        display: block;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    
+    /* Style form input fields and text area */
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    
+    /* Style the submit button */
+    button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-left:40%;
+    }
+    
+    /* Style error messages */
+    .error {
+        color: #ff0000;
+        font-size: 12px;
+        display: block;
+        margin-top: 5px;
+    }
+    
+    /* Add some spacing between form groups */
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    </style>
+</head>
+
+<body style="'font-family:Poppins,sans-serif';background:black;">
     <!-- header section start -->
-    <div class="header_section">
+    <div class="header_section ">
        <div class="container-fluid">
-          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top-navbar">
              <a class="logo" href="{% url 'index' %}"><img style="width:50px; margin-left:50px;" src="{% static 'images/logo2.jpg' %}"></a>
              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
              <span class="navbar-toggler-icon"></span>
@@ -45,49 +138,48 @@
                 <ul class="navbar-nav mr-auto mt-3">
                    {% if user.is_authenticated %}
                    {% comment %} <li class="nav-item active">
-                        <a class="nav-link" id="index" href="{% url 'index' %}">Home</a>
-                     </li> {% endcomment %}
-                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'about' %}">About Us</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'general' %}">General Information</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'laws' %}">Laws</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'crime_category' %}">Report a crime</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'listcrime' %}">View Crime Status</a>
-                     </li>
-                     {% comment %} <li class="nav-item">
-                      <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
-                      </li> {% endcomment %}
-                     {% comment %} <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
-                     </li> {% endcomment %}
-                     {% comment %} <div class="navbar-nav ml-auto">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" id="activity" data-toggle="dropdown">Your Activity</a>
-                            <div class="dropdown-menu"> 
-                                <a href="{% url 'crime_category' %}" id="reportcrime" class="dropdown-item">Report a Crime</a>
-                                <a href="{% url 'listcrime' %}" id="viewcrime" class="dropdown-item">View Crime Status</a>
-                                <a href="{% url 'book_appointment' %}" id="jailtime" class="dropdown-item">Book Prison Inmate Visiting Time</a>       
-                            </div>
-                        </div>
-                    </div> {% endcomment %}
+                      <a class="nav-link" href="{% url 'index' %}">Home</a>
+                   </li> {% endcomment %}
                    <li class="nav-item">
-                   <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
-                  {% else %}
-                  </li>
-                   <li class="nav-item">
-                      <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
+                      <a class="nav-link" href="{% url 'about' %}">About Us</a>
                    </li>
+                   <li class="nav-item">
+                      <a class="nav-link" href="{% url 'general' %}">General Information</a>
+                   </li>
+                   <li class="nav-item">
+                      <a class="nav-link" href="{% url 'laws' %}">Laws</a>
+                   </li>
+                   {% comment %} <li class="nav-item">
+                    <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
+                    </li>
+                   <li class="nav-item">
+                      <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
+                   </li> {% endcomment %}
+                   {% comment %} <div class="navbar-nav ml-auto">
+                      <div class="nav-item dropdown">
+                          <a href="reportcrime" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
+                          <div class="dropdown-menu"> 
+                              <a href="{% url 'crime_category' %}" class="dropdown-item">Report a Crime</a>
+                              <a href="{% url 'listcrime' %}" class="dropdown-item">View Crime Status</a>       
+                          </div>
+                      </div>
+                  </div> {% endcomment %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'crime_category' %}">Report a crime</a>
+                 </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'listcrime' %}">View Crime Status</a>
+                 </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
+                    </li>
+                    <li class="nav-item">
+                       <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
+                    {% else %}
+                    </li>
+                    <li class="nav-item">
+                       <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
+                    </li> 
                    {% comment %} <div class="navbar-nav ml-auto">
                       <div class="nav-item dropdown">
                           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
@@ -105,7 +197,6 @@
                       <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
                    </li>
                    {% endif %}
-                   <br>
                    {% comment %} <h2>User: {{user.name}}</h2> {% endcomment %}
                 </ul>
                 <!-- <form class="form-inline my-2 my-lg-0">
@@ -122,94 +213,200 @@
           </nav>
        </div>
     </div>
-                        
-                        <div style="padding:50px;">
-                            <h1 style="text-align: center;">Reported Crime Status</h1>
-                        <section id="crime-list">
-                            {% block content %}
-                            <div class="row">
-                                {% for i in combined_reports %}
-                                <div class="col-md-4 mb-4"> <!-- Adjust the column size as needed -->
-                                    <div class="card text-black bg-custom rounded-3" style="background-color: #d8e1e8; height: 100%;">
-                                        <div class="card-body">
-                                            <strong>{{ i.reporter_location }}</strong><br>
-                                            Status: {{ i.status }}<br>
-                                            <!-- You can add more crime details here if needed -->
-                                        </div>
-                                        <div class="card-footer bg-custom">
-                                            <!-- Additional content or buttons can go here -->
-                                        </div>
-                                    </div>
-                                </div>
-                                {% if forloop.counter|divisibleby:3 %}
-                            </div>
-                            <div class="row">
-                                {% endif %}
-                                {% endfor %}
-                            </div>
-                            {% endblock %}
+    <br><br><br>
+    {% comment %} <button onclick="goBack()" style="background-color: #F3B95F; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin-left:79px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+ Go Back
+ </button> <br><br> {% endcomment %}
+
+    <div style="padding: 50px">
+      <h1 style="text-align: center">Reported Crime Status</h1>
+      <section id="crime-list">
+        <h2>Crimes Related to Human Body</h2>
+        <div class="row">
+          {% for i in crime_dict %}
+          <div class="col-md-4 mb-4">
+            <!-- Adjust the column size as needed -->
+            <div
+              class="card text-black bg-custom rounded-3"
+              style="background-color: #d8e1e8; height: 100%"
+            >
+              <div class="card-body">
+                <strong>{{ i.report_date }}</strong><br />
+                Status: {{ i.status }}<br />
+                {{i.reporter_location}}
+                <!-- You can add more crime details here if needed -->
+              </div>
+              <div class="card-footer bg-custom d-flex justify-content-end">
+              <a href="{% url "evidence_crime_report" i.id %}"><button type="button"  class="btn btn-link">View More..</button></a>
+              </div>
+            </div>
+          </div>
+          {% if forloop.counter|divisibleby:3 %}
+        </div>
+        <div class="row">
+          {% endif %}
+           {% endfor %}</div>
+
       </section>
-    </div>
-<!-- footer section start -->
-<div class="footer_section layout_padding">
-  <div class="container">
-     <div class="row">
-        <div class="col-lg-3 col-md-6">
-        </div>
-        
-        <div class="col-lg-3 col-md-6">
-           <div class="social_icon">
-              <ul>
-                 <li><a href="#"><img src="{% static 'images/fb-icon.png' %}"></a></li>
-                 <li><a href="#"><img src="{% static 'images/twitter-icon.png' %}"></a></li>
-                 <li><a href="#"><img src="{% static 'images/linkedin-icon.png' %}"></a></li>
-                 <li><a href="#"><img src="{% static 'images/instagram-icon.png' %}"></a></li>
-                 <li><a href="#"><img src="{% static 'images/youtub-icon.png' %}"></a></li>
-              </ul>
-           </div>
-        </div>
-     </div>
-  </div>
-</div>
-<!-- footer section end -->
+    
 
-      <!-- copyright section start -->
-      <div class="copyright_section">
-         <div class="container">
-            <p class="copyright_text">© 2024 All Rights Reserved.</p>
-         </div>
+
+
+
+    <section id="crime-list">
+      <h2>Crimes Related to Documents</h2>
+      <div class="row">
+        {% for i in doc_dict %}
+        <div class="col-md-4 mb-4">
+          <!-- Adjust the column size as needed -->
+          <div
+            class="card text-black bg-custom rounded-3"
+            style="background-color: #d8e1e8; height: 100%"
+          >
+            <div class="card-body">
+              <strong>{{ i.report_date }}</strong><br />
+              Status: {{ i.status }}<br />
+              <!-- You can add more crime details here if needed -->
+            </div>
+            <div class="card-footer bg-custom d-flex justify-content-end">
+              <a href="{% url "evidence_doc_report" i.id %}"><button type="button"  class="btn btn-link">View More..</button></a>
+            </div>
+          </div>
+        </div>
+        {% if forloop.counter|divisibleby:3 %}
       </div>
-      <!-- copyright section end  -->
+      <div class="row">{% endif %} {% endfor %}</div>
+    </section>
+    
 
-      <!-- Javascript files-->
-      <script src="{% static 'js/jquery.min.js' %}"></script>
-      <script src="{% static 'js/popper.min.js' %}"></script>
-      <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-      <script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
-      <script src="{% static 'js/plugin.js' %}"></script>
-      <!-- sidebar -->
-      <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
-      <script src="{% static 'js/custom.js' %}"></script>
-      <!-- javascript -->
-      <script src="{% static 'js/owl.carousel.js' %}"></script>
-      <!-- owl carousel -->
-      <script>
-         $('.owl-carousel').owlCarousel({
-         loop:true,
-         margin:30,
-         nav:true,
-         responsive:{
-         0:{
-         items:1
-         },
-         600:{
-         items:3
-         },
-         1000:{
-         items:4
-         }
-         }
-         })
-      </script>
-   </body>
+
+
+
+
+  <section id="crime-list">
+   <h2>Crimes Related to Public Tranquility</h2>
+   <div class="row">
+     {% for i in public_dict %}
+     <div class="col-md-4 mb-4">
+       <!-- Adjust the column size as needed -->
+       <div
+         class="card text-black bg-custom rounded-3"
+         style="background-color: #d8e1e8; height: 100%"
+       >
+         <div class="card-body">
+           <strong>{{ i.report_date }}</strong><br />
+           Status: {{ i.status }}<br />
+           <!-- You can add more crime details here if needed -->
+         </div>
+         <div class="card-footer bg-custom d-flex justify-content-end">
+          <a href="{% url "evidence_public_report" i.id %}"><button type="button" class="btn btn-link">View More..</button></a>
+         </div>
+       </div>
+     </div>
+     {% if forloop.counter|divisibleby:3 %}
+   </div>
+   <div class="row">{% endif %} {% endfor %}</div>
+ </section>
+</div>
+</div>
+
+
+
+
+    <!-- footer section start -->
+    <div class="footer_section layout_padding">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6"></div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="social_icon">
+              <ul>
+                <li>
+                  <a href="#"
+                    ><img src="{% static 'images/fb-icon.png' %}"
+                  /></a>
+                </li>
+                <li>
+                  <a href="#"
+                    ><img src="{% static 'images/twitter-icon.png' %}"
+                  /></a>
+                </li>
+                <li>
+                  <a href="#"
+                    ><img src="{% static 'images/linkedin-icon.png' %}"
+                  /></a>
+                </li>
+                <li>
+                  <a href="#"
+                    ><img src="{% static 'images/instagram-icon.png' %}"
+                  /></a>
+                </li>
+                <li>
+                  <a href="#"
+                    ><img src="{% static 'images/youtub-icon.png' %}"
+                  /></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- footer section end -->
+
+    <!-- copyright section start -->
+    <div class="copyright_section">
+      <div class="container">
+        <p class="copyright_text">© 2024 All Rights Reserved.</p>
+      </div>
+    </div>
+    <!-- copyright section end  -->
+
+    <!-- Javascript files-->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
+    <script src="{% static 'js/plugin.js' %}"></script>
+    <!-- sidebar -->
+    <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <!-- javascript -->
+    <script src="{% static 'js/owl.carousel.js' %}"></script>
+    <!-- owl carousel -->
+    <script>
+      $(".owl-carousel").owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: true,
+        responsive: {
+          0: {
+            items: 1,
+          },
+          600: {
+            items: 3,
+          },
+          1000: {
+            items: 4,
+          },
+        },
+      });
+    </script>
+    <script>
+      function goBack() {
+          window.history.back();
+      }
+   </script>
+  </body>
 </html>

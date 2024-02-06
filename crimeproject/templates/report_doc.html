@@ -55,7 +55,7 @@
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-    #reportform{
+    #reportdocform{
         margin-top:100px;
         margin-bottom:10px;
     }
@@ -137,9 +137,9 @@
              <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mt-3">
                    {% if user.is_authenticated %}
-                   <li class="nav-item active">
+                   {% comment %} <li class="nav-item active">
                       <a class="nav-link" href="{% url 'index' %}">Home</a>
-                   </li>
+                   </li> {% endcomment %}
                    <li class="nav-item">
                       <a class="nav-link" href="{% url 'about' %}">About Us</a>
                    </li>
@@ -149,31 +149,37 @@
                    <li class="nav-item">
                       <a class="nav-link" href="{% url 'laws' %}">Laws</a>
                    </li>
-                   <li class="nav-item">
+                   {% comment %} <li class="nav-item">
                     <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
                     </li>
                    <li class="nav-item">
                       <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
-                   </li>
-                   <div class="navbar-nav ml-auto">
+                   </li> {% endcomment %}
+                   {% comment %} <div class="navbar-nav ml-auto">
                       <div class="nav-item dropdown">
-                          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
+                          <a href="reportcrime" class="nav-link dropdown-toggle" data-toggle="dropdown">Your Activity</a>
                           <div class="dropdown-menu"> 
                               <a href="{% url 'crime_category' %}" class="dropdown-item">Report a Crime</a>
                               <a href="{% url 'listcrime' %}" class="dropdown-item">View Crime Status</a>       
                           </div>
                       </div>
-                  </div>
-                   <li class="nav-item">
-                   <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
-                   </li>
-                   <li class="nav-item">
-                      <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
-                   {% else %}
-                   </li>
-                   <li class="nav-item">
-                      <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
-                   </li>
+                  </div> {% endcomment %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'crime_category' %}">Report a crime</a>
+                 </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'listcrime' %}">View Crime Status</a>
+                 </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a><br>
+                    </li>
+                    <li class="nav-item">
+                       <a class="nav-link" ><img style="width:30px;height:40px;" src= {% static "images/user.jpg" %}> {{ user.name }}</a>
+                    {% else %}
+                    </li>
+                    <li class="nav-item">
+                       <a class="nav-link" href="http://127.0.0.1:8000/userregister">Register</a>
+                    </li> 
                    {% comment %} <div class="navbar-nav ml-auto">
                       <div class="nav-item dropdown">
                           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
@@ -220,7 +226,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="i_name">Informer Name</label>
-                    <input type="text" id="i_name" value="{{ user.name }}" name="i_name" readonly/>
+                    <input type="text" id="reporter_name" name="reporter_name" class="form-control" value="Anonymous">
+                    <span id="nameError"></span>
                 </div>
             </div>
         
@@ -343,10 +350,15 @@
                 aadharNumber("#ano");
             });
 
+            $("#reporter_name").keyup(function () {
+                validateName("#reporter_name");
+            });
+
           $("reportdocform").submit(function (event) {
             // Perform all validations before submitting the form
             validateEmail("#email");
             aadharNumber("#adnumber");
+            validateName("#reporter_name");
       
             // Check if any validation errors exist
             if ($(".validation-error").length > 0) {
@@ -354,6 +366,19 @@
             }
           });
         });    
+
+        function validateName(fieldId) {
+            var name = $(fieldId).val();
+            var nameError = $(fieldId + "Error");
+        
+            // Your validation logic
+            
+            if (/\d/.test(name)) {
+                $("#nameError").html('Name cannot contain numbers').css('color', 'red');
+            } else {
+                $("#nameError").html('');  // Clear error messages if valid
+            }
+        }  
 
         function validateEmail(fieldId) {
             var email = $(fieldId).val();
