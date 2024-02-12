@@ -21,6 +21,8 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
+import requests
 
 
 # Create your views he
@@ -165,6 +167,26 @@ def report_crime(request):
 
 def reported_crimes(request):
     return render(request,'reported_crimes.html')
+
+def find_police_stations(request):
+    if request.method == 'POST':
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
+        
+        # Make a request to Bing Maps API to find nearby police stations
+        bing_maps_api_key = 'Agyr0UQGWTFzP3Fwb3PDJ_ahP24jx9jRgpUWwBD_37B8MXu1oql6WCs6J-vgU1YT'
+        url = f'https://dev.virtualearth.net/REST/v1/LocalSearch/?query=police&userLocation={latitude},{longitude}&key={bing_maps_api_key}'
+        response = requests.get(url)
+        data = response.json()
+        
+        if 'resourceSets' in data and data['resourceSets']:
+            police_stations = data['resourceSets'][0]['resources']
+        else:
+            police_stations = []
+        print(police_stations)
+
+        return render(request, 'police_stations.html', {'police_stations': police_stations})
+    return render(request, 'get_location.html')
 
 def law_page(request):
     crime_reports = CrimeReport.objects.all()

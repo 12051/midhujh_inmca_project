@@ -4,6 +4,8 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from django.urls import path
+from . import views
 from .views import contact_us, evidence_crime_report_view, law_about, law_general, law_laws, report_child, report_property, report_election, report_state
 
 urlpatterns = [
@@ -83,6 +85,7 @@ urlpatterns = [
     path('casepublic/', views.casepublic, name='casepublic'),
     path('finalpublic/', views.finalpublic, name='finalpublic'),
     path('contact_us/', contact_us, name='contact_us'),
+    path('find_police_stations', views.find_police_stations, name='find_police_stations'),
     
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 if settings.DEBUG:
