@@ -1,22 +1,48 @@
 <!-- maps/templates/maps/police_stations.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>ReportSafer | Police Stations</title>
+      <title>ReportSafer | Nearest Police Stations</title>
+      <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
+      <!-- fevicon -->
+      <link rel="icon" href="{% static 'images/fevicon.png' %}" type="image/gif" />
+      <!-- Scrollbar Custom CSS -->
+      <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
+      <!-- Tweaks for older IEs-->
+      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+      <!-- fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+      <!-- owl stylesheets -->
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
 </head>
-<body>
+<body style="font-family: 'Poppins', sans-serif;">
     <h2>Nearest Police Stations</h2>
     <ul>
         <div class="container-fluid col-12 d-flex justify-content-center bg-dark">
-            <div class="map" id="myMap" style="width: 90%; height: 500px"></div>
+            <div class="map" id="myMap" style="width: 90%; height: 500px;"></div>
         </div>
         {% for station in police_stations %}
             <li>{{ station.name }} - {{ station.address.formattedAddress }}</li>
         {% endfor %}
     </ul>
 </body>
-</html>
+<br>
+
+    <button onclick="goBack()" style="background-color: #F3B95F; /* Green */
+   border: none;
+   color: white;
+   padding: 10px 20px;
+   margin-left:79px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   cursor: pointer;
+   border-radius: 4px;"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+Go Back
+  </button>
+
 <!-- Include Bing Maps API script -->
 <script type="text/javascript" src="https://www.bing.com/api/maps/mapcontrol?key=Agyr0UQGWTFzP3Fwb3PDJ_ahP24jx9jRgpUWwBD_37B8MXu1oql6WCs6J-vgU1YT"></script>
 
@@ -56,3 +82,9 @@
     // Call the initMap function once the page is loaded
     window.onload = initMap;
 </script>
+<script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+  </html>

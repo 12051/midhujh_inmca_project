@@ -225,7 +225,6 @@
       <option value="" selected disabled>Select the Category</option>
       <option value="acid">Acid Attack</option>
       <option value="abandon">Abandoning Child</option>
-      <option value="stalk">Stalking</option>
       <option value="labour">Child Labour</option>
       <option value="dowry">Dowry Harassment</option>
       <option value="abuse">Child Sexual Abuse</option>
@@ -280,20 +279,6 @@
             <input type="text" id="abandon">
             <label for="info">Any additional information:</label>
             <input type="text" id="add-info">
-            `;
-            break;
-  
-          case 'stalk':
-            crimeFormContainer.innerHTML = `
-              <label for="name">Informer Name:</label>
-              <input type="text" id="info-name" required>
-              <label for="desc">Description of Stalker:</label>
-              <input type="text" id="descStalker" required required>
-              <label for="mode">Mode of Communication, if any:</label>
-              <input type="text" id="comm-mode" required>
-              <label for="wit">Witnesses, if any:</label>
-              <input type="text" id="witness">
-              {% comment %} evidence {% endcomment %}
             `;
             break;
   

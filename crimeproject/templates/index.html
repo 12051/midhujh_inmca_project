@@ -165,7 +165,7 @@
          </div>
       </div> {% endcomment %}
       <!-- about section end -->
-      <!-- product section start -->
+      <!-- product section start -->{% if user.is_authenticated %}
       <div class="product_section layout_padding">
          <div class="container">
             <div class="row">
@@ -173,7 +173,7 @@
                   <h1 class="product_taital">OUR E-SERVICES</h1>
                </div>
             </div>
-
+            
             <a href="{% url 'crime_category' %}">
             <div class="card-deck">
                <div class="card" style="margin-left:-20px;">
@@ -194,12 +194,12 @@
                  </div>
                </div>
             </a>
-
+            
             <a href="{% url 'find_police_stations' %}">
                <div class="card">
                  <img class="card-img-top" style="width:80px;height:75px;margin-left:44%;margin-top:5px;" src="{% static 'images/e-service-map.png' %}" alt="Card image cap">
                  <div class="card-body">
-                   <h5 class="card-title" style="text-align:center;margin-left:50px;">LOCATE NEARBY STATIONS</h5>
+                   <h5 class="card-title" style="text-align:center;margin-left:50px;">LOCATE YOUR STATION</h5>
                    <p class="card-text" style="text-align:center;margin-left:50px;">Locate Instantly: 24/7.</p>
                  </div>
                </div>
@@ -214,7 +214,7 @@
                    <small class="text-muted">Last updated 3 mins ago</small>
                  </div>
                </div> {% endcomment %}
-             </div>
+             </div>{% endif %}
 
             {% comment %} <div class="contain">
                   <div class="report-crime-service">
@@ -443,5 +443,6 @@
          })(document, window.kommunicate || {});
      /* NOTE : Use web server to view HTML files as real-time update will not work if you directly open the HTML file in the browser. */
      </script>
+     
    </body>
 </html>

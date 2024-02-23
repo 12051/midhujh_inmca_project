@@ -168,6 +168,28 @@ def report_crime(request):
 def reported_crimes(request):
     return render(request,'reported_crimes.html')
 
+# def find_police_stations(request):
+#     if request.method == 'POST':
+#         latitude = request.POST.get('latitude')
+#         longitude = request.POST.get('longitude')
+        
+#         # Make a request to Bing Maps API to find nearby police stations
+#         bing_maps_api_key = 'Agyr0UQGWTFzP3Fwb3PDJ_ahP24jx9jRgpUWwBD_37B8MXu1oql6WCs6J-vgU1YT'
+#         url = f'https://dev.virtualearth.net/REST/v1/LocalSearch/?query=police&userLocation={latitude},{longitude}&key={bing_maps_api_key}'
+#         response = requests.get(url)
+#         data = response.json()
+        
+#         if 'resourceSets' in data and data['resourceSets']:
+#             police_stations = data['resourceSets'][0]['resources']
+#         else:
+#             police_stations = []
+#         print(police_stations)
+
+#         return render(request, 'police_stations.html', {'police_stations': police_stations})
+#     return render(request, 'get_location.html')
+
+import requests
+
 def find_police_stations(request):
     if request.method == 'POST':
         latitude = request.POST.get('latitude')
@@ -187,6 +209,7 @@ def find_police_stations(request):
 
         return render(request, 'police_stations.html', {'police_stations': police_stations})
     return render(request, 'get_location.html')
+
 
 def law_page(request):
     crime_reports = CrimeReport.objects.all()
@@ -232,6 +255,7 @@ def law_page(request):
 #     return render(request, 'report_crime.html', {'form': form})
 
 def report_doc(request):
+    location_options = ["", "Changanassery", "Chethipuzha", "Kangazha", "Karukachal", "Kurichy", "Madappally", "Nedumkunnam", "Payippad", "Thottackad", "Thrikkodithanam", "Vakathanam", "Vazhappally East", "Vazhappally West", "Vazhoor", "Vellavoor", "Cheruvally", "Chirakkadavu", "Edakkunnam", "Elamgulam", "Elikkulam", "Erumeli North", "Erumeli South", "Kanjirappally", "Koottickal", "Koovappally", "Koruthodu", "Manimala", "Mundakkayam"]
     if request.method == 'POST':
         form = DocReportForm(request.POST,request.FILES)
         if form.is_valid():
@@ -262,7 +286,7 @@ def report_doc(request):
     messages.error(request, form.errors)
     
     
-    return render(request, 'report_doc.html', {'form': form})
+    return render(request, 'report_doc.html', {'form': form, 'location_options':location_options})
 
     # if request.method == 'POST':
     #     # Process the form submission
@@ -1416,4 +1440,4 @@ def contact_us(request):
         messages.success(request, 'Your message has been sent successfully!')
         return redirect('contact_us')
 
-    return render(request, 'your_app_name/contact_us.html')
+    return render(request, 'index.html')

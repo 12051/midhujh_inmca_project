@@ -106,7 +106,7 @@ class DocReport(models.Model):
     #fir_number = models.CharField(max_length=10, null=True, unique=True)
     i_name = models.CharField(max_length=100)
     ano=models.CharField(max_length=12, default='')
-    email = models.EmailField(null=True,blank=True)
+    reporter_location = models.CharField(max_length=100,null=True,blank=True)
     descri = models.TextField(null=True,blank=True)
     victimDescri = models.TextField(null=True,blank=True)
     witnessInfo = models.TextField(null=True,blank=True)

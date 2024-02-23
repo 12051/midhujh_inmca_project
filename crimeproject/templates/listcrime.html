@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>ReportSafer | Offence against Human Body</title>
+      <title>ReportSafer | Crime Status</title>
       <link rel="icon" href="{% static 'images/logo2.jpg' %}" type="image/x-icon">
       {% comment %} <link rel="icon" href="https://www.w3docs.com/favicon.ico" /> {% endcomment %}
       <meta name="keywords" content="">
@@ -246,8 +246,10 @@
                 {{i.reporter_location}}
                 <!-- You can add more crime details here if needed -->
               </div>
-              <div class="card-footer bg-custom d-flex justify-content-end">
-              <a href="{% url "evidence_crime_report" i.id %}"><button type="button"  class="btn btn-link">View More..</button></a>
+              
+              <div class="card-footer bg-custom d-flex justify-content-center">
+                <a href="{% url "evidence_crime_report" i.id %}"><button type="button"  class="btn btn-link mr-5">Suggest Advocates</button></a>
+              <a href="{% url "evidence_crime_report" i.id %}"><button type="button"  class="btn btn-link">View Documents</button></a>
               </div>
             </div>
           </div>
@@ -279,8 +281,9 @@
               <!-- You can add more crime details here if needed -->
             </div>
             <div class="card-footer bg-custom d-flex justify-content-end">
-              <a href="{% url "evidence_doc_report" i.id %}"><button type="button"  class="btn btn-link">View More..</button></a>
-            </div>
+              <a href="{% url "evidence_crime_report" i.id %}"><button type="button"  class="btn btn-link mr-5">Suggest Advocates</button></a>
+              <a href="{% url "evidence_crime_report" i.id %}"><button type="button"  class="btn btn-link">View Documents</button></a>
+              </div>
           </div>
         </div>
         {% if forloop.counter|divisibleby:3 %}
@@ -309,8 +312,9 @@
            <!-- You can add more crime details here if needed -->
          </div>
          <div class="card-footer bg-custom d-flex justify-content-end">
-          <a href="{% url "evidence_public_report" i.id %}"><button type="button" class="btn btn-link">View More..</button></a>
-         </div>
+          <a href="{% url "evidence_crime_report" i.id %}"><button type="button"  class="btn btn-link mr-5">Suggest Advocates</button></a>
+            <a href="{% url "evidence_crime_report" i.id %}"><button type="button"  class="btn btn-link">View Documents</button></a>
+              </div>
        </div>
      </div>
      {% if forloop.counter|divisibleby:3 %}
