@@ -22,6 +22,7 @@ from crimeapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('crimeapp.urls')),
+    path('func_app/',include('func_app.urls')),
     path('view_crime/<int:crime_id>',views.view_crime,name='view_crime'),
     # path("", include("allauth.urls")),
     # path('accounts/', include("django.contrib.auth.urls")),

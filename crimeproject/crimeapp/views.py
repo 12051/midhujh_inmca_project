@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 #from .models import User
 from .forms import CrimeReportForm, AnonyReportForm, DocReportForm, EvidenceDocForm, EvidencePublicForm, PublicForm, PublicForm, EvidenceCrimeForm, PrisonReportForm
-from .models import CustomUser, CrimeReport, DocReport, EvidenceDocReport, EvidencePublicReport, Jailor, SpecLoc, FIRFile, PublicReport, EvidenceCrimeReport, PrisonReport, Inmate, ContactMessage
+from .models import CustomUser, CrimeReport, DocReport, EvidenceDocReport, EvidencePublicReport, Jailor, Location, SpecLoc, FIRFile, PublicReport, EvidenceCrimeReport, PrisonReport, Inmate, ContactMessage
 import re
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User,auth
@@ -206,8 +206,11 @@ def find_police_stations(request):
         else:
             police_stations = []
         print(police_stations)
+        locations = Location.objects.all()  # You may filter the locations as per your requirement
 
-        return render(request, 'police_stations.html', {'police_stations': police_stations})
+        # Pass locations to the template
+
+        return render(request, 'police_stations.html', {'police_stations': police_stations,'locations': locations, 'latitude': latitude, 'longitude': longitude})
     return render(request, 'get_location.html')
 
 
@@ -355,7 +358,7 @@ def report_public(request):
     location_options = ["", "Changanassery", "Chethipuzha", "Kangazha", "Karukachal", "Kurichy", "Madappally", "Nedumkunnam", "Payippad", "Thottackad", "Thrikkodithanam", "Vakathanam", "Vazhappally East", "Vazhappally West", "Vazhoor", "Vellavoor", "Cheruvally", "Chirakkadavu", "Edakkunnam", "Elamgulam", "Elikkulam", "Erumeli North", "Erumeli South", "Kanjirappally", "Koottickal", "Koovappally", "Koruthodu", "Manimala", "Mundakkayam"]
     if request.method == 'POST':
         form = PublicForm(request.POST)
-        if form.is_valid():
+        if form.is_valid():  
             instance = form.save(commit=False)
             instance.list_user=request.user
             spec_station_name = request.POST['spec_station']
@@ -365,8 +368,8 @@ def report_public(request):
                 if i.reporter_loc==reporter_location:
                     instance.spec_location = i
             instance.save()
-            public_report = form.save()
             instance.save_id()
+            public_report = form.save()
             fir_id = public_report.id
             template_path = 'public_template.html'  # Path to your PDF template
             context = {'public_report': public_report, 'fir_id': fir_id}
@@ -383,8 +386,8 @@ def report_public(request):
                 return response
             return redirect('/')
     else:
-        form = CrimeReportForm()
-        
+        form = PublicForm()
+         
     print(form.errors)
     messages.error(request, form.errors)
     
@@ -666,6 +669,7 @@ def forensic(request):
         form = EvidenceCrimeForm()
 
     return render(request, 'view.html', {'form': form})
+
 def arrest(request):
     if request.method == 'POST':
         crime_id = request.POST.get('crime_idnum')
@@ -693,6 +697,7 @@ def arrest(request):
         form = EvidenceCrimeForm()
 
     return render(request, 'view.html', {'form': form})
+
 def charge(request):
     if request.method == 'POST':
         crime_id = request.POST.get('crime_idnum')
@@ -720,6 +725,7 @@ def charge(request):
         form = EvidenceCrimeForm()
 
     return render(request, 'view.html', {'form': form})
+
 def case(request):
     if request.method == 'POST':
         crime_id = request.POST.get('crime_idnum')
@@ -747,6 +753,7 @@ def case(request):
         form = EvidenceCrimeForm()
 
     return render(request, 'view.html', {'form': form})
+
 def final(request):
     if request.method == 'POST':
         crime_id = request.POST.get('crime_idnum')
@@ -1441,3 +1448,21 @@ def contact_us(request):
         return redirect('contact_us')
 
     return render(request, 'index.html')
+
+
+def location(request):
+    if request.method == 'POST':
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
+        print(1)
+        post = Location(
+            latitude=latitude,
+            longitude=longitude,
+        )
+        post.save()
+        print(latitude)
+        print(longitude)
+        return redirect('find_police_stations')
+
+
+        

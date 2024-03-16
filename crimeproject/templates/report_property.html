@@ -249,6 +249,8 @@
       switch (crimeType) {
         case 'dacoity':
           crimeFormContainer.innerHTML = `
+            <label for="reporter_name">Informer Name</label>
+            <input type="text" id="reporter_name" value="Anonymous" placeholder="          Change if needed" required>
             <label for="location">Location of Incidence:</label>
             <input type="text" id="locIncidence" required>
             <label for="DtIncidence">Date and time of Incidence:</label>
@@ -270,6 +272,8 @@
 
         case 'robbery':
           crimeFormContainer.innerHTML = `
+            <label for="reporter_name">Informer Name</label>
+            <input type="text" id="reporter_name" value="Anonymous" required>
             <label for="location">Location of Incidence:</label>
             <input type="text" id="locIncidence" required>
             <label for="DtIncidence">Date and time of Incidence:</label>
@@ -294,7 +298,7 @@
         case 'extortion':
           crimeFormContainer.innerHTML = `
             <label for="name">Informer Name:</label>
-            <input type="text" id="info-name" required>
+            <input type="text" id="info-name" value="Anonymous" required>
             <label for="details">Details of Extortion Attempt:</label>
             <input type="text" id="det" required>
             <label for="comm">Mode of Communication:</label>
@@ -317,7 +321,7 @@
         case 'theft':
           crimeFormContainer.innerHTML = `
             <label for="name">Informer Name:</label>
-            <input type="text" id="info-name" required>
+            <input type="text" id="info-name" value="Anonymous" required>
             <label for="stolenItem">Stolen Item(s):</label>
             <input type="text" id="stolenItem" required>
             <label for="estimatedValue">Estimated Value:</label>
@@ -342,7 +346,7 @@
         case 'trespass':
           crimeFormContainer.innerHTML = `
             <label for="name">Complainant Name:</label>
-            <input type="text" id="complainant-name" required>
+            <input type="text" id="complainant-name" value="Anonymous" required>
             <label for="loc">Location of Trespass:</label>
             <input type="text" id="loc-trespass" required>
             <label for="DtIncidence">Date and time of Incidence:</label>

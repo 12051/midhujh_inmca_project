@@ -56,14 +56,31 @@ Go Back
             zoom: 10,
         });
 
+        // Custom marker icon URL
+        var customIconUrl = 'https://cdn-icons-png.freepik.com/512/1589/1589738.png';
+
+        var iconWidth = 32; // Set your desired width in pixels
+        var iconHeight = 32;
+
+        // Create a static marker for Kamjirappally with custom icon
+        var kamjirappallyMarker = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(9.557270, 76.789436), {
+            title: "Kanjirappally",
+            subTitle: "Police Station",
+            icon: customIconUrl , // Set the custom icon URL
+            iconSize: new Microsoft.Maps.Size(iconWidth, iconHeight)
+        });
+
+        // Add the Kamjirappally marker to the map
+        map.entities.push(kamjirappallyMarker);
+
         // Retrieve data from Django view and loop through it
         var locations = [
-            {% for record in police_stations %}
+            {% for location in locations %}
             {
-                latitude: {{ record.point.coordinates.0 }},
-                longitude: {{ record.point.coordinates.1 }},
-                stname: "{{ record.name }}",
-                place: "{{ record.Address.formattedAddress }}"
+                latitude: {{ location.latitude }},
+                longitude: {{ location.longitude }},
+                stname: "{{ location.station_name }}",
+                place: "" // Add your logic to get place information if available
             },
             {% endfor %}
         ];
@@ -82,6 +99,9 @@ Go Back
     // Call the initMap function once the page is loaded
     window.onload = initMap;
 </script>
+
+
+
 <script>
     function goBack() {
       window.history.back();

@@ -67,6 +67,7 @@ class CrimeReport(models.Model):
     delay = models.TextField(null=True,blank=True)
     report_date = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     list_user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
+    location_status = models.CharField(max_length=100, null=True, blank=True)
     STATUS_CHOICES = (
         ('Crime Reported', 'Crime Reported'),
         ('Preliminary Investigation completed', 'Preliminary Investigation completed'),
@@ -79,6 +80,11 @@ class CrimeReport(models.Model):
     
     status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Crime Reported',null=True,blank=True)
     
+    def save(self, *args, **kwargs):
+        if self.spec_location:
+            self.location_status = self.spec_location.enforcement_loc  
+        super().save(*args, **kwargs)
+
     def save_id(self):
         # Create an EvidenceCrimeReport instance and associate it with the current CrimeReport
         evidence_report = EvidenceCrimeReport(crime_idnum=self)
@@ -193,6 +199,7 @@ class PublicReport(models.Model):
     delay = models.TextField(null=True,blank=True)
     list_user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
     report_date = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    location_status = models.CharField(max_length=100, null=True, blank=True)
     STATUS_CHOICES = (
         ('Crime Reported', 'Crime Reported'),
         ('Preliminary Investigation completed', 'Preliminary Investigation completed'),
@@ -203,6 +210,11 @@ class PublicReport(models.Model):
         ('Case Closed', 'Case Closed'),
     )
     status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Crime Reported')
+    
+    def save(self, *args, **kwargs):
+        if self.spec_location:
+            self.location_status = self.spec_location.enforcement_loc  
+        super().save(*args, **kwargs)
     
     def save_id(self):
         # Create an EvidenceCrimeReport instance and associate it with the current CrimeReport
@@ -337,3 +349,12 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return self.your_name
+    
+class Location(models.Model):
+    station_name = models.CharField(max_length=15,null=True)
+    latitude = models.CharField(max_length=15,null=True)
+    longitude = models.CharField(max_length=15,null=True)
+
+    def __str__(self):
+        return self.your_name   
+    
