@@ -286,11 +286,7 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto mt-3">
-              {% if user.is_authenticated %} {% comment %}
-              <li class="nav-item active">
-                <a class="nav-link" href="{% url 'index' %}">Home</a>
-              </li>
-              {% endcomment %}
+              {% if user.is_authenticated %} 
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'about' %}">About Us</a>
               </li>
@@ -302,33 +298,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'laws' %}">Laws</a>
               </li>
-              {% comment %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'contact' %}">Contacts</a>
-              </li>
-              {% endcomment %} {% comment %}
-              <div class="navbar-nav ml-auto">
-                <div class="nav-item dropdown">
-                  <a
-                    href="reportcrime"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    >Your Activity</a
-                  >
-                  <div class="dropdown-menu">
-                    <a href="{% url 'crime_category' %}" class="dropdown-item"
-                      >Report a Crime</a
-                    >
-                    <a href="{% url 'listcrime' %}" class="dropdown-item"
-                      >View Crime Status</a
-                    >
-                  </div>
-                </div>
-              </div>
-              {% endcomment %}
+              
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'crime_category' %}"
                   >Report a crime</a
@@ -354,53 +324,13 @@
                   >Register</a
                 >
               </li>
-              {% comment %}
-              <div class="navbar-nav ml-auto">
-                <div class="nav-item dropdown">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    >User Account</a
-                  >
-                  <div class="dropdown-menu">
-                    <a
-                      href="http://127.0.0.1:8000/witnessregister"
-                      class="dropdown-item"
-                      >Register as Witness</a
-                    >
-                    <a
-                      href="http://127.0.0.1:8000/victimregister"
-                      class="dropdown-item"
-                      >Register as Victim</a
-                    >
-                  </div>
-                </div>
-              </div>
-              {% endcomment %} {% comment %}
-              <li class="nav-item">
-                <a class="nav-link" href="http://127.0.0.1:8000/register"
-                  >Register</a
-                >
-              </li>
-              {% endcomment %}
+              
               <li class="nav-item">
                 <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
               </li>
-              {% endif %} {% comment %}
-              <h2>User: {{user.name}}</h2>
-              {% endcomment %}
+              {% endif %} 
             </ul>
-            <!-- <form class="form-inline my-2 my-lg-0">
-                   <div class="login_menu">
-                      <ul>
-                         <li><a href="#">Login</a></li>
-                         <li><a href="#">Register</a></li>
-                         <li><a href="#"><img src="images/user-icon.png"></a></li>
-                         <li><a href="#"><img src="images/search-icon.png"></a></li>
-                      </ul>
-                   </div>
-                </form> -->
+            
           </div>
         </nav>
       </div>
@@ -426,26 +356,7 @@
       <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
       Go Back
     </button>
-    {% comment %}
-    <form
-      id="reportform"
-      method="post"
-      action="{% url 'find_police_stations' %}"
-    >
-      <h2>Enter Your Location</h2>
-      {% csrf_token %} Latitude:
-      <input type="text" name="latitude" /><br /><br />
-      Longitude: <input type="text" name="longitude" /><br /><br />
-      <input
-        type="submit"
-        style="
-          box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
-            0 17px 50px 0 rgba(0, 0, 0, 0.19);
-        "
-        value="FIND NEARBY POLICE STATIONS"
-      />
-    </form>
-    {% endcomment %}
+    
 
     <form
       id="reportform"

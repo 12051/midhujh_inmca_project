@@ -67,6 +67,7 @@
             }
             .card-body {
                 padding: 20px;
+                background-color: #C9D7DD;
             }
             .card-title {
                 font-weight: bold;
@@ -83,6 +84,151 @@
                 color: #333;
             }
 
+
+            /* Style form labels */
+            label {
+                display: block;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+      
+            /* Style form input fields and text area */
+            input[type="text"],
+            input[type="date"],
+            input[type="time"],
+            textarea {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 16px;
+            }
+      
+            /* Style the submit button */
+            button[type="submit"] {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+                margin-left:40%;
+            }
+      
+            /* Style error messages */
+            .error {
+                color: #ff0000;
+                font-size: 12px;
+                display: block;
+                margin-top: 5px;
+            }
+      
+            /* Add some spacing between form groups */
+            .form-group {
+                margin-bottom: 20px;
+            }
+      
+            #btn-find{
+              background-color: #201658; /* Green */
+              border: none;
+              color: white;
+              padding: 15px 32px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+            }
+      
+            #btn-use{
+              background-color: #201658; /* Green */
+              border: none;
+              color: white;
+              padding: 15px 32px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+            }
+      
+      
+            .toggle-switch {
+              position: relative;
+              display: flex;
+              align-items:center;
+              width: 40px;
+              height: 24px;
+              margin: 10px;
+            }
+      
+            .location-text {
+                margin-left: 5px; /* Adjust margin as needed */
+            }
+      
+            .toggle-switch .toggle-input {
+              display: none;
+            }
+      
+      
+            .toggle-switch .toggle-label {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 40px;
+              height: 24px;
+              background-color: #2196F3;
+              border-radius: 34px;
+              cursor: pointer;
+              transition: background-color 0.3s;
+            }
+      
+            .toggle-switch .toggle-label::before {
+              content: "";
+              position: absolute;
+              width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              top: 2px;
+              left: 2px;
+              background-color: #fff;
+              box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+              transition: transform 0.3s;
+            }
+      
+            .toggle-switch .toggle-input:checked + .toggle-label {
+              background-color: #4CAF50;
+            }
+      
+            .toggle-switch .toggle-input:checked + .toggle-label::before {
+              transform: translateX(16px);
+            }
+      
+            /* Light tema */
+            .toggle-switch.light .toggle-label {
+              background-color: #BEBEBE;
+            }
+      
+            .toggle-switch.light .toggle-input:checked + .toggle-label {
+              background-color: #9B9B9B;
+            }
+      
+            .toggle-switch.light .toggle-input:checked + .toggle-label::before {
+              transform: translateX(6px);
+            }
+      
+            /* Dark tema */
+            .toggle-switch.dark .toggle-label {
+              background-color: #4B4B4B;
+            }
+      
+            .toggle-switch.dark .toggle-input:checked + .toggle-label {
+              background-color: #717171;
+            }
+      
+            .toggle-switch.dark .toggle-input:checked + .toggle-label::before {
+              transform: translateX(16px);
+            }
             
     </style>
 </head>
@@ -179,6 +325,20 @@
     
     <br>
 
+    <button onclick="goBack()" style="background-color: #F3B95F; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin-left:79px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+ Go Back
+ </button> <br><br>
+
     <div class="container">
         <h1 class="text-center mb-5">Advocate Details</h1>
         <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -200,6 +360,19 @@
             {% endfor %}
         </div>
     </div><br><br>
+
+    <h1 class="text-center mb-5">Locate Advocates</h1>
+
+
+
+
+    
+
+
+
+
+
+
     <!-- Bootstrap JS (Optional, for certain Bootstrap features like dropdowns) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <div class="copyright_section">
@@ -238,6 +411,12 @@
         }
         })
      </script>
+     <script>
+      function goBack() {
+          window.history.back();
+      }
+     </script>
+
 </body>
 
 </html>

@@ -32,6 +32,7 @@
       <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
       <!-- owl stylesheets -->
       <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet" />
+      
     <style>
 
     /* Reset some default styles */
@@ -227,11 +228,18 @@
     border-radius: 4px;"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
  Go Back
  </button> <br><br> {% endcomment %}
-
+<br><br><br>
+  
+  <form method="get" action="{% url 'listcrime' %}">
+    <label for="date_filter">Filter by Date:</label>
+    <input type="date" id="date_filter" name="date_filter">
+    <button type="submit">Apply Filter</button>
+  </form>
+</div>
     <div style="padding: 50px">
       <h1 style="text-align: center">Reported Crime Status</h1>
       <section id="crime-list">
-        <h2>Crimes Related to Human Body</h2>
+        <h2>Crimes Related to Human Body  <span class="badge badge-pill badge-info">{{ crime_count}}</span>    </h2>
         <div class="row">
           {% for i in crime_dict %}
           <div class="col-md-4 mb-4">
@@ -266,7 +274,7 @@
 
 
     <section id="crime-list">
-      <h2>Crimes Related to Documents</h2>
+      <h2>Crimes Related to Documents  <span class="badge badge-pill badge-info">{{doc_count}}</span>  </h2>
       <div class="row">
         {% for i in doc_dict %}
         <div class="col-md-4 mb-4">
@@ -281,8 +289,8 @@
               <!-- You can add more crime details here if needed -->
             </div>
             <div class="card-footer bg-custom d-flex justify-content-end">
-              <a href="{% url "advocate_detail" i.id %}"><button type="button"  class="btn btn-link mr-5">Suggest Advocates</button></a>
-              <a href="{% url "evidence_crime_report" i.id %}"><button type="button"  class="btn btn-link">View Documents</button></a>
+              <a href="{% url "advocate_detail" i.id %}"><button type="button" class="btn btn-link mr-5">Suggest Advocates</button></a>
+              <a href="{% url "evidence_crime_report" i.id %}"><button type="button" class="btn btn-link">View Documents</button></a>
               </div>
           </div>
         </div>
@@ -297,7 +305,7 @@
 
 
   <section id="crime-list">
-   <h2>Crimes Related to Public Tranquility</h2>
+   <h2>Crimes Related to Public Tranquility <span class="badge badge-pill badge-info">{{public_count}}</span></h2>
    <div class="row">
      {% for i in public_dict %}
      <div class="col-md-4 mb-4">

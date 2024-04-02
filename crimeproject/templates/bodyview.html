@@ -307,7 +307,7 @@
                 <div class="card-body">
                     <h3 class="card-title">Final Document</h3>
                     {% if evidence_crime_report.document_final %}
-                        <a href="{{ evidence_crime_report.document_final.url }}" target="_blank" class="btn btn-primary">View Final Document</a>
+                        <a href="{{ evidence_crime_report.document_final.url }}" target="_blank" class="btn btn-primary" id="btn-final">View Final Document</a>
                     {% else %}
                         <p>No Final Document available.</p>
                     {% endif %}

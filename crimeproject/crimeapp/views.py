@@ -1,3 +1,4 @@
+import json
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 #from .models import User
@@ -33,6 +34,8 @@ def index(request):
 
 def logout(request):
     auth_logout(request)
+    request.session['is_logged_in'] = False
+    messages.success(request, 'You have been logged out successfully.')
     return redirect('/')
 
 def userregister(request):
@@ -87,12 +90,24 @@ def witnessregister(request):
     
 def login(request):
     if request.method == 'POST':
+        # captcha_token = request.POST.get("g-recaptcha-response")
+        # cap_url = "https://www.google.com/recaptcha/api/siteverify"
+        # cap_secret = "6LcCxJ4pAAAAAHJavtnGRZ6pmdEy41GVbru1K3wS"
+        # cap_data = {"secret": cap_secret, "response": captcha_token}
+        
+        # cap_server_response = requests.post(url=cap_url, data=cap_data)
+        # cap_json = json.loads(cap_server_response.text)
+        # print(cap_server_response.text) 
+        # if not cap_json['success']:
+        #     return HttpResponseRedirect(reverse('login') + '?alert=invalid_captcha')
+        
         email = request.POST.get('email')
         password = request.POST.get('password')
         if email and password:
             user = authenticate(request, email=email, password=password)
             if user is not None and user.is_verified:
                 auth_login(request, user)
+                request.session['is_logged_in'] = True
                 if user.is_superuser:
                     return redirect('http://127.0.0.1:8000/admin')
                 if user.is_normal:
@@ -167,52 +182,6 @@ def report_crime(request):
 
 def reported_crimes(request):
     return render(request,'reported_crimes.html')
-
-# def find_police_stations(request):
-#     if request.method == 'POST':
-#         latitude = request.POST.get('latitude')
-#         longitude = request.POST.get('longitude')
-        
-#         # Make a request to Bing Maps API to find nearby police stations
-#         bing_maps_api_key = 'Agyr0UQGWTFzP3Fwb3PDJ_ahP24jx9jRgpUWwBD_37B8MXu1oql6WCs6J-vgU1YT'
-#         url = f'https://dev.virtualearth.net/REST/v1/LocalSearch/?query=police&userLocation={latitude},{longitude}&key={bing_maps_api_key}'
-#         response = requests.get(url)
-#         data = response.json()
-        
-#         if 'resourceSets' in data and data['resourceSets']:
-#             police_stations = data['resourceSets'][0]['resources']
-#         else:
-#             police_stations = []
-#         print(police_stations)
-
-#         return render(request, 'police_stations.html', {'police_stations': police_stations})
-#     return render(request, 'get_location.html')
-
-import requests
-
-def find_police_stations(request):
-    if request.method == 'POST':
-        latitude = request.POST.get('latitude')
-        longitude = request.POST.get('longitude')
-        
-        # Make a request to Bing Maps API to find nearby police stations
-        bing_maps_api_key = 'Agyr0UQGWTFzP3Fwb3PDJ_ahP24jx9jRgpUWwBD_37B8MXu1oql6WCs6J-vgU1YT'
-        url = f'https://dev.virtualearth.net/REST/v1/LocalSearch/?query=police&userLocation={latitude},{longitude}&key={bing_maps_api_key}'
-        response = requests.get(url)
-        data = response.json()
-        
-        if 'resourceSets' in data and data['resourceSets']:
-            police_stations = data['resourceSets'][0]['resources']
-        else:
-            police_stations = []
-        print(police_stations)
-        locations = Location.objects.all()  # You may filter the locations as per your requirement
-
-        # Pass locations to the template
-
-        return render(request, 'police_stations.html', {'police_stations': police_stations,'locations': locations, 'latitude': latitude, 'longitude': longitude})
-    return render(request, 'get_location.html')
-
 
 def law_page(request):
     crime_reports = CrimeReport.objects.all()
@@ -393,18 +362,46 @@ def report_public(request):
     
     return render(request, 'report_public.html', {'form': form, 'location_options':location_options})
 
+
+from django.shortcuts import render
+from datetime import datetime
+
 @login_required
 def listcrime(request):
-    user_crime=request.user
-    crime_dict=CrimeReport.objects.filter(list_user=user_crime)
-    doc_dict=DocReport.objects.filter(list_user=user_crime)
-    public_dict=PublicReport.objects.filter(list_user=user_crime)
+    user_crime = request.user
+    date_filter = request.GET.get('date_filter')
+    if date_filter:
+        try:
+            date_obj = datetime.strptime(date_filter, '%Y-%m-%d')
+            crime_dict = CrimeReport.objects.filter(list_user=user_crime, report_date__date=date_obj)
+            doc_dict = DocReport.objects.filter(list_user=user_crime, report_date__date=date_obj)
+            public_dict = PublicReport.objects.filter(list_user=user_crime, report_date__date=date_obj)
+            crime_count = CrimeReport.objects.filter(list_user=user_crime, report_date__date=date_obj).count()
+            doc_count = DocReport.objects.filter(list_user=user_crime, report_date__date=date_obj).count()
+            public_count = PublicReport.objects.filter(list_user=user_crime, report_date__date=date_obj).count()
+            total_count = crime_count + doc_count + public_count
+        except ValueError:
+            # Handle invalid date format
+            crime_dict = []
+            doc_dict = []
+            public_dict = []
+    else:
+        # If no date filter provided, fetch all reports
+        crime_dict = CrimeReport.objects.filter(list_user=user_crime)
+        doc_dict = DocReport.objects.filter(list_user=user_crime)
+        public_dict = PublicReport.objects.filter(list_user=user_crime)
+
     context = {
         'crime_dict': crime_dict,
         'doc_dict': doc_dict,
         'public_dict': public_dict,
+        'crime_count': crime_count,
+        'doc_count' :doc_count,
+        'public_count':public_count,
+        
     }
     return render(request, 'listcrime.html', context)
+
 
 def law_index(request):
     return render(request,'law_index.html')
@@ -1450,6 +1447,32 @@ def contact_us(request):
     return render(request, 'index.html')
 
 
+import requests
+
+def find_police_stations(request):
+    if request.method == 'POST':
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
+        
+        # Make a request to Bing Maps API to find nearby police stations
+        bing_maps_api_key = 'Agyr0UQGWTFzP3Fwb3PDJ_ahP24jx9jRgpUWwBD_37B8MXu1oql6WCs6J-vgU1YT'
+        url = f'https://dev.virtualearth.net/REST/v1/LocalSearch/?query=police&userLocation={latitude},{longitude}&key={bing_maps_api_key}'
+        response = requests.get(url)
+        data = response.json()
+        
+        if 'resourceSets' in data and data['resourceSets']:
+            police_stations = data['resourceSets'][0]['resources']
+        else:
+            police_stations = []
+        print(police_stations)
+        locations = Location.objects.all()  # You may filter the locations as per your requirement
+
+        # Pass locations to the template
+
+        return render(request, 'police_stations.html', {'police_stations': police_stations,'locations': locations, 'latitude': latitude, 'longitude': longitude})
+    return render(request, 'get_location.html')
+        
+
 def location(request):
     if request.method == 'POST':
         latitude = request.POST.get('latitude')
@@ -1463,6 +1486,3 @@ def location(request):
         print(latitude)
         print(longitude)
         return redirect('find_police_stations')
-
-
-        

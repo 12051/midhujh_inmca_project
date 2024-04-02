@@ -153,6 +153,12 @@
                 <div class="pass">
                   <a href="{% url 'password_reset' %}">Forgot Password?</a>
                 </div><br>
+                {% comment %} <div class="input-group mb-3">
+                  <div class="g-recaptcha" data-sitekey="6LcCxJ4pAAAAANBMmjDTXZ2Jm35m0FtTX6-NyHTL"></div>
+                </div> {% endcomment %}
+
+
+
     <button type="submit" class="btn btn-outline-primary btn-lg" id="login" style="background-color: #19A7CE;color:aliceblue;">LOGIN</button></div>
     </div>
     {% for message in messages %} {{ message }} {% endfor %}
@@ -225,5 +231,6 @@
     }
     })
  </script>
+ <script src="https://www.google.com/recaptcha/api.js" asyn defer></script>
 </body>
 </html>
